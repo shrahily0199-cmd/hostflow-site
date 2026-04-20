@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Host Flow AI - صفحة الضيف</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #162033;
+      --muted: #5b6475;
+      --primary: #1f6feb;
+      --primary-dark: #1557b0;
+      --accent: #0f172a;
+      --line: #e7ebf3;
+      --danger: #dc2626;
+      --success: #0f766e;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
+      color: #fff;
+      padding: 28px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .lang-btn {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.95fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-main h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.15;
+    }
+
+    .hero-main p {
+      margin: 0 0 14px;
+      color: rgba(255,255,255,0.88);
+      font-size: 1.05rem;
+    }
+
+    .hero-note {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card h3 {
+      margin: 0 0 14px;
+      font-size: 1.05rem;
+    }
+
+    .hero-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: rgba(255,255,255,0.92);
+      font-size: 0.96rem;
+    }
+
+    .hero-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    main {
+      padding: 28px 0 60px;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      margin: 0 0 16px;
+      font-weight: 800;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .info-item strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .action-btn, .map-btn, .call-btn, .feedback-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 15px 16px;
+      font-weight: 700;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+      text-align: center;
+    }
+
+    .action-btn {
+      background: #eef4ff;
+      color: var(--primary-dark);
+      border-color: #d7e5ff;
+    }
+
+    .action-btn:hover,
+    .map-btn:hover,
+    .call-btn:hover,
+    .feedback-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .map-btn {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .call-btn {
+      background: #fff1f2;
+      color: var(--danger);
+      border-color: #ffe0e4;
+    }
+
+    .feedback-btn {
+      background: #ecfeff;
+      color: var(--success);
+      border-color: #d0f7f4;
+    }
+
+    .rules, .faq-list, .places-list, .steps {
+      margin: 0;
+      padding-right: 20px;
+      color: var(--muted);
+    }
+
+    .rules li, .faq-list li, .places-list li, .steps li {
+      margin-bottom: 10px;
+    }
+
+    .faq-item {
+      border-top: 1px solid var(--line);
+      padding: 14px 0;
+    }
+
+    .faq-item:first-child { border-top: 0; padding-top: 0; }
+    .faq-q {
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .faq-a { color: var(--muted); }
+
+    .places-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .place-link {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      background: #fafbff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 15px 16px;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .grid-2, .button-grid, .places-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">Host Flow AI</div>
+        <a class="lang-btn" href="#">English</a>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-main">
+          <h1>كل ما يحتاجه الضيف خلال إقامته</h1>
+          <p>من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.</p>
+          <p>هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.</p>
+          <div class="hero-note">📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت</div>
+        </div>
+
+        <div class="hero-card">
+          <h3>ما الذي سيجده الضيف هنا؟</h3>
+          <ul class="hero-list">
+            <li>📶 بيانات الواي فاي</li>
+            <li>🕒 وقت الدخول والخروج</li>
+            <li>🔑 تعليمات الدخول</li>
+            <li>🛎️ طلب الخدمات بضغطة زر</li>
+            <li>🚨 الطوارئ والتواصل السريع</li>
+            <li>📍 دليل الأماكن القريبة</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="grid-2">
+        <section class="card">
+          <h2 class="section-title">📶 المعلومات الأساسية</h2>
+          <div class="info-list">
+            <div class="info-item">
+              <strong>اسم الشبكة</strong>
+              HotelWiFi
+            </div>
+            <div class="info-item">
+              <strong>كلمة المرور</strong>
+              12345678
+            </div>
+            <div class="info-item">
+              <strong>وقت الدخول</strong>
+              3:00 مساءً
+            </div>
+            <div class="info-item">
+              <strong>وقت الخروج</strong>
+              12:00 ظهرًا
+            </div>
+          </div>
+          <div style="margin-top:16px">
+            <a class="map-btn" href="https://maps.google.com" target="_blank" rel="noopener">📍 فتح الموقع</a>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title">🔑 تعليمات الدخول</h2>
+          <ol class="steps">
+            <li>توجه إلى الموقع باستخدام الخريطة.</li>
+            <li>استخدم الرمز أو المفتاح الخاص بك للدخول.</li>
+            <li>تأكد من إغلاق الباب جيدًا بعد الدخول.</li>
+            <li>في حال واجهت أي مشكلة، استخدم زر <strong>طلب مساعدة</strong>.</li>
+          </ol>
+        </section>
+      </div>
+
+      <section class="card" style="margin-bottom:18px">
+        <h2 class="section-title">🛎️ طلب خدمة</h2>
+        <div class="button-grid">
+          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20تنظيف" target="_blank" rel="noopener">🧹 طلب تنظيف</a>
+          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20مناشف" target="_blank" rel="noopener">🛁 طلب مناشف</a>
+          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=عندي%20مشكلة%20في%20التكييف" target="_blank" rel="noopener">❄️ مشكلة في التكييف</a>
+          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20صيانة" target="_blank" rel="noopener">🔧 صيانة</a>
+          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20مساعدة" target="_blank" rel="noopener">❓ طلب مساعدة</a>
+          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=عندي%20استفسار" target="_blank" rel="noopener">💬 استفسار عام</a>
+        </div>
+      </section>
+
+      <div class="grid-2">
+        <section class="card">
+          <h2 class="section-title">📋 القوانين</h2>
+          <ul class="rules">
+            <li>يمنع الإزعاج بعد الساعة 10 مساءً.</li>
+            <li>يمنع التدخين داخل الوحدة.</li>
+            <li>يرجى المحافظة على نظافة المكان.</li>
+            <li>الالتزام بوقت تسجيل الخروج.</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title">🚨 الطوارئ</h2>
+          <p style="margin-top:0; color:var(--muted)">في الحالات الطارئة يرجى الاتصال فورًا.</p>
+          <a class="call-btn" href="tel:+966XXXXXXXXX">🚨 اتصل الآن</a>
+        </section>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px">
+        <section class="card">
+          <h2 class="section-title">📍 أماكن قريبة</h2>
+          <div class="places-grid">
+            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">🍽️ مطاعم</a>
+            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">☕ كافيهات</a>
+            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">🛒 سوبر ماركت</a>
+            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">🏥 مستشفى</a>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title">❓ أسئلة شائعة</h2>
+          <div class="faq-item">
+            <div class="faq-q">كيف أطلب خدمة؟</div>
+            <div class="faq-a">من قسم طلب خدمة اختر الزر المناسب وسيتم توجيهك مباشرة للتواصل.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">هل يوجد موقف؟</div>
+            <div class="faq-a">نعم، يوجد موقف متوفر.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">هل يمكن التمديد؟</div>
+            <div class="faq-a">حسب التوفر، يرجى التواصل معنا.</div>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top:18px">
+        <h2 class="section-title">⭐ تقييمك يهمنا</h2>
+        <p style="margin-top:0; color:var(--muted)">يسعدنا تقييمك لتجربتك معنا، رأيك يساعدنا على تحسين الخدمة.</p>
+        <a class="feedback-btn" href="#">⭐ قيّم تجربتك</a>
+      </section>
+
+      <div class="footer-note">Host Flow AI — نسخة تجريبية قابلة للتخصيص لكل منشأة</div>
+    </div>
+  </main>
+</body>
+</html>
