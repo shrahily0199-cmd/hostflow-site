@@ -4,23 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Host Flow AI - صفحة الضيف</title>
+  <meta name="description" content="نظام ضيافة ذكي للفنادق والشقق - صفحة ضيف تفاعلية تغني عن الهاتف وتجمع كل ما يحتاجه الضيف في مكان واحد." />
   <style>
     :root {
-      --bg: #f5f7fb;
+      --bg: #f4f7fb;
       --card: #ffffff;
-      --text: #162033;
-      --muted: #5b6475;
+      --text: #142033;
+      --muted: #667085;
+      --line: #e6ecf3;
       --primary: #1f6feb;
-      --primary-dark: #1557b0;
-      --accent: #0f172a;
-      --line: #e7ebf3;
+      --primary-dark: #1659bb;
+      --primary-soft: #eef4ff;
       --danger: #dc2626;
+      --danger-soft: #fff1f2;
       --success: #0f766e;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --success-soft: #ecfeff;
+      --dark: #0f172a;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
       --radius: 18px;
     }
 
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
@@ -29,71 +34,111 @@
       line-height: 1.7;
     }
 
+    a { color: inherit; }
+
     .container {
-      width: min(1100px, calc(100% - 32px));
+      width: min(1120px, calc(100% - 28px));
       margin: 0 auto;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       color: #fff;
-      padding: 28px 0 48px;
     }
 
-    .topbar {
+    .topbar-inner {
+      min-height: 70px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 16px;
-      margin-bottom: 36px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .brand {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: 0.2px;
     }
 
-    .lang-btn {
-      background: rgba(255,255,255,0.12);
+    .property-mini {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.88rem;
       color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 10px 14px;
-      border-radius: 12px;
       text-decoration: none;
-      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge.hidden { display: none; }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
+      color: #fff;
+      padding: 28px 0 46px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.35fr 0.95fr;
+      grid-template-columns: 1.25fr 0.95fr;
       gap: 22px;
       align-items: stretch;
+      margin-top: 24px;
     }
 
     .hero-main h1 {
       margin: 0 0 12px;
-      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-size: clamp(2rem, 4vw, 3.6rem);
       line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
     .hero-main p {
       margin: 0 0 14px;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255,255,255,0.9);
       font-size: 1.05rem;
     }
 
-    .hero-note {
+    .hero-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-top: 18px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .hero-chip {
       padding: 10px 14px;
       border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.16);
+      font-size: 0.92rem;
       color: #fff;
-      font-size: 0.95rem;
     }
 
     .hero-card {
@@ -102,19 +147,20 @@
       border-radius: 24px;
       padding: 22px;
       backdrop-filter: blur(8px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
     .hero-card h3 {
       margin: 0 0 14px;
-      font-size: 1.05rem;
+      font-size: 1.04rem;
     }
 
     .hero-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 11px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
       color: rgba(255,255,255,0.92);
       font-size: 0.96rem;
     }
@@ -126,18 +172,19 @@
     }
 
     main {
-      padding: 28px 0 60px;
-    }
-
-    .section-title {
-      font-size: 1.25rem;
-      margin: 0 0 16px;
-      font-weight: 800;
+      padding: 26px 0 70px;
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
       margin-bottom: 18px;
     }
@@ -150,92 +197,95 @@
       padding: 22px;
     }
 
-    .info-list {
-      display: grid;
-      gap: 12px;
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 1.22rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      margin: -4px 0 16px;
       color: var(--muted);
-      font-size: 0.98rem;
+      font-size: 0.96rem;
     }
 
-    .info-item strong {
-      color: var(--text);
-      display: block;
-      margin-bottom: 3px;
-    }
-
-    .button-grid {
+    .info-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .action-btn, .map-btn, .call-btn, .feedback-btn {
+    .info-box {
+      background: #fafcff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .muted { color: var(--muted); }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .btn {
       display: inline-flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
-      text-decoration: none;
+      min-height: 54px;
+      padding: 14px 16px;
       border-radius: 14px;
-      padding: 15px 16px;
-      font-weight: 700;
-      transition: 0.2s ease;
+      text-decoration: none;
+      font-weight: 800;
       border: 1px solid transparent;
+      transition: 0.2s ease;
       text-align: center;
+      cursor: pointer;
     }
 
-    .action-btn {
-      background: #eef4ff;
-      color: var(--primary-dark);
-      border-color: #d7e5ff;
-    }
-
-    .action-btn:hover,
-    .map-btn:hover,
-    .call-btn:hover,
-    .feedback-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .map-btn {
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
       background: var(--primary);
       color: #fff;
+      border-color: var(--primary);
     }
-
-    .call-btn {
-      background: #fff1f2;
+    .btn-soft {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      border-color: #d9e7ff;
+    }
+    .btn-danger {
+      background: var(--danger-soft);
       color: var(--danger);
-      border-color: #ffe0e4;
+      border-color: #ffd9df;
     }
-
-    .feedback-btn {
-      background: #ecfeff;
+    .btn-success {
+      background: var(--success-soft);
       color: var(--success);
-      border-color: #d0f7f4;
+      border-color: #d0f5f0;
     }
 
-    .rules, .faq-list, .places-list, .steps {
+    .steps, .rules-list {
       margin: 0;
-      padding-right: 20px;
+      padding-right: 18px;
       color: var(--muted);
     }
 
-    .rules li, .faq-list li, .places-list li, .steps li {
+    .steps li, .rules-list li {
       margin-bottom: 10px;
     }
 
-    .faq-item {
-      border-top: 1px solid var(--line);
-      padding: 14px 0;
-    }
-
-    .faq-item:first-child { border-top: 0; padding-top: 0; }
-    .faq-q {
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .faq-a { color: var(--muted); }
-
-    .places-grid {
+    .place-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
@@ -245,53 +295,112 @@
       display: block;
       text-decoration: none;
       color: var(--text);
-      background: #fafbff;
+      background: #fafcff;
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 15px 16px;
-      font-weight: 700;
+      font-weight: 800;
     }
+
+    .faq-item {
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .faq-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .faq-q {
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .faq-a { color: var(--muted); }
 
     .footer-note {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.95rem;
       text-align: center;
+      color: var(--muted);
+      margin-top: 20px;
+      font-size: 0.95rem;
     }
 
-    @media (max-width: 900px) {
-      .hero-grid, .grid-2, .button-grid, .places-grid {
+    .legal-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-size: 0.92rem;
+    }
+
+    .floating-emergency {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 1100;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      background: var(--danger);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.25rem;
+      box-shadow: 0 16px 30px rgba(220, 38, 38, 0.35);
+    }
+
+    .notice {
+      background: #fff8e6;
+      color: #7a5b00;
+      border: 1px solid #f4df9b;
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      display: none;
+    }
+
+    .notice.show { display: block; }
+
+    @media (max-width: 960px) {
+      .hero-grid, .grid-2, .grid-3, .action-grid, .info-grid, .place-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand-wrap">
+        <div class="brand">Host Flow AI</div>
+        <div class="property-mini" id="propertyMini">نظام ضيافة ذكي</div>
+      </div>
+      <div class="topbar-actions">
+        <a class="badge" id="langBadge" href="#" aria-disabled="true">English قريبًا</a>
+        <a class="badge" id="contactBadge" href="#">تواصل سريع</a>
+      </div>
+    </div>
+  </div>
+
   <header class="hero">
     <div class="container">
-      <div class="topbar">
-        <div class="brand">Host Flow AI</div>
-        <a class="lang-btn" href="#">English</a>
-      </div>
-
       <div class="hero-grid">
         <div class="hero-main">
-          <h1>كل ما يحتاجه الضيف خلال إقامته</h1>
-          <p>من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.</p>
-          <p>هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.</p>
-          <div class="hero-note">📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت</div>
+          <h1 id="heroTitle">كل ما يحتاجه الضيف خلال إقامته</h1>
+          <p id="heroDesc">من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.</p>
+          <p id="heroDesc2">هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.</p>
+          <div class="hero-chip-row">
+            <div class="hero-chip" id="qrChip">📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت</div>
+            <div class="hero-chip" id="propertyChip">🏨 منشأة ذكية</div>
+          </div>
         </div>
-
         <div class="hero-card">
           <h3>ما الذي سيجده الضيف هنا؟</h3>
-          <ul class="hero-list">
-            <li>📶 بيانات الواي فاي</li>
-            <li>🕒 وقت الدخول والخروج</li>
-            <li>🔑 تعليمات الدخول</li>
-            <li>🛎️ طلب الخدمات بضغطة زر</li>
-            <li>🚨 الطوارئ والتواصل السريع</li>
-            <li>📍 دليل الأماكن القريبة</li>
-          </ul>
+          <ul class="hero-list" id="heroList"></ul>
         </div>
       </div>
     </div>
@@ -299,109 +408,358 @@
 
   <main>
     <div class="container">
+      <div id="demoNotice" class="notice">أنت تعرض النسخة العامة. لإظهار منشأة محددة استخدم الرابط مع اسم المنشأة مثل: <strong>?property=demo-hotel</strong></div>
+
       <div class="grid-2">
         <section class="card">
           <h2 class="section-title">📶 المعلومات الأساسية</h2>
-          <div class="info-list">
-            <div class="info-item">
+          <div class="info-grid">
+            <div class="info-box">
               <strong>اسم الشبكة</strong>
-              HotelWiFi
+              <span id="wifiName">HotelWiFi</span>
             </div>
-            <div class="info-item">
+            <div class="info-box">
               <strong>كلمة المرور</strong>
-              12345678
+              <span id="wifiPassword">12345678</span>
             </div>
-            <div class="info-item">
+            <div class="info-box">
               <strong>وقت الدخول</strong>
-              3:00 مساءً
+              <span id="checkIn">3:00 مساءً</span>
             </div>
-            <div class="info-item">
+            <div class="info-box">
               <strong>وقت الخروج</strong>
-              12:00 ظهرًا
+              <span id="checkOut">12:00 ظهرًا</span>
             </div>
           </div>
-          <div style="margin-top:16px">
-            <a class="map-btn" href="https://maps.google.com" target="_blank" rel="noopener">📍 فتح الموقع</a>
+          <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="btn btn-primary" id="locationBtn" href="https://maps.google.com" target="_blank" rel="noopener">📍 فتح الموقع</a>
+            <a class="btn btn-soft" id="wifiHelpBtn" href="#">📶 مساعدة بخصوص الواي فاي</a>
           </div>
         </section>
 
         <section class="card">
           <h2 class="section-title">🔑 تعليمات الدخول</h2>
-          <ol class="steps">
-            <li>توجه إلى الموقع باستخدام الخريطة.</li>
-            <li>استخدم الرمز أو المفتاح الخاص بك للدخول.</li>
-            <li>تأكد من إغلاق الباب جيدًا بعد الدخول.</li>
-            <li>في حال واجهت أي مشكلة، استخدم زر <strong>طلب مساعدة</strong>.</li>
-          </ol>
+          <div class="section-subtitle">تعليمات واضحة وسريعة للوصول والدخول بدون ارتباك</div>
+          <ol class="steps" id="checkinSteps"></ol>
         </section>
       </div>
 
-      <section class="card" style="margin-bottom:18px">
+      <section class="card" style="margin-bottom:18px;">
         <h2 class="section-title">🛎️ طلب خدمة</h2>
-        <div class="button-grid">
-          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20تنظيف" target="_blank" rel="noopener">🧹 طلب تنظيف</a>
-          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20مناشف" target="_blank" rel="noopener">🛁 طلب مناشف</a>
-          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=عندي%20مشكلة%20في%20التكييف" target="_blank" rel="noopener">❄️ مشكلة في التكييف</a>
-          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20صيانة" target="_blank" rel="noopener">🔧 صيانة</a>
-          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=أحتاج%20مساعدة" target="_blank" rel="noopener">❓ طلب مساعدة</a>
-          <a class="action-btn" href="https://wa.me/966XXXXXXXXX?text=عندي%20استفسار" target="_blank" rel="noopener">💬 استفسار عام</a>
-        </div>
+        <div class="section-subtitle">بديل مباشر للهاتف — اضغط الخدمة المطلوبة وسيتم توجيهك فورًا</div>
+        <div class="action-grid" id="serviceGrid"></div>
       </section>
 
       <div class="grid-2">
         <section class="card">
           <h2 class="section-title">📋 القوانين</h2>
-          <ul class="rules">
-            <li>يمنع الإزعاج بعد الساعة 10 مساءً.</li>
-            <li>يمنع التدخين داخل الوحدة.</li>
-            <li>يرجى المحافظة على نظافة المكان.</li>
-            <li>الالتزام بوقت تسجيل الخروج.</li>
-          </ul>
+          <ul class="rules-list" id="rulesList"></ul>
         </section>
 
         <section class="card">
           <h2 class="section-title">🚨 الطوارئ</h2>
-          <p style="margin-top:0; color:var(--muted)">في الحالات الطارئة يرجى الاتصال فورًا.</p>
-          <a class="call-btn" href="tel:+966XXXXXXXXX">🚨 اتصل الآن</a>
+          <p class="muted" id="emergencyText">في الحالات الطارئة يرجى الاتصال فورًا.</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="btn btn-danger" id="emergencyBtn" href="tel:+966000000000">🚨 اتصل الآن</a>
+            <a class="btn btn-soft" id="frontDeskBtn" href="#">☎️ الاستقبال</a>
+          </div>
         </section>
       </div>
 
-      <div class="grid-2" style="margin-top:18px">
+      <div class="grid-2" style="margin-top:18px;">
         <section class="card">
           <h2 class="section-title">📍 أماكن قريبة</h2>
-          <div class="places-grid">
-            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">🍽️ مطاعم</a>
-            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">☕ كافيهات</a>
-            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">🛒 سوبر ماركت</a>
-            <a class="place-link" href="https://maps.google.com" target="_blank" rel="noopener">🏥 مستشفى</a>
-          </div>
+          <div class="section-subtitle">اقتراحات مفيدة حول المنشأة لراحة الضيف</div>
+          <div class="place-grid" id="placesGrid"></div>
         </section>
 
         <section class="card">
           <h2 class="section-title">❓ أسئلة شائعة</h2>
-          <div class="faq-item">
-            <div class="faq-q">كيف أطلب خدمة؟</div>
-            <div class="faq-a">من قسم طلب خدمة اختر الزر المناسب وسيتم توجيهك مباشرة للتواصل.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">هل يوجد موقف؟</div>
-            <div class="faq-a">نعم، يوجد موقف متوفر.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">هل يمكن التمديد؟</div>
-            <div class="faq-a">حسب التوفر، يرجى التواصل معنا.</div>
+          <div id="faqWrap"></div>
+        </section>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;">
+        <section class="card">
+          <h2 class="section-title">⭐ تقييمك يهمنا</h2>
+          <p class="muted" id="feedbackText">يسعدنا تقييمك لتجربتك معنا، رأيك يساعدنا على تحسين الخدمة.</p>
+          <a class="btn btn-success" id="feedbackBtn" href="#" target="_blank" rel="noopener">⭐ قيّم تجربتك</a>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title">ℹ️ معلومات المنشأة</h2>
+          <div class="info-grid">
+            <div class="info-box">
+              <strong>اسم المنشأة</strong>
+              <span id="propertyNameBox">فندق تجريبي</span>
+            </div>
+            <div class="info-box">
+              <strong>نوع المنشأة</strong>
+              <span id="propertyTypeBox">فندق</span>
+            </div>
+            <div class="info-box">
+              <strong>رقم التواصل</strong>
+              <span id="propertyPhoneBox">+966000000000</span>
+            </div>
+            <div class="info-box">
+              <strong>رقم الاستقبال</strong>
+              <span id="frontDeskBox">+966000000000</span>
+            </div>
           </div>
         </section>
       </div>
 
-      <section class="card" style="margin-top:18px">
-        <h2 class="section-title">⭐ تقييمك يهمنا</h2>
-        <p style="margin-top:0; color:var(--muted)">يسعدنا تقييمك لتجربتك معنا، رأيك يساعدنا على تحسين الخدمة.</p>
-        <a class="feedback-btn" href="#">⭐ قيّم تجربتك</a>
-      </section>
-
-      <div class="footer-note">Host Flow AI — نسخة تجريبية قابلة للتخصيص لكل منشأة</div>
+      <div class="footer-note">
+        <div id="footerRights">© 2026 Host Flow AI - جميع الحقوق محفوظة</div>
+        <div class="legal-links">
+          <a href="#">سياسة الخصوصية</a>
+          <a href="#">شروط الاستخدام</a>
+        </div>
+      </div>
     </div>
   </main>
+
+  <a class="floating-emergency" id="floatingEmergency" href="tel:+966000000000" title="اتصال طارئ">🚨</a>
+
+  <script>
+    const PROPERTY_DATA = {
+      "demo-hotel": {
+        brandName: "Host Flow AI",
+        propertyName: "فندق المستقبل",
+        propertyType: "فندق",
+        heroTitle: "كل ما يحتاجه الضيف خلال إقامته",
+        heroDesc: "من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.",
+        heroDesc2: "هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.",
+        qrText: "📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت",
+        propertyChip: "🏨 فندق المستقبل",
+        wifiName: "FutureHotelWiFi",
+        wifiPassword: "12345678",
+        checkIn: "3:00 مساءً",
+        checkOut: "12:00 ظهرًا",
+        locationUrl: "https://maps.google.com",
+        propertyPhone: "+966500000001",
+        frontDeskPhone: "+966500000002",
+        emergencyPhone: "+966500000003",
+        whatsappBase: "+966500000001",
+        feedbackUrl: "https://forms.gle/",
+        englishEnabled: false,
+        englishUrl: "#",
+        heroItems: [
+          "📶 بيانات الواي فاي",
+          "🕒 وقت الدخول والخروج",
+          "🔑 تعليمات الدخول",
+          "🛎️ طلب الخدمات بضغطة زر",
+          "🚨 الطوارئ والتواصل السريع",
+          "📍 دليل الأماكن القريبة"
+        ],
+        checkinInstructions: [
+          "توجه إلى الموقع باستخدام الخريطة.",
+          "استخدم الرمز أو المفتاح الخاص بك للدخول.",
+          "تأكد من إغلاق الباب جيدًا بعد الدخول.",
+          "في حال واجهت أي مشكلة، استخدم زر طلب مساعدة أو اتصل بنا مباشرة."
+        ],
+        services: [
+          { label: "🧹 طلب تنظيف", text: "أحتاج تنظيف" },
+          { label: "🛁 طلب مناشف", text: "أحتاج مناشف" },
+          { label: "❄️ مشكلة في التكييف", text: "عندي مشكلة في التكييف" },
+          { label: "🔧 صيانة", text: "أحتاج صيانة" },
+          { label: "❓ طلب مساعدة", text: "أحتاج مساعدة" },
+          { label: "💬 استفسار عام", text: "عندي استفسار" }
+        ],
+        rules: [
+          "يمنع الإزعاج بعد الساعة 10 مساءً.",
+          "يمنع التدخين داخل الوحدة.",
+          "يرجى المحافظة على نظافة المكان.",
+          "الالتزام بوقت تسجيل الخروج."
+        ],
+        places: [
+          { name: "🍽️ مطاعم", url: "https://maps.google.com" },
+          { name: "☕ كافيهات", url: "https://maps.google.com" },
+          { name: "🛒 سوبر ماركت", url: "https://maps.google.com" },
+          { name: "🏥 مستشفى", url: "https://maps.google.com" }
+        ],
+        faqs: [
+          { q: "كيف أطلب خدمة؟", a: "من قسم طلب خدمة اختر الزر المناسب وسيتم توجيهك مباشرة للتواصل." },
+          { q: "هل يوجد موقف؟", a: "نعم، يوجد موقف متوفر." },
+          { q: "هل يمكن التمديد؟", a: "حسب التوفر، يرجى التواصل معنا." }
+        ]
+      },
+      "demo-apartment": {
+        brandName: "Host Flow AI",
+        propertyName: "شقق النخبة",
+        propertyType: "شقق مفروشة",
+        heroTitle: "دليل الإقامة الذكي للضيف",
+        heroDesc: "كل المعلومات والخدمات المهمة للضيف داخل صفحة واحدة بسيطة وسريعة.",
+        heroDesc2: "مناسبة للشقق المفروشة والوحدات اليومية لتقليل الاتصالات والأسئلة المتكررة.",
+        qrText: "📷 امسح رمز QR داخل الشقة للوصول لهذه الصفحة في أي وقت",
+        propertyChip: "🏠 شقق النخبة",
+        wifiName: "EliteStay",
+        wifiPassword: "88997766",
+        checkIn: "4:00 مساءً",
+        checkOut: "11:00 صباحًا",
+        locationUrl: "https://maps.google.com",
+        propertyPhone: "+966511111111",
+        frontDeskPhone: "+966522222222",
+        emergencyPhone: "+966533333333",
+        whatsappBase: "+966511111111",
+        feedbackUrl: "https://forms.gle/",
+        englishEnabled: false,
+        englishUrl: "#",
+        heroItems: [
+          "📶 الواي فاي ومعلومات الإقامة",
+          "📍 الموقع وتعليمات الوصول",
+          "🛎️ خدمات الشقة",
+          "🔧 الدعم والصيانة",
+          "🚨 الطوارئ",
+          "📍 اقتراحات قريبة"
+        ],
+        checkinInstructions: [
+          "افتح الموقع في الخريطة وتوجه إلى البناية.",
+          "استخدم رمز الدخول أو المفتاح المرسل لك.",
+          "بعد الدخول، تأكد من إغلاق الباب بإحكام.",
+          "عند الحاجة، اطلب مساعدة مباشرة من الصفحة."
+        ],
+        services: [
+          { label: "🧹 طلب تنظيف", text: "أحتاج تنظيف للشقة" },
+          { label: "🛁 طلب مستلزمات", text: "أحتاج مناشف أو مستلزمات" },
+          { label: "❄️ مشكلة في التكييف", text: "لدي مشكلة في التكييف" },
+          { label: "🔧 صيانة", text: "أحتاج صيانة في الشقة" },
+          { label: "❓ طلب مساعدة", text: "أحتاج مساعدة بخصوص الإقامة" },
+          { label: "🚪 مشكلة دخول", text: "لدي مشكلة في الدخول" }
+        ],
+        rules: [
+          "الحفاظ على الهدوء واحترام الجيران.",
+          "يمنع إقامة الحفلات أو التجمعات المزعجة.",
+          "عدم التدخين داخل الوحدة.",
+          "الالتزام بوقت الخروج المحدد."
+        ],
+        places: [
+          { name: "🍽️ مطاعم قريبة", url: "https://maps.google.com" },
+          { name: "☕ كافيهات", url: "https://maps.google.com" },
+          { name: "🛒 بقالة / سوبر ماركت", url: "https://maps.google.com" },
+          { name: "🏥 مركز صحي", url: "https://maps.google.com" }
+        ],
+        faqs: [
+          { q: "كيف أمدد الإقامة؟", a: "تواصل معنا لمعرفة التوفر والسعر." },
+          { q: "هل يوجد موقف؟", a: "يعتمد على الوحدة، يرجى مراجعة التعليمات المرسلة لك." },
+          { q: "كيف أحصل على الواي فاي؟", a: "بيانات الواي فاي موجودة في أعلى الصفحة." }
+        ]
+      }
+    };
+
+    function getParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    function whatsappLink(number, text) {
+      const clean = String(number || '').replace(/[^\d+]/g, '');
+      return `https://wa.me/${clean.replace('+', '')}?text=${encodeURIComponent(text)}`;
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function setHref(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.href = value;
+    }
+
+    function renderList(listId, items, renderItem) {
+      const root = document.getElementById(listId);
+      if (!root) return;
+      root.innerHTML = '';
+      items.forEach(item => root.appendChild(renderItem(item)));
+    }
+
+    function createLi(text) {
+      const li = document.createElement('li');
+      li.textContent = text;
+      return li;
+    }
+
+    function renderProperty(data) {
+      document.title = `${data.brandName} - ${data.propertyName}`;
+      setText('propertyMini', data.propertyName);
+      setText('heroTitle', data.heroTitle);
+      setText('heroDesc', data.heroDesc);
+      setText('heroDesc2', data.heroDesc2);
+      setText('qrChip', data.qrText);
+      setText('propertyChip', data.propertyChip);
+      setText('wifiName', data.wifiName);
+      setText('wifiPassword', data.wifiPassword);
+      setText('checkIn', data.checkIn);
+      setText('checkOut', data.checkOut);
+      setText('propertyNameBox', data.propertyName);
+      setText('propertyTypeBox', data.propertyType);
+      setText('propertyPhoneBox', data.propertyPhone);
+      setText('frontDeskBox', data.frontDeskPhone);
+      setText('footerRights', `© 2026 ${data.brandName} - جميع الحقوق محفوظة`);
+
+      setHref('locationBtn', data.locationUrl);
+      setHref('emergencyBtn', `tel:${data.emergencyPhone}`);
+      setHref('floatingEmergency', `tel:${data.emergencyPhone}`);
+      setHref('frontDeskBtn', `tel:${data.frontDeskPhone}`);
+      setHref('feedbackBtn', data.feedbackUrl);
+      setHref('contactBadge', whatsappLink(data.propertyPhone, `مرحباً، لدي استفسار بخصوص ${data.propertyName}`));
+      setHref('wifiHelpBtn', whatsappLink(data.propertyPhone, `مرحباً، أحتاج مساعدة بخصوص الواي فاي في ${data.propertyName}`));
+
+      const langBadge = document.getElementById('langBadge');
+      if (data.englishEnabled && data.englishUrl && data.englishUrl !== '#') {
+        langBadge.textContent = 'English';
+        langBadge.href = data.englishUrl;
+        langBadge.classList.remove('hidden');
+      } else {
+        langBadge.textContent = 'English قريبًا';
+        langBadge.href = '#';
+      }
+
+      renderList('heroList', data.heroItems, item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        return li;
+      });
+
+      renderList('checkinSteps', data.checkinInstructions, item => createLi(item));
+      renderList('rulesList', data.rules, item => createLi(item));
+
+      renderList('serviceGrid', data.services, item => {
+        const a = document.createElement('a');
+        a.className = 'btn btn-soft';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.href = whatsappLink(data.whatsappBase, item.text);
+        a.textContent = item.label;
+        return a;
+      });
+
+      renderList('placesGrid', data.places, item => {
+        const a = document.createElement('a');
+        a.className = 'place-link';
+        a.href = item.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = item.name;
+        return a;
+      });
+
+      renderList('faqWrap', data.faqs, item => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'faq-item';
+        wrapper.innerHTML = `<div class="faq-q">${item.q}</div><div class="faq-a">${item.a}</div>`;
+        return wrapper;
+      });
+    }
+
+    const propertyKey = getParam('property') || 'demo-hotel';
+    const data = PROPERTY_DATA[propertyKey] || PROPERTY_DATA['demo-hotel'];
+    renderProperty(data);
+
+    if (!getParam('property')) {
+      document.getElementById('demoNotice').classList.add('show');
+    }
+  </script>
 </body>
 </html>
