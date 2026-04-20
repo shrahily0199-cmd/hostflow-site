@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Host Flow AI</title>
-  <meta name="description" content="نظام ضيافة ذكي للفنادق والشقق - صفحة ضيف تتكوّن تلقائيًا من بيانات المنشأة." />
+  <title>HostFlow System v2</title>
   <style>
     :root {
-      --bg: #f4f7fb;
+      --bg: #f3f6fb;
       --card: #ffffff;
-      --text: #142033;
+      --text: #162033;
       --muted: #667085;
       --line: #e6ecf3;
       --primary: #1f6feb;
-      --primary-dark: #1659bb;
       --primary-soft: #eef4ff;
       --danger: #dc2626;
       --danger-soft: #fff1f2;
@@ -23,7 +21,6 @@
       --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
       --radius: 18px;
     }
-
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -33,63 +30,44 @@
       line-height: 1.7;
     }
     a { color: inherit; }
+    button, input, textarea, select { font: inherit; }
     .hidden { display: none !important; }
     .container {
-      width: min(1120px, calc(100% - 28px));
+      width: min(1180px, calc(100% - 28px));
       margin: 0 auto;
     }
-
     .topbar {
       position: sticky;
       top: 0;
       z-index: 1000;
       background: rgba(15, 23, 42, 0.94);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
       color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .topbar-inner {
-      min-height: 70px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
     }
-    .brand-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .brand {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: 0.2px;
-    }
-    .property-mini {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.78);
-    }
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .badge {
+    .brand-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .brand { font-size: 1.15rem; font-weight: 800; }
+    .subbrand { font-size: 0.86rem; color: rgba(255,255,255,0.78); }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 12px;
+      padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.09);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 0.88rem;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
       color: #fff;
       text-decoration: none;
-      white-space: nowrap;
       cursor: pointer;
     }
-
     .hero {
       background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
       color: #fff;
@@ -97,145 +75,107 @@
     }
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.95fr;
+      grid-template-columns: 1.2fr 0.95fr;
       gap: 22px;
       align-items: stretch;
-      margin-top: 24px;
+      margin-top: 22px;
     }
-    .hero-main h1 {
+    .hero h1 {
       margin: 0 0 12px;
-      font-size: clamp(2rem, 4vw, 3.6rem);
+      font-size: clamp(2rem, 4vw, 3.5rem);
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
-    .hero-main p {
-      margin: 0 0 14px;
-      color: rgba(255,255,255,0.9);
-      font-size: 1.05rem;
-    }
-    .hero-chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .hero-chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.16);
-      font-size: 0.92rem;
-      color: #fff;
-    }
+    .hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); }
     .hero-card {
       background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 22px;
       padding: 22px;
       backdrop-filter: blur(8px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
-    .hero-card h3 {
-      margin: 0 0 14px;
-      font-size: 1.04rem;
-    }
-    .hero-list {
-      display: grid;
-      gap: 11px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      color: rgba(255,255,255,0.92);
-      font-size: 0.96rem;
-    }
-    .hero-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    main { padding: 26px 0 70px; }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 18px;
-    }
+    .hero-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .hero-list li { display: flex; align-items: center; gap: 10px; }
+    main { padding: 24px 0 64px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
     .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 22px;
+      margin-bottom: 18px;
     }
-    .section-title {
-      margin: 0 0 16px;
-      font-size: 1.22rem;
+    .section-title { margin: 0 0 14px; font-size: 1.2rem; font-weight: 800; }
+    .section-subtitle { margin: -4px 0 14px; color: var(--muted); font-size: 0.95rem; }
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      text-decoration: none;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: center;
     }
-    .section-subtitle {
-      margin: -4px 0 16px;
-      color: var(--muted);
-      font-size: 0.96rem;
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-soft { background: var(--primary-soft); color: var(--primary); border-color: #d9e7ff; }
+    .btn-danger { background: var(--danger-soft); color: var(--danger); border-color: #ffd8df; }
+    .btn-success { background: var(--success-soft); color: var(--success); border-color: #d0f5f0; }
+    .btn-dark { background: var(--dark); color: #fff; }
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .field label { font-weight: 700; font-size: 0.94rem; }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fff;
     }
-    .info-grid {
+    .field textarea { min-height: 110px; resize: vertical; }
+    .hint { color: var(--muted); font-size: 0.84rem; }
+    .list-box {
+      background: #fafcff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .unit-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
+    .unit-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .unit-title { font-weight: 800; }
+    .unit-meta { color: var(--muted); font-size: 0.92rem; }
+    .unit-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
     .info-box {
       background: #fafcff;
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 14px;
     }
-    .info-box strong {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--text);
-    }
-    .muted { color: var(--muted); }
-
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      min-height: 54px;
-      padding: 14px 16px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 800;
-      border: 1px solid transparent;
-      transition: 0.2s ease;
-      text-align: center;
-      cursor: pointer;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .btn-soft { background: var(--primary-soft); color: var(--primary-dark); border-color: #d9e7ff; }
-    .btn-danger { background: var(--danger-soft); color: var(--danger); border-color: #ffd9df; }
-    .btn-success { background: var(--success-soft); color: var(--success); border-color: #d0f5f0; }
-    .btn-dark { background: var(--dark); color: #fff; border-color: var(--dark); }
-
-    .steps, .rules-list {
-      margin: 0;
-      padding-right: 18px;
-      color: var(--muted);
-    }
-    .steps li, .rules-list li { margin-bottom: 10px; }
-
-    .place-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
+    .info-box strong { display: block; margin-bottom: 4px; }
+    .action-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .place-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .place-link {
       display: block;
       text-decoration: none;
@@ -246,30 +186,21 @@
       padding: 15px 16px;
       font-weight: 800;
     }
-
-    .faq-item {
-      padding: 14px 0;
-      border-top: 1px solid var(--line);
-    }
+    .faq-item { padding: 14px 0; border-top: 1px solid var(--line); }
     .faq-item:first-child { border-top: 0; padding-top: 0; }
     .faq-q { font-weight: 800; margin-bottom: 6px; }
     .faq-a { color: var(--muted); }
-
-    .footer-note {
-      text-align: center;
-      color: var(--muted);
-      margin-top: 20px;
-      font-size: 0.95rem;
+    .steps, .rules-list { margin: 0; padding-right: 18px; color: var(--muted); }
+    .steps li, .rules-list li { margin-bottom: 10px; }
+    .notice {
+      background: #fff8e6;
+      color: #7a5b00;
+      border: 1px solid #f4df9b;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
     }
-    .legal-links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-      font-size: 0.92rem;
-    }
-
+    .footer-note { text-align: center; color: var(--muted); margin-top: 20px; }
     .floating-emergency {
       position: fixed;
       bottom: 20px;
@@ -287,98 +218,8 @@
       font-size: 1.25rem;
       box-shadow: 0 16px 30px rgba(220, 38, 38, 0.35);
     }
-
-    .notice {
-      background: #fff8e6;
-      color: #7a5b00;
-      border: 1px solid #f4df9b;
-      padding: 14px 16px;
-      border-radius: 14px;
-      margin-bottom: 18px;
-      display: none;
-    }
-    .notice.show { display: block; }
-
-    .panel-wrap {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.5);
-      z-index: 2000;
-      padding: 18px;
-      overflow: auto;
-      display: none;
-    }
-    .panel-wrap.show { display: block; }
-    .panel {
-      width: min(980px, 100%);
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 22px;
-      box-shadow: 0 30px 60px rgba(15, 23, 42, 0.18);
-      overflow: hidden;
-    }
-    .panel-header {
-      padding: 18px 22px;
-      background: var(--dark);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .panel-body { padding: 22px; }
-    .panel-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
-    .field label {
-      font-weight: 700;
-      font-size: 0.94rem;
-    }
-    .field input, .field textarea, .field select {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 14px;
-      font: inherit;
-      background: #fff;
-    }
-    .field textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-    .hint {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-    .output-box {
-      background: #f8fafc;
-      border: 1px dashed #cbd5e1;
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 0.95rem;
-      word-break: break-all;
-      min-height: 66px;
-    }
-    .panel-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    @media (max-width: 960px) {
-      .hero-grid, .grid-2, .action-grid, .info-grid, .place-grid, .panel-grid {
-        grid-template-columns: 1fr;
-      }
-      .topbar-inner { min-height: 78px; }
+    @media (max-width: 980px) {
+      .hero-grid, .grid-2, .grid-3, .info-grid, .action-grid, .place-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -386,147 +227,50 @@
   <div class="topbar">
     <div class="container topbar-inner">
       <div class="brand-wrap">
-        <div class="brand">Host Flow AI</div>
-        <div class="property-mini" id="propertyMini">نظام ضيافة ذكي</div>
+        <div class="brand">HostFlow AI</div>
+        <div class="subbrand" id="modeLabel">نظام إدارة + صفحة ضيف</div>
       </div>
-      <div class="topbar-actions">
-        <button class="badge" id="openSetupBtn" type="button">⚙️ إعداد المنشأة</button>
-        <a class="badge" id="langBadge" href="#" aria-disabled="true">English قريبًا</a>
-        <a class="badge" id="contactBadge" href="#">تواصل سريع</a>
+      <div class="top-actions">
+        <button class="pill" id="showAdminBtn" type="button">⚙️ لوحة المنشأة</button>
+        <button class="pill hidden" id="showGuestBtn" type="button">👁️ عرض صفحة الضيف</button>
       </div>
     </div>
   </div>
 
-  <header class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="hero-main">
-          <h1 id="heroTitle">كل ما يحتاجه الضيف خلال إقامته</h1>
-          <p id="heroDesc">من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.</p>
-          <p id="heroDesc2">هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.</p>
-          <div class="hero-chip-row">
-            <div class="hero-chip" id="qrChip">📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت</div>
-            <div class="hero-chip" id="propertyChip">🏨 منشأة ذكية</div>
-          </div>
-        </div>
-        <div class="hero-card">
-          <h3>ما الذي سيجده الضيف هنا؟</h3>
-          <ul class="hero-list" id="heroList"></ul>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <div id="demoNotice" class="notice">هذه صفحة قابلة للتخصيص تلقائيًا. اضغط <strong>إعداد المنشأة</strong> واملأ البيانات، ثم انسخ الرابط الناتج وأرسله للضيف أو ضع له QR داخل الغرفة.</div>
-
-      <div class="grid-2">
-        <section class="card">
-          <h2 class="section-title">📶 المعلومات الأساسية</h2>
-          <div class="info-grid">
-            <div class="info-box"><strong>اسم الشبكة</strong><span id="wifiName">HotelWiFi</span></div>
-            <div class="info-box"><strong>كلمة المرور</strong><span id="wifiPassword">12345678</span></div>
-            <div class="info-box"><strong>وقت الدخول</strong><span id="checkIn">3:00 مساءً</span></div>
-            <div class="info-box"><strong>وقت الخروج</strong><span id="checkOut">12:00 ظهرًا</span></div>
-          </div>
-          <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-primary" id="locationBtn" href="https://maps.google.com" target="_blank" rel="noopener">📍 فتح الموقع</a>
-            <a class="btn btn-soft" id="wifiHelpBtn" href="#">📶 مساعدة بخصوص الواي فاي</a>
-          </div>
-        </section>
-
-        <section class="card">
-          <h2 class="section-title">🔑 تعليمات الدخول</h2>
-          <div class="section-subtitle">تعليمات واضحة وسريعة للوصول والدخول بدون ارتباك</div>
-          <ol class="steps" id="checkinSteps"></ol>
-        </section>
-      </div>
-
-      <section class="card" style="margin-bottom:18px;">
-        <h2 class="section-title">🛎️ طلب خدمة</h2>
-        <div class="section-subtitle">بديل مباشر للهاتف — اضغط الخدمة المطلوبة وسيتم توجيهك فورًا</div>
-        <div class="action-grid" id="serviceGrid"></div>
-      </section>
-
-      <div class="grid-2">
-        <section class="card">
-          <h2 class="section-title">📋 القوانين</h2>
-          <ul class="rules-list" id="rulesList"></ul>
-        </section>
-
-        <section class="card">
-          <h2 class="section-title">🚨 الطوارئ</h2>
-          <p class="muted" id="emergencyText">في الحالات الطارئة يرجى الاتصال فورًا.</p>
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-danger" id="emergencyBtn" href="tel:+966000000000">🚨 اتصل الآن</a>
-            <a class="btn btn-soft" id="frontDeskBtn" href="#">☎️ الاستقبال</a>
-          </div>
-        </section>
-      </div>
-
-      <div class="grid-2" style="margin-top:18px;">
-        <section class="card">
-          <h2 class="section-title">📍 أماكن قريبة</h2>
-          <div class="section-subtitle">اقتراحات مفيدة حول المنشأة لراحة الضيف</div>
-          <div class="place-grid" id="placesGrid"></div>
-        </section>
-
-        <section class="card">
-          <h2 class="section-title">❓ أسئلة شائعة</h2>
-          <div id="faqWrap"></div>
-        </section>
-      </div>
-
-      <div class="grid-2" style="margin-top:18px;">
-        <section class="card">
-          <h2 class="section-title">⭐ تقييمك يهمنا</h2>
-          <p class="muted" id="feedbackText">يسعدنا تقييمك لتجربتك معنا، رأيك يساعدنا على تحسين الخدمة.</p>
-          <a class="btn btn-success" id="feedbackBtn" href="#" target="_blank" rel="noopener">⭐ قيّم تجربتك</a>
-        </section>
-
-        <section class="card">
-          <h2 class="section-title">ℹ️ معلومات المنشأة</h2>
-          <div class="info-grid">
-            <div class="info-box"><strong>اسم المنشأة</strong><span id="propertyNameBox">فندق تجريبي</span></div>
-            <div class="info-box"><strong>نوع المنشأة</strong><span id="propertyTypeBox">فندق</span></div>
-            <div class="info-box"><strong>رقم التواصل</strong><span id="propertyPhoneBox">+966000000000</span></div>
-            <div class="info-box"><strong>رقم الاستقبال</strong><span id="frontDeskBox">+966000000000</span></div>
-          </div>
-        </section>
-      </div>
-
-      <div class="footer-note">
-        <div id="footerRights">© 2026 Host Flow AI - جميع الحقوق محفوظة</div>
-        <div class="legal-links">
-          <a href="#">سياسة الخصوصية</a>
-          <a href="#">شروط الاستخدام</a>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <a class="floating-emergency" id="floatingEmergency" href="tel:+966000000000" title="اتصال طارئ">🚨</a>
-
-  <div class="panel-wrap" id="setupPanelWrap">
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <strong>إعداد المنشأة</strong>
-          <div style="font-size:0.9rem; opacity:0.85;">املأ البيانات مرة واحدة وسينتج لك رابط جاهز</div>
-        </div>
-        <button class="badge" id="closeSetupBtn" type="button">إغلاق</button>
-      </div>
-      <div class="panel-body">
-        <div class="panel-grid">
+  <section id="adminView">
+    <header class="hero">
+      <div class="container">
+        <div class="hero-grid">
           <div>
-            <div class="field">
-              <label for="fPropertyName">اسم المنشأة</label>
-              <input id="fPropertyName" type="text" placeholder="مثال: فندق المستقبل" />
-            </div>
-            <div class="field">
-              <label for="fPropertyType">نوع المنشأة</label>
-              <select id="fPropertyType">
+            <h1>ابنِ صفحة ضيف مستقلة لكل وحدة</h1>
+            <p>هذه نسخة مبنية بالطريقة الصحيحة: صاحب المنشأة يدير الوحدات من لوحة خاصة، والضيف يرى صفحة منفصلة خاصة بوحدته فقط.</p>
+            <p>لا توجد إعدادات ظاهرة للضيف، ولا حاجة لتعديل الكود كل مرة.</p>
+          </div>
+          <div class="hero-card">
+            <h3>ماذا يفعل هذا النظام؟</h3>
+            <ul class="hero-list">
+              <li>🏨 يحفظ بيانات المنشأة مرة واحدة</li>
+              <li>🚪 ينشئ صفحة منفصلة لكل شقة أو غرفة</li>
+              <li>📶 يغير الواي فاي وكلمة المرور لكل وحدة</li>
+              <li>🛎️ يولد طلبات محترمة تلقائيًا</li>
+              <li>🔗 يصنع رابطًا خاصًا لكل وحدة</li>
+              <li>📷 يمكن تحويل الرابط إلى QR لكل غرفة</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="notice">هذه اللوحة خاصة براعي المنشأة فقط. الضيف لا يجب أن يرى هذه الشاشة. لكل وحدة رابط ضيف منفصل.</div>
+
+        <div class="grid-2">
+          <section class="card">
+            <h2 class="section-title">بيانات المنشأة الأساسية</h2>
+            <div class="field"><label>اسم المنشأة</label><input id="propertyNameInput" type="text" placeholder="مثال: فندق المستقبل" /></div>
+            <div class="field"><label>نوع المنشأة</label>
+              <select id="propertyTypeInput">
                 <option>فندق</option>
                 <option>شقق مفروشة</option>
                 <option>شاليه</option>
@@ -534,132 +278,184 @@
                 <option>فيلا</option>
               </select>
             </div>
-            <div class="field">
-              <label for="fWifiName">اسم شبكة الواي فاي</label>
-              <input id="fWifiName" type="text" placeholder="اسم الشبكة" />
+            <div class="field"><label>رقم واتساب / التواصل الرئيسي</label><input id="propertyPhoneInput" type="text" placeholder="9665XXXXXXXX" /></div>
+            <div class="field"><label>رقم الاستقبال</label><input id="frontDeskPhoneInput" type="text" placeholder="9665XXXXXXXX" /></div>
+            <div class="field"><label>رقم الطوارئ</label><input id="emergencyPhoneInput" type="text" placeholder="9665XXXXXXXX" /></div>
+            <div class="field"><label>رابط الموقع الرئيسي</label><input id="locationUrlInput" type="url" placeholder="https://maps.google.com/..." /></div>
+            <div class="field"><label>رابط التقييم</label><input id="feedbackUrlInput" type="url" placeholder="رابط Google Form أو تقييم" /></div>
+            <div class="field"><label>سطر ترحيبي قصير</label><input id="heroTitleInput" type="text" placeholder="كل ما يحتاجه الضيف خلال إقامته" /></div>
+            <div class="field"><label>وصف قصير</label><input id="heroDescInput" type="text" placeholder="من معلومات الدخول إلى طلب الخدمات..." /></div>
+            <div class="field"><label>وصف ثاني</label><input id="heroDesc2Input" type="text" placeholder="هذه الصفحة تغني عن هاتف الغرفة..." /></div>
+            <div class="field"><label>نص QR</label><input id="qrTextInput" type="text" placeholder="امسح رمز QR للوصول لهذه الصفحة" /></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-dark" type="button" id="savePropertyBtn">حفظ بيانات المنشأة</button>
+              <button class="btn btn-soft" type="button" id="loadSampleBtn">تحميل مثال جاهز</button>
             </div>
-            <div class="field">
-              <label for="fWifiPassword">كلمة مرور الواي فاي</label>
-              <input id="fWifiPassword" type="text" placeholder="كلمة المرور" />
-            </div>
-            <div class="field">
-              <label for="fCheckIn">وقت الدخول</label>
-              <input id="fCheckIn" type="text" placeholder="مثال: 3:00 مساءً" />
-            </div>
-            <div class="field">
-              <label for="fCheckOut">وقت الخروج</label>
-              <input id="fCheckOut" type="text" placeholder="مثال: 12:00 ظهرًا" />
-            </div>
-            <div class="field">
-              <label for="fLocation">رابط الموقع من خرائط Google</label>
-              <input id="fLocation" type="url" placeholder="https://maps.google.com/..." />
-            </div>
-            <div class="field">
-              <label for="fPropertyPhone">رقم واتساب / التواصل الرئيسي</label>
-              <input id="fPropertyPhone" type="text" placeholder="9665XXXXXXXX" />
-            </div>
-            <div class="field">
-              <label for="fFrontDeskPhone">رقم الاستقبال</label>
-              <input id="fFrontDeskPhone" type="text" placeholder="9665XXXXXXXX" />
-            </div>
-            <div class="field">
-              <label for="fEmergencyPhone">رقم الطوارئ</label>
-              <input id="fEmergencyPhone" type="text" placeholder="9665XXXXXXXX" />
-            </div>
-            <div class="field">
-              <label for="fFeedbackUrl">رابط التقييم</label>
-              <input id="fFeedbackUrl" type="url" placeholder="رابط Google Form أو أي نموذج تقييم" />
-            </div>
-          </div>
+          </section>
 
+          <section class="card">
+            <h2 class="section-title">بيانات ثابتة لكل الوحدات</h2>
+            <div class="field"><label>تعليمات الدخول</label><textarea id="checkinInstructionsInput" placeholder="كل سطر تعليمات مستقلة"></textarea></div>
+            <div class="field"><label>القوانين</label><textarea id="rulesInput" placeholder="كل سطر قانون مستقل"></textarea></div>
+            <div class="field"><label>الأسئلة الشائعة</label><textarea id="faqsInput" placeholder="كل سطر بالشكل: السؤال | الجواب"></textarea><div class="hint">مثال: هل يوجد موقف؟ | نعم، يوجد موقف متوفر</div></div>
+            <div class="field"><label>الأماكن القريبة</label><textarea id="placesInput" placeholder="كل سطر بالشكل: الاسم | الرابط"></textarea><div class="hint">مثال: 🍽️ مطاعم | https://maps.google.com/...</div></div>
+            <div class="field"><label>خدمات الطلبات</label><textarea id="servicesInput" placeholder="كل سطر بالشكل: اسم الزر | نص الرسالة"></textarea><div class="hint">مثال: 🧹 طلب تنظيف | أحتاج تنظيف</div></div>
+          </section>
+        </div>
+
+        <section class="card">
+          <h2 class="section-title">إضافة وحدة جديدة</h2>
+          <div class="section-subtitle">يمكن أن تكون شقة، غرفة، فيلا، أو أي وحدة مستقلة لها بياناتها الخاصة</div>
+          <div class="grid-3">
+            <div class="field"><label>معرّف الوحدة</label><input id="unitIdInput" type="text" placeholder="مثال: 101 أو apt-12" /></div>
+            <div class="field"><label>اسم الوحدة</label><input id="unitNameInput" type="text" placeholder="مثال: غرفة 101" /></div>
+            <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifiNameInput" type="text" placeholder="اسم الشبكة" /></div>
+            <div class="field"><label>كلمة مرور الواي فاي</label><input id="unitWifiPasswordInput" type="text" placeholder="كلمة المرور" /></div>
+            <div class="field"><label>وقت الدخول</label><input id="unitCheckInInput" type="text" placeholder="مثال: 3:00 مساءً" /></div>
+            <div class="field"><label>وقت الخروج</label><input id="unitCheckOutInput" type="text" placeholder="مثال: 12:00 ظهرًا" /></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" type="button" id="addUnitBtn">إضافة الوحدة</button>
+            <button class="btn btn-soft" type="button" id="clearUnitBtn">تفريغ الحقول</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title">الوحدات الحالية</h2>
+          <div id="unitsList"></div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <section id="guestView" class="hidden">
+    <header class="hero">
+      <div class="container">
+        <div class="hero-grid">
           <div>
-            <div class="field">
-              <label for="fCheckinInstructions">تعليمات الدخول</label>
-              <textarea id="fCheckinInstructions" placeholder="كل سطر تعليمات مستقلة"></textarea>
-              <div class="hint">اكتب كل تعليمات في سطر مستقل</div>
-            </div>
-            <div class="field">
-              <label for="fRules">القوانين</label>
-              <textarea id="fRules" placeholder="كل سطر قانون مستقل"></textarea>
-            </div>
-            <div class="field">
-              <label for="fFaqs">الأسئلة الشائعة</label>
-              <textarea id="fFaqs" placeholder="كل سطر بالشكل: السؤال | الجواب"></textarea>
-              <div class="hint">مثال: هل يوجد موقف؟ | نعم، يوجد موقف متوفر</div>
-            </div>
-            <div class="field">
-              <label for="fPlaces">الأماكن القريبة</label>
-              <textarea id="fPlaces" placeholder="كل سطر بالشكل: الاسم | الرابط"></textarea>
-              <div class="hint">مثال: 🍽️ مطاعم | https://maps.google.com/...</div>
-            </div>
-            <div class="field">
-              <label for="fHeroLine">سطر تعريفي قصير</label>
-              <input id="fHeroLine" type="text" placeholder="مثال: كل ما يحتاجه الضيف خلال إقامته" />
-            </div>
-            <div class="field">
-              <label for="fHeroLine2">سطر تعريفي ثاني</label>
-              <input id="fHeroLine2" type="text" placeholder="مثال: من معلومات الدخول إلى طلب الخدمات..." />
-            </div>
-            <div class="field">
-              <label for="fHeroLine3">سطر تعريفي ثالث</label>
-              <input id="fHeroLine3" type="text" placeholder="مثال: الصفحة تغني عن هاتف الغرفة" />
-            </div>
-            <div class="field">
-              <label for="fQrText">نص QR</label>
-              <input id="fQrText" type="text" placeholder="مثال: امسح رمز QR داخل الغرفة..." />
+            <h1 id="guestHeroTitle">كل ما يحتاجه الضيف خلال إقامته</h1>
+            <p id="guestHeroDesc">من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.</p>
+            <p id="guestHeroDesc2">هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+              <div class="pill" id="guestPropertyChip">🏨 منشأة</div>
+              <div class="pill" id="guestUnitChip">🚪 وحدة</div>
+              <div class="pill" id="guestQrText">📷 امسح رمز QR للوصول لهذه الصفحة</div>
             </div>
           </div>
-        </div>
-
-        <div class="panel-actions">
-          <button class="btn btn-dark" type="button" id="generateBtn">إنشاء الرابط</button>
-          <button class="btn btn-soft" type="button" id="applyBtn">تجربة مباشرة</button>
-          <button class="btn btn-success" type="button" id="copyLinkBtn">نسخ الرابط</button>
-          <button class="btn btn-soft" type="button" id="saveLocalBtn">حفظ هذه البيانات على هذا الجهاز</button>
-        </div>
-
-        <div style="margin-top:18px;">
-          <div class="field">
-            <label>الرابط الناتج</label>
-            <div class="output-box" id="generatedLink">سيظهر هنا الرابط بعد تعبئة البيانات والضغط على إنشاء الرابط</div>
+          <div class="hero-card">
+            <h3>ما الذي سيجده الضيف هنا؟</h3>
+            <ul class="hero-list" id="guestHeroList"></ul>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="grid-2">
+          <section class="card">
+            <h2 class="section-title">📶 المعلومات الأساسية</h2>
+            <div class="info-grid">
+              <div class="info-box"><strong>اسم الشبكة</strong><span id="guestWifiName"></span></div>
+              <div class="info-box"><strong>كلمة المرور</strong><span id="guestWifiPassword"></span></div>
+              <div class="info-box"><strong>وقت الدخول</strong><span id="guestCheckIn"></span></div>
+              <div class="info-box"><strong>وقت الخروج</strong><span id="guestCheckOut"></span></div>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+              <a class="btn btn-primary" id="guestLocationBtn" href="#" target="_blank" rel="noopener">📍 فتح الموقع</a>
+              <a class="btn btn-soft" id="guestWifiHelpBtn" href="#" target="_blank" rel="noopener">📶 مساعدة بخصوص الواي فاي</a>
+            </div>
+          </section>
+          <section class="card">
+            <h2 class="section-title">🔑 تعليمات الدخول</h2>
+            <div class="section-subtitle">تعليمات واضحة وسريعة للوصول والدخول بدون ارتباك</div>
+            <ol class="steps" id="guestCheckinSteps"></ol>
+          </section>
+        </div>
+
+        <section class="card">
+          <h2 class="section-title">🛎️ طلب خدمة</h2>
+          <div class="section-subtitle">يتم إرسال الطلب برسالة جاهزة ومحترمة باسم الوحدة تلقائيًا</div>
+          <div class="action-grid" id="guestServiceGrid"></div>
+        </section>
+
+        <div class="grid-2">
+          <section class="card">
+            <h2 class="section-title">📋 القوانين</h2>
+            <ul class="rules-list" id="guestRulesList"></ul>
+          </section>
+          <section class="card">
+            <h2 class="section-title">🚨 الطوارئ</h2>
+            <p class="section-subtitle">في الحالات الطارئة يرجى الاتصال فورًا</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <a class="btn btn-danger" id="guestEmergencyBtn" href="#">🚨 اتصل الآن</a>
+              <a class="btn btn-soft" id="guestFrontDeskBtn" href="#">☎️ الاستقبال</a>
+            </div>
+          </section>
+        </div>
+
+        <div class="grid-2">
+          <section class="card">
+            <h2 class="section-title">📍 أماكن قريبة</h2>
+            <div class="place-grid" id="guestPlacesGrid"></div>
+          </section>
+          <section class="card">
+            <h2 class="section-title">❓ أسئلة شائعة</h2>
+            <div id="guestFaqWrap"></div>
+          </section>
+        </div>
+
+        <div class="grid-2">
+          <section class="card">
+            <h2 class="section-title">⭐ تقييمك يهمنا</h2>
+            <p class="section-subtitle">يسعدنا تقييمك لتجربتك معنا</p>
+            <a class="btn btn-success" id="guestFeedbackBtn" href="#" target="_blank" rel="noopener">⭐ قيّم تجربتك</a>
+          </section>
+          <section class="card">
+            <h2 class="section-title">ℹ️ معلومات المنشأة</h2>
+            <div class="info-grid">
+              <div class="info-box"><strong>اسم المنشأة</strong><span id="guestPropertyName"></span></div>
+              <div class="info-box"><strong>نوع المنشأة</strong><span id="guestPropertyType"></span></div>
+              <div class="info-box"><strong>الوحدة</strong><span id="guestUnitName"></span></div>
+              <div class="info-box"><strong>رقم التواصل</strong><span id="guestPropertyPhone"></span></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="footer-note">© 2026 HostFlow AI - جميع الحقوق محفوظة</div>
+      </div>
+    </main>
+    <a class="floating-emergency" id="guestFloatingEmergency" href="#" title="اتصال طارئ">🚨</a>
+  </section>
 
   <script>
+    const STORAGE_KEY = 'hostflow_system_v2_data';
     const DEFAULT_DATA = {
-      brandName: 'Host Flow AI',
-      propertyName: 'فندق تجريبي',
-      propertyType: 'فندق',
-      heroTitle: 'كل ما يحتاجه الضيف خلال إقامته',
-      heroDesc: 'من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.',
-      heroDesc2: 'هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.',
-      qrText: '📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت',
-      propertyChip: '🏨 منشأة ذكية',
-      wifiName: 'HotelWiFi',
-      wifiPassword: '12345678',
-      checkIn: '3:00 مساءً',
-      checkOut: '12:00 ظهرًا',
-      locationUrl: 'https://maps.google.com',
-      propertyPhone: '+966000000000',
-      frontDeskPhone: '+966000000000',
-      emergencyPhone: '+966000000000',
-      feedbackUrl: '#',
-      englishEnabled: false,
-      englishUrl: '#',
-      heroItems: ['📶 بيانات الواي فاي','🕒 وقت الدخول والخروج','🔑 تعليمات الدخول','🛎️ طلب الخدمات بضغطة زر','🚨 الطوارئ والتواصل السريع','📍 دليل الأماكن القريبة'],
-      checkinInstructions: ['توجه إلى الموقع باستخدام الخريطة.','استخدم الرمز أو المفتاح الخاص بك للدخول.','تأكد من إغلاق الباب جيدًا بعد الدخول.','في حال واجهت أي مشكلة، استخدم زر طلب مساعدة أو اتصل بنا مباشرة.'],
-      services: [
-        { label: '🧹 طلب تنظيف', text: 'أحتاج تنظيف' },
-        { label: '🛁 طلب مناشف', text: 'أحتاج مناشف' },
-        { label: '❄️ مشكلة في التكييف', text: 'عندي مشكلة في التكييف' },
-        { label: '🔧 صيانة', text: 'أحتاج صيانة' },
-        { label: '❓ طلب مساعدة', text: 'أحتاج مساعدة' },
-        { label: '💬 استفسار عام', text: 'عندي استفسار' }
+      property: {
+        name: 'فندق المستقبل',
+        type: 'فندق',
+        phone: '966500000001',
+        frontDeskPhone: '966500000002',
+        emergencyPhone: '966500000003',
+        locationUrl: 'https://maps.google.com',
+        feedbackUrl: 'https://forms.gle/',
+        heroTitle: 'كل ما يحتاجه الضيف خلال إقامته',
+        heroDesc: 'من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.',
+        heroDesc2: 'هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.',
+        qrText: '📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت'
+      },
+      checkinInstructions: [
+        'توجه إلى الموقع باستخدام الخريطة.',
+        'استخدم الرمز أو المفتاح الخاص بك للدخول.',
+        'تأكد من إغلاق الباب جيدًا بعد الدخول.',
+        'في حال واجهت أي مشكلة استخدم زر طلب مساعدة.'
       ],
-      rules: ['يمنع الإزعاج بعد الساعة 10 مساءً.','يمنع التدخين داخل الوحدة.','يرجى المحافظة على نظافة المكان.','الالتزام بوقت تسجيل الخروج.'],
+      rules: [
+        'يمنع الإزعاج بعد الساعة 10 مساءً.',
+        'يمنع التدخين داخل الوحدة.',
+        'يرجى المحافظة على نظافة المكان.',
+        'الالتزام بوقت تسجيل الخروج.'
+      ],
       places: [
         { name: '🍽️ مطاعم', url: 'https://maps.google.com' },
         { name: '☕ كافيهات', url: 'https://maps.google.com' },
@@ -667,172 +463,270 @@
         { name: '🏥 مستشفى', url: 'https://maps.google.com' }
       ],
       faqs: [
-        { q: 'كيف أطلب خدمة؟', a: 'من قسم طلب خدمة اختر الزر المناسب وسيتم توجيهك مباشرة للتواصل.' },
+        { q: 'كيف أطلب خدمة؟', a: 'اختر الخدمة المطلوبة من الصفحة وسيتم تجهيز رسالة تلقائية محترمة.' },
         { q: 'هل يوجد موقف؟', a: 'نعم، يوجد موقف متوفر.' },
         { q: 'هل يمكن التمديد؟', a: 'حسب التوفر، يرجى التواصل معنا.' }
+      ],
+      services: [
+        { label: '🧹 طلب تنظيف', message: 'السلام عليكم، أنا من الوحدة {{unit}} وأحتاج خدمة تنظيف. شكرًا لكم.' },
+        { label: '🛁 طلب مناشف', message: 'السلام عليكم، أنا من الوحدة {{unit}} وأحتاج مناشف إضافية. شكرًا لكم.' },
+        { label: '❄️ مشكلة في التكييف', message: 'السلام عليكم، أنا من الوحدة {{unit}} ولدي مشكلة في التكييف. نرجو المساعدة. شكرًا لكم.' },
+        { label: '🔧 صيانة', message: 'السلام عليكم، أنا من الوحدة {{unit}} وأحتاج صيانة. شكرًا لكم.' },
+        { label: '❓ طلب مساعدة', message: 'السلام عليكم، أنا من الوحدة {{unit}} وأحتاج مساعدة. شكرًا لكم.' },
+        { label: '💬 استفسار عام', message: 'السلام عليكم، أنا من الوحدة {{unit}} ولدي استفسار. شكرًا لكم.' }
+      ],
+      units: [
+        { id: '101', name: 'غرفة 101', wifiName: 'FutureHotel-101', wifiPassword: '101101101', checkIn: '3:00 مساءً', checkOut: '12:00 ظهرًا' },
+        { id: '102', name: 'غرفة 102', wifiName: 'FutureHotel-102', wifiPassword: '102102102', checkIn: '3:00 مساءً', checkOut: '12:00 ظهرًا' }
       ]
     };
 
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
-    function setHref(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.href = value;
-    }
-    function createLi(text) {
-      const li = document.createElement('li');
-      li.textContent = text;
-      return li;
-    }
-    function renderList(listId, items, renderItem) {
-      const root = document.getElementById(listId);
-      if (!root) return;
-      root.innerHTML = '';
-      items.forEach(item => root.appendChild(renderItem(item)));
-    }
-    function whatsappLink(number, text) {
-      const clean = String(number || '').replace(/[^\d+]/g, '');
-      return `https://wa.me/${clean.replace('+', '')}?text=${encodeURIComponent(text)}`;
-    }
-    function encodeConfig(obj) {
-      return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
-    }
-    function decodeConfig(str) {
+    let appData = loadData();
+
+    function loadData() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(DEFAULT_DATA);
       try {
-        return JSON.parse(decodeURIComponent(escape(atob(str))));
-      } catch (e) {
-        return null;
+        return JSON.parse(raw);
+      } catch {
+        return structuredClone(DEFAULT_DATA);
       }
+    }
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    }
+    function q(id) { return document.getElementById(id); }
+    function escapeHtml(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
     function splitLines(text) {
       return String(text || '').split('\n').map(s => s.trim()).filter(Boolean);
     }
     function parseFaqs(text) {
       return splitLines(text).map(line => {
-        const parts = line.split('|');
-        return { q: (parts[0] || '').trim(), a: (parts[1] || '').trim() };
+        const [qPart, aPart] = line.split('|');
+        return { q: (qPart || '').trim(), a: (aPart || '').trim() };
       }).filter(x => x.q && x.a);
     }
     function parsePlaces(text) {
       return splitLines(text).map(line => {
-        const parts = line.split('|');
-        return { name: (parts[0] || '').trim(), url: (parts[1] || '').trim() };
+        const [namePart, urlPart] = line.split('|');
+        return { name: (namePart || '').trim(), url: (urlPart || '').trim() };
       }).filter(x => x.name && x.url);
     }
-    function fillForm(data) {
-      document.getElementById('fPropertyName').value = data.propertyName || '';
-      document.getElementById('fPropertyType').value = data.propertyType || 'فندق';
-      document.getElementById('fWifiName').value = data.wifiName || '';
-      document.getElementById('fWifiPassword').value = data.wifiPassword || '';
-      document.getElementById('fCheckIn').value = data.checkIn || '';
-      document.getElementById('fCheckOut').value = data.checkOut || '';
-      document.getElementById('fLocation').value = data.locationUrl || '';
-      document.getElementById('fPropertyPhone').value = data.propertyPhone || '';
-      document.getElementById('fFrontDeskPhone').value = data.frontDeskPhone || '';
-      document.getElementById('fEmergencyPhone').value = data.emergencyPhone || '';
-      document.getElementById('fFeedbackUrl').value = data.feedbackUrl === '#' ? '' : (data.feedbackUrl || '');
-      document.getElementById('fCheckinInstructions').value = (data.checkinInstructions || []).join('\n');
-      document.getElementById('fRules').value = (data.rules || []).join('\n');
-      document.getElementById('fFaqs').value = (data.faqs || []).map(x => `${x.q} | ${x.a}`).join('\n');
-      document.getElementById('fPlaces').value = (data.places || []).map(x => `${x.name} | ${x.url}`).join('\n');
-      document.getElementById('fHeroLine').value = data.heroTitle || '';
-      document.getElementById('fHeroLine2').value = data.heroDesc || '';
-      document.getElementById('fHeroLine3').value = data.heroDesc2 || '';
-      document.getElementById('fQrText').value = data.qrText || '';
+    function parseServices(text) {
+      return splitLines(text).map(line => {
+        const [labelPart, msgPart] = line.split('|');
+        return { label: (labelPart || '').trim(), message: (msgPart || '').trim() };
+      }).filter(x => x.label && x.message);
     }
-    function collectFormData() {
-      const propertyName = document.getElementById('fPropertyName').value.trim() || 'منشأة جديدة';
-      const propertyType = document.getElementById('fPropertyType').value.trim() || 'فندق';
-      const propertyPhone = document.getElementById('fPropertyPhone').value.trim() || '+966000000000';
-      return {
-        brandName: 'Host Flow AI',
-        propertyName,
-        propertyType,
-        heroTitle: document.getElementById('fHeroLine').value.trim() || 'كل ما يحتاجه الضيف خلال إقامته',
-        heroDesc: document.getElementById('fHeroLine2').value.trim() || 'من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد.',
-        heroDesc2: document.getElementById('fHeroLine3').value.trim() || 'هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.',
-        qrText: document.getElementById('fQrText').value.trim() || '📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت',
-        propertyChip: `${propertyType === 'فندق' ? '🏨' : '🏠'} ${propertyName}`,
-        wifiName: document.getElementById('fWifiName').value.trim() || 'HotelWiFi',
-        wifiPassword: document.getElementById('fWifiPassword').value.trim() || '12345678',
-        checkIn: document.getElementById('fCheckIn').value.trim() || '3:00 مساءً',
-        checkOut: document.getElementById('fCheckOut').value.trim() || '12:00 ظهرًا',
-        locationUrl: document.getElementById('fLocation').value.trim() || 'https://maps.google.com',
-        propertyPhone,
-        frontDeskPhone: document.getElementById('fFrontDeskPhone').value.trim() || propertyPhone,
-        emergencyPhone: document.getElementById('fEmergencyPhone').value.trim() || propertyPhone,
-        feedbackUrl: document.getElementById('fFeedbackUrl').value.trim() || '#',
-        englishEnabled: false,
-        englishUrl: '#',
-        heroItems: ['📶 بيانات الواي فاي','🕒 وقت الدخول والخروج','🔑 تعليمات الدخول','🛎️ طلب الخدمات بضغطة زر','🚨 الطوارئ والتواصل السريع','📍 دليل الأماكن القريبة'],
-        checkinInstructions: splitLines(document.getElementById('fCheckinInstructions').value).length ? splitLines(document.getElementById('fCheckinInstructions').value) : DEFAULT_DATA.checkinInstructions,
-        services: [
-          { label: '🧹 طلب تنظيف', text: `أحتاج تنظيف في ${propertyName}` },
-          { label: '🛁 طلب مناشف', text: `أحتاج مناشف في ${propertyName}` },
-          { label: '❄️ مشكلة في التكييف', text: `عندي مشكلة في التكييف في ${propertyName}` },
-          { label: '🔧 صيانة', text: `أحتاج صيانة في ${propertyName}` },
-          { label: '❓ طلب مساعدة', text: `أحتاج مساعدة في ${propertyName}` },
-          { label: '💬 استفسار عام', text: `لدي استفسار بخصوص ${propertyName}` }
-        ],
-        rules: splitLines(document.getElementById('fRules').value).length ? splitLines(document.getElementById('fRules').value) : DEFAULT_DATA.rules,
-        places: parsePlaces(document.getElementById('fPlaces').value).length ? parsePlaces(document.getElementById('fPlaces').value) : DEFAULT_DATA.places,
-        faqs: parseFaqs(document.getElementById('fFaqs').value).length ? parseFaqs(document.getElementById('fFaqs').value) : DEFAULT_DATA.faqs
-      };
+    function waLink(number, text) {
+      const clean = String(number || '').replace(/[^\d+]/g, '').replace('+', '');
+      return `https://wa.me/${clean}?text=${encodeURIComponent(text)}`;
     }
-    function renderProperty(data) {
-      document.title = `${data.brandName} - ${data.propertyName}`;
-      setText('propertyMini', data.propertyName);
-      setText('heroTitle', data.heroTitle);
-      setText('heroDesc', data.heroDesc);
-      setText('heroDesc2', data.heroDesc2);
-      setText('qrChip', data.qrText);
-      setText('propertyChip', data.propertyChip);
-      setText('wifiName', data.wifiName);
-      setText('wifiPassword', data.wifiPassword);
-      setText('checkIn', data.checkIn);
-      setText('checkOut', data.checkOut);
-      setText('propertyNameBox', data.propertyName);
-      setText('propertyTypeBox', data.propertyType);
-      setText('propertyPhoneBox', data.propertyPhone);
-      setText('frontDeskBox', data.frontDeskPhone);
-      setText('footerRights', `© 2026 ${data.brandName} - جميع الحقوق محفوظة`);
-
-      setHref('locationBtn', data.locationUrl);
-      setHref('emergencyBtn', `tel:${data.emergencyPhone}`);
-      setHref('floatingEmergency', `tel:${data.emergencyPhone}`);
-      setHref('frontDeskBtn', `tel:${data.frontDeskPhone}`);
-      setHref('feedbackBtn', data.feedbackUrl || '#');
-      setHref('contactBadge', whatsappLink(data.propertyPhone, `مرحباً، لدي استفسار بخصوص ${data.propertyName}`));
-      setHref('wifiHelpBtn', whatsappLink(data.propertyPhone, `مرحباً، أحتاج مساعدة بخصوص الواي فاي في ${data.propertyName}`));
-
-      const langBadge = document.getElementById('langBadge');
-      if (data.englishEnabled && data.englishUrl && data.englishUrl !== '#') {
-        langBadge.textContent = 'English';
-        langBadge.href = data.englishUrl;
-      } else {
-        langBadge.textContent = 'English قريبًا';
-        langBadge.href = '#';
+    function getBaseUrl() {
+      return window.location.origin + window.location.pathname;
+    }
+    function getGuestUrl(unitId) {
+      return `${getBaseUrl()}?view=guest&unit=${encodeURIComponent(unitId)}`;
+    }
+    function renderAdminForm() {
+      const p = appData.property;
+      q('propertyNameInput').value = p.name || '';
+      q('propertyTypeInput').value = p.type || 'فندق';
+      q('propertyPhoneInput').value = p.phone || '';
+      q('frontDeskPhoneInput').value = p.frontDeskPhone || '';
+      q('emergencyPhoneInput').value = p.emergencyPhone || '';
+      q('locationUrlInput').value = p.locationUrl || '';
+      q('feedbackUrlInput').value = p.feedbackUrl || '';
+      q('heroTitleInput').value = p.heroTitle || '';
+      q('heroDescInput').value = p.heroDesc || '';
+      q('heroDesc2Input').value = p.heroDesc2 || '';
+      q('qrTextInput').value = p.qrText || '';
+      q('checkinInstructionsInput').value = (appData.checkinInstructions || []).join('\n');
+      q('rulesInput').value = (appData.rules || []).join('\n');
+      q('faqsInput').value = (appData.faqs || []).map(x => `${x.q} | ${x.a}`).join('\n');
+      q('placesInput').value = (appData.places || []).map(x => `${x.name} | ${x.url}`).join('\n');
+      q('servicesInput').value = (appData.services || []).map(x => `${x.label} | ${x.message}`).join('\n');
+    }
+    function renderUnitsList() {
+      const root = q('unitsList');
+      root.innerHTML = '';
+      if (!appData.units.length) {
+        root.innerHTML = '<div class="list-box">لا توجد وحدات حتى الآن.</div>';
+        return;
       }
+      appData.units.forEach(unit => {
+        const div = document.createElement('div');
+        div.className = 'unit-item';
+        const url = getGuestUrl(unit.id);
+        div.innerHTML = `
+          <div class="unit-head">
+            <div>
+              <div class="unit-title">${escapeHtml(unit.name)}</div>
+              <div class="unit-meta">المعرّف: ${escapeHtml(unit.id)} — WiFi: ${escapeHtml(unit.wifiName)}</div>
+            </div>
+            <div class="unit-actions">
+              <button class="btn btn-soft" data-preview="${escapeHtml(unit.id)}">معاينة</button>
+              <button class="btn btn-primary" data-copy="${escapeHtml(unit.id)}">نسخ الرابط</button>
+              <button class="btn btn-soft" data-edit="${escapeHtml(unit.id)}">تعديل</button>
+              <button class="btn btn-danger" data-delete="${escapeHtml(unit.id)}">حذف</button>
+            </div>
+          </div>
+          <div class="list-box"><strong>رابط الضيف:</strong><br>${escapeHtml(url)}</div>
+        `;
+        root.appendChild(div);
+      });
+      root.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const url = getGuestUrl(btn.dataset.copy);
+          try {
+            await navigator.clipboard.writeText(url);
+            alert('تم نسخ الرابط');
+          } catch {
+            alert(url);
+          }
+        });
+      });
+      root.querySelectorAll('[data-preview]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          history.replaceState(null, '', `?view=guest&unit=${encodeURIComponent(btn.dataset.preview)}`);
+          showGuest(btn.dataset.preview);
+        });
+      });
+      root.querySelectorAll('[data-delete]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!confirm('حذف هذه الوحدة؟')) return;
+          appData.units = appData.units.filter(u => u.id !== btn.dataset.delete);
+          saveData();
+          renderUnitsList();
+        });
+      });
+      root.querySelectorAll('[data-edit]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const unit = appData.units.find(u => u.id === btn.dataset.edit);
+          if (!unit) return;
+          q('unitIdInput').value = unit.id;
+          q('unitNameInput').value = unit.name;
+          q('unitWifiNameInput').value = unit.wifiName;
+          q('unitWifiPasswordInput').value = unit.wifiPassword;
+          q('unitCheckInInput').value = unit.checkIn;
+          q('unitCheckOutInput').value = unit.checkOut;
+          window.scrollTo({ top: document.body.scrollHeight * 0.45, behavior: 'smooth' });
+        });
+      });
+    }
+    function savePropertyData() {
+      appData.property = {
+        name: q('propertyNameInput').value.trim() || 'منشأة جديدة',
+        type: q('propertyTypeInput').value.trim() || 'فندق',
+        phone: q('propertyPhoneInput').value.trim() || '966500000000',
+        frontDeskPhone: q('frontDeskPhoneInput').value.trim() || q('propertyPhoneInput').value.trim() || '966500000000',
+        emergencyPhone: q('emergencyPhoneInput').value.trim() || q('propertyPhoneInput').value.trim() || '966500000000',
+        locationUrl: q('locationUrlInput').value.trim() || 'https://maps.google.com',
+        feedbackUrl: q('feedbackUrlInput').value.trim() || '#',
+        heroTitle: q('heroTitleInput').value.trim() || 'كل ما يحتاجه الضيف خلال إقامته',
+        heroDesc: q('heroDescInput').value.trim() || 'من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد.',
+        heroDesc2: q('heroDesc2Input').value.trim() || 'هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة.',
+        qrText: q('qrTextInput').value.trim() || '📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة'
+      };
+      appData.checkinInstructions = splitLines(q('checkinInstructionsInput').value);
+      appData.rules = splitLines(q('rulesInput').value);
+      appData.faqs = parseFaqs(q('faqsInput').value);
+      appData.places = parsePlaces(q('placesInput').value);
+      appData.services = parseServices(q('servicesInput').value);
+      if (!appData.checkinInstructions.length) appData.checkinInstructions = structuredClone(DEFAULT_DATA.checkinInstructions);
+      if (!appData.rules.length) appData.rules = structuredClone(DEFAULT_DATA.rules);
+      if (!appData.faqs.length) appData.faqs = structuredClone(DEFAULT_DATA.faqs);
+      if (!appData.places.length) appData.places = structuredClone(DEFAULT_DATA.places);
+      if (!appData.services.length) appData.services = structuredClone(DEFAULT_DATA.services);
+      saveData();
+      renderUnitsList();
+      alert('تم حفظ بيانات المنشأة');
+    }
+    function clearUnitFields() {
+      q('unitIdInput').value = '';
+      q('unitNameInput').value = '';
+      q('unitWifiNameInput').value = '';
+      q('unitWifiPasswordInput').value = '';
+      q('unitCheckInInput').value = '';
+      q('unitCheckOutInput').value = '';
+    }
+    function addOrUpdateUnit() {
+      const id = q('unitIdInput').value.trim();
+      const name = q('unitNameInput').value.trim();
+      if (!id || !name) {
+        alert('اكتب معرّف الوحدة واسم الوحدة أولًا');
+        return;
+      }
+      const unit = {
+        id,
+        name,
+        wifiName: q('unitWifiNameInput').value.trim() || 'UnitWiFi',
+        wifiPassword: q('unitWifiPasswordInput').value.trim() || '12345678',
+        checkIn: q('unitCheckInInput').value.trim() || '3:00 مساءً',
+        checkOut: q('unitCheckOutInput').value.trim() || '12:00 ظهرًا'
+      };
+      const idx = appData.units.findIndex(u => u.id === id);
+      if (idx >= 0) appData.units[idx] = unit; else appData.units.push(unit);
+      saveData();
+      renderUnitsList();
+      clearUnitFields();
+      alert('تم حفظ الوحدة');
+    }
+    function renderList(listId, items, renderItem) {
+      const root = q(listId);
+      root.innerHTML = '';
+      items.forEach(item => root.appendChild(renderItem(item)));
+    }
+    function showGuest(unitId) {
+      const unit = appData.units.find(u => u.id === unitId) || appData.units[0];
+      if (!unit) {
+        alert('لا توجد وحدات محفوظة بعد');
+        history.replaceState(null, '', '?view=admin');
+        showAdmin();
+        return;
+      }
+      q('adminView').classList.add('hidden');
+      q('guestView').classList.remove('hidden');
+      q('showAdminBtn').classList.remove('hidden');
+      q('showGuestBtn').classList.add('hidden');
+      q('modeLabel').textContent = `${appData.property.name} — ${unit.name}`;
 
-      renderList('heroList', data.heroItems, item => {
+      q('guestHeroTitle').textContent = appData.property.heroTitle;
+      q('guestHeroDesc').textContent = appData.property.heroDesc;
+      q('guestHeroDesc2').textContent = appData.property.heroDesc2;
+      q('guestPropertyChip').textContent = `${appData.property.type === 'فندق' ? '🏨' : '🏠'} ${appData.property.name}`;
+      q('guestUnitChip').textContent = `🚪 ${unit.name}`;
+      q('guestQrText').textContent = appData.property.qrText;
+      q('guestWifiName').textContent = unit.wifiName;
+      q('guestWifiPassword').textContent = unit.wifiPassword;
+      q('guestCheckIn').textContent = unit.checkIn;
+      q('guestCheckOut').textContent = unit.checkOut;
+      q('guestPropertyName').textContent = appData.property.name;
+      q('guestPropertyType').textContent = appData.property.type;
+      q('guestUnitName').textContent = unit.name;
+      q('guestPropertyPhone').textContent = appData.property.phone;
+      q('guestLocationBtn').href = appData.property.locationUrl;
+      q('guestFeedbackBtn').href = appData.property.feedbackUrl || '#';
+      q('guestEmergencyBtn').href = `tel:${appData.property.emergencyPhone}`;
+      q('guestFrontDeskBtn').href = `tel:${appData.property.frontDeskPhone}`;
+      q('guestFloatingEmergency').href = `tel:${appData.property.emergencyPhone}`;
+      q('guestWifiHelpBtn').href = waLink(appData.property.phone, `السلام عليكم، أنا من ${unit.name} وأحتاج مساعدة بخصوص الواي فاي. شكرًا لكم.`);
+
+      const heroItems = ['📶 بيانات الواي فاي', '🕒 وقت الدخول والخروج', '🔑 تعليمات الدخول', '🛎️ طلب الخدمات بضغطة زر', '🚨 الطوارئ والتواصل السريع', '📍 دليل الأماكن القريبة'];
+      renderList('guestHeroList', heroItems, item => {
         const li = document.createElement('li');
-        li.textContent = item;
-        return li;
+        li.textContent = item; return li;
       });
-      renderList('checkinSteps', data.checkinInstructions, item => createLi(item));
-      renderList('rulesList', data.rules, item => createLi(item));
-      renderList('serviceGrid', data.services, item => {
-        const a = document.createElement('a');
-        a.className = 'btn btn-soft';
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.href = whatsappLink(data.propertyPhone, item.text);
-        a.textContent = item.label;
-        return a;
-      });
-      renderList('placesGrid', data.places, item => {
+      renderList('guestCheckinSteps', appData.checkinInstructions, item => { const li = document.createElement('li'); li.textContent = item; return li; });
+      renderList('guestRulesList', appData.rules, item => { const li = document.createElement('li'); li.textContent = item; return li; });
+      renderList('guestPlacesGrid', appData.places, item => {
         const a = document.createElement('a');
         a.className = 'place-link';
         a.href = item.url;
@@ -841,76 +735,64 @@
         a.textContent = item.name;
         return a;
       });
-      renderList('faqWrap', data.faqs, item => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'faq-item';
-        wrapper.innerHTML = `<div class="faq-q">${item.q}</div><div class="faq-a">${item.a}</div>`;
-        return wrapper;
+      renderList('guestFaqWrap', appData.faqs, item => {
+        const div = document.createElement('div');
+        div.className = 'faq-item';
+        div.innerHTML = `<div class="faq-q">${escapeHtml(item.q)}</div><div class="faq-a">${escapeHtml(item.a)}</div>`;
+        return div;
+      });
+      renderList('guestServiceGrid', appData.services, item => {
+        const a = document.createElement('a');
+        a.className = 'btn btn-soft';
+        const msg = item.message.replaceAll('{{unit}}', unit.name).replaceAll('{{property}}', appData.property.name);
+        a.href = waLink(appData.property.phone, msg);
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = item.label;
+        return a;
       });
     }
-
-    function currentBaseUrl() {
-      return window.location.origin + window.location.pathname;
+    function showAdmin() {
+      q('guestView').classList.add('hidden');
+      q('adminView').classList.remove('hidden');
+      q('showAdminBtn').classList.add('hidden');
+      q('showGuestBtn').classList.remove('hidden');
+      q('modeLabel').textContent = 'نظام إدارة + صفحة ضيف';
+    }
+    function loadSample() {
+      appData = structuredClone(DEFAULT_DATA);
+      saveData();
+      renderAdminForm();
+      renderUnitsList();
+      alert('تم تحميل المثال الجاهز');
     }
 
-    function generateShareLink(data) {
-      const encoded = encodeConfig(data);
-      return `${currentBaseUrl()}#cfg=${encoded}`;
-    }
-
-    const setupPanelWrap = document.getElementById('setupPanelWrap');
-    document.getElementById('openSetupBtn').addEventListener('click', () => setupPanelWrap.classList.add('show'));
-    document.getElementById('closeSetupBtn').addEventListener('click', () => setupPanelWrap.classList.remove('show'));
-
-    document.getElementById('generateBtn').addEventListener('click', () => {
-      const data = collectFormData();
-      const link = generateShareLink(data);
-      document.getElementById('generatedLink').textContent = link;
-      localStorage.setItem('hostflow_last_config', JSON.stringify(data));
+    q('savePropertyBtn').addEventListener('click', savePropertyData);
+    q('loadSampleBtn').addEventListener('click', loadSample);
+    q('addUnitBtn').addEventListener('click', addOrUpdateUnit);
+    q('clearUnitBtn').addEventListener('click', clearUnitFields);
+    q('showAdminBtn').addEventListener('click', () => {
+      history.replaceState(null, '', '?view=admin');
+      showAdmin();
+    });
+    q('showGuestBtn').addEventListener('click', () => {
+      const first = appData.units[0];
+      if (!first) return alert('أضف وحدة أولًا');
+      history.replaceState(null, '', `?view=guest&unit=${encodeURIComponent(first.id)}`);
+      showGuest(first.id);
     });
 
-    document.getElementById('applyBtn').addEventListener('click', () => {
-      const data = collectFormData();
-      renderProperty(data);
-      const link = generateShareLink(data);
-      document.getElementById('generatedLink').textContent = link;
-      localStorage.setItem('hostflow_last_config', JSON.stringify(data));
-      history.replaceState(null, '', `#cfg=${encodeConfig(data)}`);
-      setupPanelWrap.classList.remove('show');
-    });
+    renderAdminForm();
+    renderUnitsList();
 
-    document.getElementById('copyLinkBtn').addEventListener('click', async () => {
-      const data = collectFormData();
-      const link = generateShareLink(data);
-      document.getElementById('generatedLink').textContent = link;
-      try {
-        await navigator.clipboard.writeText(link);
-        alert('تم نسخ الرابط');
-      } catch {
-        alert('انسخ الرابط يدويًا من الصندوق');
-      }
-    });
-
-    document.getElementById('saveLocalBtn').addEventListener('click', () => {
-      const data = collectFormData();
-      localStorage.setItem('hostflow_last_config', JSON.stringify(data));
-      alert('تم حفظ بيانات هذه المنشأة على هذا الجهاز');
-    });
-
-    const hash = window.location.hash || '';
-    let activeData = DEFAULT_DATA;
-    if (hash.startsWith('#cfg=')) {
-      const decoded = decodeConfig(hash.replace('#cfg=', ''));
-      if (decoded) activeData = decoded;
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+    const unit = params.get('unit');
+    if (view === 'guest' && unit) {
+      showGuest(unit);
     } else {
-      const saved = localStorage.getItem('hostflow_last_config');
-      if (saved) {
-        try { activeData = JSON.parse(saved); } catch {}
-      }
-      document.getElementById('demoNotice').classList.add('show');
+      showAdmin();
     }
-    renderProperty(activeData);
-    fillForm(activeData);
   </script>
 </body>
 </html>
