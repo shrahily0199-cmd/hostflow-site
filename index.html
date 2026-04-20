@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Host Flow AI - صفحة الضيف</title>
-  <meta name="description" content="نظام ضيافة ذكي للفنادق والشقق - صفحة ضيف تفاعلية تغني عن الهاتف وتجمع كل ما يحتاجه الضيف في مكان واحد." />
+  <title>Host Flow AI</title>
+  <meta name="description" content="نظام ضيافة ذكي للفنادق والشقق - صفحة ضيف تتكوّن تلقائيًا من بيانات المنشأة." />
   <style>
     :root {
       --bg: #f4f7fb;
@@ -25,7 +25,6 @@
     }
 
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
@@ -33,9 +32,8 @@
       color: var(--text);
       line-height: 1.7;
     }
-
     a { color: inherit; }
-
+    .hidden { display: none !important; }
     .container {
       width: min(1120px, calc(100% - 28px));
       margin: 0 auto;
@@ -50,7 +48,6 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       color: #fff;
     }
-
     .topbar-inner {
       min-height: 70px;
       display: flex;
@@ -58,30 +55,26 @@
       justify-content: space-between;
       gap: 16px;
     }
-
     .brand-wrap {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
-
     .brand {
       font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: 0.2px;
     }
-
     .property-mini {
       font-size: 0.85rem;
       color: rgba(255,255,255,0.78);
     }
-
     .topbar-actions {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
-
     .badge {
       display: inline-flex;
       align-items: center;
@@ -94,16 +87,14 @@
       color: #fff;
       text-decoration: none;
       white-space: nowrap;
+      cursor: pointer;
     }
-
-    .badge.hidden { display: none; }
 
     .hero {
       background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
       color: #fff;
       padding: 28px 0 46px;
     }
-
     .hero-grid {
       display: grid;
       grid-template-columns: 1.25fr 0.95fr;
@@ -111,27 +102,23 @@
       align-items: stretch;
       margin-top: 24px;
     }
-
     .hero-main h1 {
       margin: 0 0 12px;
       font-size: clamp(2rem, 4vw, 3.6rem);
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
-
     .hero-main p {
       margin: 0 0 14px;
       color: rgba(255,255,255,0.9);
       font-size: 1.05rem;
     }
-
     .hero-chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 18px;
     }
-
     .hero-chip {
       padding: 10px 14px;
       border-radius: 999px;
@@ -140,7 +127,6 @@
       font-size: 0.92rem;
       color: #fff;
     }
-
     .hero-card {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.15);
@@ -149,12 +135,10 @@
       backdrop-filter: blur(8px);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
-
     .hero-card h3 {
       margin: 0 0 14px;
       font-size: 1.04rem;
     }
-
     .hero-list {
       display: grid;
       gap: 11px;
@@ -164,31 +148,19 @@
       color: rgba(255,255,255,0.92);
       font-size: 0.96rem;
     }
-
     .hero-list li {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    main {
-      padding: 26px 0 70px;
-    }
-
+    main { padding: 26px 0 70px; }
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
       margin-bottom: 18px;
     }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
     .card {
       background: var(--card);
       border: 1px solid var(--line);
@@ -196,39 +168,33 @@
       box-shadow: var(--shadow);
       padding: 22px;
     }
-
     .section-title {
       margin: 0 0 16px;
       font-size: 1.22rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
-
     .section-subtitle {
       margin: -4px 0 16px;
       color: var(--muted);
       font-size: 0.96rem;
     }
-
     .info-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
-
     .info-box {
       background: #fafcff;
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 14px;
     }
-
     .info-box strong {
       display: block;
       margin-bottom: 4px;
       color: var(--text);
     }
-
     .muted { color: var(--muted); }
 
     .action-grid {
@@ -236,7 +202,6 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
-
     .btn {
       display: inline-flex;
       justify-content: center;
@@ -252,45 +217,25 @@
       text-align: center;
       cursor: pointer;
     }
-
     .btn:hover { transform: translateY(-1px); }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .btn-soft {
-      background: var(--primary-soft);
-      color: var(--primary-dark);
-      border-color: #d9e7ff;
-    }
-    .btn-danger {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border-color: #ffd9df;
-    }
-    .btn-success {
-      background: var(--success-soft);
-      color: var(--success);
-      border-color: #d0f5f0;
-    }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-soft { background: var(--primary-soft); color: var(--primary-dark); border-color: #d9e7ff; }
+    .btn-danger { background: var(--danger-soft); color: var(--danger); border-color: #ffd9df; }
+    .btn-success { background: var(--success-soft); color: var(--success); border-color: #d0f5f0; }
+    .btn-dark { background: var(--dark); color: #fff; border-color: var(--dark); }
 
     .steps, .rules-list {
       margin: 0;
       padding-right: 18px;
       color: var(--muted);
     }
-
-    .steps li, .rules-list li {
-      margin-bottom: 10px;
-    }
+    .steps li, .rules-list li { margin-bottom: 10px; }
 
     .place-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
-
     .place-link {
       display: block;
       text-decoration: none;
@@ -306,17 +251,8 @@
       padding: 14px 0;
       border-top: 1px solid var(--line);
     }
-
-    .faq-item:first-child {
-      border-top: 0;
-      padding-top: 0;
-    }
-
-    .faq-q {
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
+    .faq-item:first-child { border-top: 0; padding-top: 0; }
+    .faq-q { font-weight: 800; margin-bottom: 6px; }
     .faq-a { color: var(--muted); }
 
     .footer-note {
@@ -325,7 +261,6 @@
       margin-top: 20px;
       font-size: 0.95rem;
     }
-
     .legal-links {
       display: flex;
       justify-content: center;
@@ -362,13 +297,88 @@
       margin-bottom: 18px;
       display: none;
     }
-
     .notice.show { display: block; }
 
+    .panel-wrap {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      z-index: 2000;
+      padding: 18px;
+      overflow: auto;
+      display: none;
+    }
+    .panel-wrap.show { display: block; }
+    .panel {
+      width: min(980px, 100%);
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 30px 60px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 18px 22px;
+      background: var(--dark);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .panel-body { padding: 22px; }
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .field label {
+      font-weight: 700;
+      font-size: 0.94rem;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      background: #fff;
+    }
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .output-box {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.95rem;
+      word-break: break-all;
+      min-height: 66px;
+    }
+    .panel-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
     @media (max-width: 960px) {
-      .hero-grid, .grid-2, .grid-3, .action-grid, .info-grid, .place-grid {
+      .hero-grid, .grid-2, .action-grid, .info-grid, .place-grid, .panel-grid {
         grid-template-columns: 1fr;
       }
+      .topbar-inner { min-height: 78px; }
     }
   </style>
 </head>
@@ -380,6 +390,7 @@
         <div class="property-mini" id="propertyMini">نظام ضيافة ذكي</div>
       </div>
       <div class="topbar-actions">
+        <button class="badge" id="openSetupBtn" type="button">⚙️ إعداد المنشأة</button>
         <a class="badge" id="langBadge" href="#" aria-disabled="true">English قريبًا</a>
         <a class="badge" id="contactBadge" href="#">تواصل سريع</a>
       </div>
@@ -408,28 +419,16 @@
 
   <main>
     <div class="container">
-      <div id="demoNotice" class="notice">أنت تعرض النسخة العامة. لإظهار منشأة محددة استخدم الرابط مع اسم المنشأة مثل: <strong>?property=demo-hotel</strong></div>
+      <div id="demoNotice" class="notice">هذه صفحة قابلة للتخصيص تلقائيًا. اضغط <strong>إعداد المنشأة</strong> واملأ البيانات، ثم انسخ الرابط الناتج وأرسله للضيف أو ضع له QR داخل الغرفة.</div>
 
       <div class="grid-2">
         <section class="card">
           <h2 class="section-title">📶 المعلومات الأساسية</h2>
           <div class="info-grid">
-            <div class="info-box">
-              <strong>اسم الشبكة</strong>
-              <span id="wifiName">HotelWiFi</span>
-            </div>
-            <div class="info-box">
-              <strong>كلمة المرور</strong>
-              <span id="wifiPassword">12345678</span>
-            </div>
-            <div class="info-box">
-              <strong>وقت الدخول</strong>
-              <span id="checkIn">3:00 مساءً</span>
-            </div>
-            <div class="info-box">
-              <strong>وقت الخروج</strong>
-              <span id="checkOut">12:00 ظهرًا</span>
-            </div>
+            <div class="info-box"><strong>اسم الشبكة</strong><span id="wifiName">HotelWiFi</span></div>
+            <div class="info-box"><strong>كلمة المرور</strong><span id="wifiPassword">12345678</span></div>
+            <div class="info-box"><strong>وقت الدخول</strong><span id="checkIn">3:00 مساءً</span></div>
+            <div class="info-box"><strong>وقت الخروج</strong><span id="checkOut">12:00 ظهرًا</span></div>
           </div>
           <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
             <a class="btn btn-primary" id="locationBtn" href="https://maps.google.com" target="_blank" rel="noopener">📍 فتح الموقع</a>
@@ -489,22 +488,10 @@
         <section class="card">
           <h2 class="section-title">ℹ️ معلومات المنشأة</h2>
           <div class="info-grid">
-            <div class="info-box">
-              <strong>اسم المنشأة</strong>
-              <span id="propertyNameBox">فندق تجريبي</span>
-            </div>
-            <div class="info-box">
-              <strong>نوع المنشأة</strong>
-              <span id="propertyTypeBox">فندق</span>
-            </div>
-            <div class="info-box">
-              <strong>رقم التواصل</strong>
-              <span id="propertyPhoneBox">+966000000000</span>
-            </div>
-            <div class="info-box">
-              <strong>رقم الاستقبال</strong>
-              <span id="frontDeskBox">+966000000000</span>
-            </div>
+            <div class="info-box"><strong>اسم المنشأة</strong><span id="propertyNameBox">فندق تجريبي</span></div>
+            <div class="info-box"><strong>نوع المنشأة</strong><span id="propertyTypeBox">فندق</span></div>
+            <div class="info-box"><strong>رقم التواصل</strong><span id="propertyPhoneBox">+966000000000</span></div>
+            <div class="info-box"><strong>رقم الاستقبال</strong><span id="frontDeskBox">+966000000000</span></div>
           </div>
         </section>
       </div>
@@ -521,165 +508,279 @@
 
   <a class="floating-emergency" id="floatingEmergency" href="tel:+966000000000" title="اتصال طارئ">🚨</a>
 
+  <div class="panel-wrap" id="setupPanelWrap">
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <strong>إعداد المنشأة</strong>
+          <div style="font-size:0.9rem; opacity:0.85;">املأ البيانات مرة واحدة وسينتج لك رابط جاهز</div>
+        </div>
+        <button class="badge" id="closeSetupBtn" type="button">إغلاق</button>
+      </div>
+      <div class="panel-body">
+        <div class="panel-grid">
+          <div>
+            <div class="field">
+              <label for="fPropertyName">اسم المنشأة</label>
+              <input id="fPropertyName" type="text" placeholder="مثال: فندق المستقبل" />
+            </div>
+            <div class="field">
+              <label for="fPropertyType">نوع المنشأة</label>
+              <select id="fPropertyType">
+                <option>فندق</option>
+                <option>شقق مفروشة</option>
+                <option>شاليه</option>
+                <option>منتجع</option>
+                <option>فيلا</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="fWifiName">اسم شبكة الواي فاي</label>
+              <input id="fWifiName" type="text" placeholder="اسم الشبكة" />
+            </div>
+            <div class="field">
+              <label for="fWifiPassword">كلمة مرور الواي فاي</label>
+              <input id="fWifiPassword" type="text" placeholder="كلمة المرور" />
+            </div>
+            <div class="field">
+              <label for="fCheckIn">وقت الدخول</label>
+              <input id="fCheckIn" type="text" placeholder="مثال: 3:00 مساءً" />
+            </div>
+            <div class="field">
+              <label for="fCheckOut">وقت الخروج</label>
+              <input id="fCheckOut" type="text" placeholder="مثال: 12:00 ظهرًا" />
+            </div>
+            <div class="field">
+              <label for="fLocation">رابط الموقع من خرائط Google</label>
+              <input id="fLocation" type="url" placeholder="https://maps.google.com/..." />
+            </div>
+            <div class="field">
+              <label for="fPropertyPhone">رقم واتساب / التواصل الرئيسي</label>
+              <input id="fPropertyPhone" type="text" placeholder="9665XXXXXXXX" />
+            </div>
+            <div class="field">
+              <label for="fFrontDeskPhone">رقم الاستقبال</label>
+              <input id="fFrontDeskPhone" type="text" placeholder="9665XXXXXXXX" />
+            </div>
+            <div class="field">
+              <label for="fEmergencyPhone">رقم الطوارئ</label>
+              <input id="fEmergencyPhone" type="text" placeholder="9665XXXXXXXX" />
+            </div>
+            <div class="field">
+              <label for="fFeedbackUrl">رابط التقييم</label>
+              <input id="fFeedbackUrl" type="url" placeholder="رابط Google Form أو أي نموذج تقييم" />
+            </div>
+          </div>
+
+          <div>
+            <div class="field">
+              <label for="fCheckinInstructions">تعليمات الدخول</label>
+              <textarea id="fCheckinInstructions" placeholder="كل سطر تعليمات مستقلة"></textarea>
+              <div class="hint">اكتب كل تعليمات في سطر مستقل</div>
+            </div>
+            <div class="field">
+              <label for="fRules">القوانين</label>
+              <textarea id="fRules" placeholder="كل سطر قانون مستقل"></textarea>
+            </div>
+            <div class="field">
+              <label for="fFaqs">الأسئلة الشائعة</label>
+              <textarea id="fFaqs" placeholder="كل سطر بالشكل: السؤال | الجواب"></textarea>
+              <div class="hint">مثال: هل يوجد موقف؟ | نعم، يوجد موقف متوفر</div>
+            </div>
+            <div class="field">
+              <label for="fPlaces">الأماكن القريبة</label>
+              <textarea id="fPlaces" placeholder="كل سطر بالشكل: الاسم | الرابط"></textarea>
+              <div class="hint">مثال: 🍽️ مطاعم | https://maps.google.com/...</div>
+            </div>
+            <div class="field">
+              <label for="fHeroLine">سطر تعريفي قصير</label>
+              <input id="fHeroLine" type="text" placeholder="مثال: كل ما يحتاجه الضيف خلال إقامته" />
+            </div>
+            <div class="field">
+              <label for="fHeroLine2">سطر تعريفي ثاني</label>
+              <input id="fHeroLine2" type="text" placeholder="مثال: من معلومات الدخول إلى طلب الخدمات..." />
+            </div>
+            <div class="field">
+              <label for="fHeroLine3">سطر تعريفي ثالث</label>
+              <input id="fHeroLine3" type="text" placeholder="مثال: الصفحة تغني عن هاتف الغرفة" />
+            </div>
+            <div class="field">
+              <label for="fQrText">نص QR</label>
+              <input id="fQrText" type="text" placeholder="مثال: امسح رمز QR داخل الغرفة..." />
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button class="btn btn-dark" type="button" id="generateBtn">إنشاء الرابط</button>
+          <button class="btn btn-soft" type="button" id="applyBtn">تجربة مباشرة</button>
+          <button class="btn btn-success" type="button" id="copyLinkBtn">نسخ الرابط</button>
+          <button class="btn btn-soft" type="button" id="saveLocalBtn">حفظ هذه البيانات على هذا الجهاز</button>
+        </div>
+
+        <div style="margin-top:18px;">
+          <div class="field">
+            <label>الرابط الناتج</label>
+            <div class="output-box" id="generatedLink">سيظهر هنا الرابط بعد تعبئة البيانات والضغط على إنشاء الرابط</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const PROPERTY_DATA = {
-      "demo-hotel": {
-        brandName: "Host Flow AI",
-        propertyName: "فندق المستقبل",
-        propertyType: "فندق",
-        heroTitle: "كل ما يحتاجه الضيف خلال إقامته",
-        heroDesc: "من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.",
-        heroDesc2: "هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.",
-        qrText: "📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت",
-        propertyChip: "🏨 فندق المستقبل",
-        wifiName: "FutureHotelWiFi",
-        wifiPassword: "12345678",
-        checkIn: "3:00 مساءً",
-        checkOut: "12:00 ظهرًا",
-        locationUrl: "https://maps.google.com",
-        propertyPhone: "+966500000001",
-        frontDeskPhone: "+966500000002",
-        emergencyPhone: "+966500000003",
-        whatsappBase: "+966500000001",
-        feedbackUrl: "https://forms.gle/",
-        englishEnabled: false,
-        englishUrl: "#",
-        heroItems: [
-          "📶 بيانات الواي فاي",
-          "🕒 وقت الدخول والخروج",
-          "🔑 تعليمات الدخول",
-          "🛎️ طلب الخدمات بضغطة زر",
-          "🚨 الطوارئ والتواصل السريع",
-          "📍 دليل الأماكن القريبة"
-        ],
-        checkinInstructions: [
-          "توجه إلى الموقع باستخدام الخريطة.",
-          "استخدم الرمز أو المفتاح الخاص بك للدخول.",
-          "تأكد من إغلاق الباب جيدًا بعد الدخول.",
-          "في حال واجهت أي مشكلة، استخدم زر طلب مساعدة أو اتصل بنا مباشرة."
-        ],
-        services: [
-          { label: "🧹 طلب تنظيف", text: "أحتاج تنظيف" },
-          { label: "🛁 طلب مناشف", text: "أحتاج مناشف" },
-          { label: "❄️ مشكلة في التكييف", text: "عندي مشكلة في التكييف" },
-          { label: "🔧 صيانة", text: "أحتاج صيانة" },
-          { label: "❓ طلب مساعدة", text: "أحتاج مساعدة" },
-          { label: "💬 استفسار عام", text: "عندي استفسار" }
-        ],
-        rules: [
-          "يمنع الإزعاج بعد الساعة 10 مساءً.",
-          "يمنع التدخين داخل الوحدة.",
-          "يرجى المحافظة على نظافة المكان.",
-          "الالتزام بوقت تسجيل الخروج."
-        ],
-        places: [
-          { name: "🍽️ مطاعم", url: "https://maps.google.com" },
-          { name: "☕ كافيهات", url: "https://maps.google.com" },
-          { name: "🛒 سوبر ماركت", url: "https://maps.google.com" },
-          { name: "🏥 مستشفى", url: "https://maps.google.com" }
-        ],
-        faqs: [
-          { q: "كيف أطلب خدمة؟", a: "من قسم طلب خدمة اختر الزر المناسب وسيتم توجيهك مباشرة للتواصل." },
-          { q: "هل يوجد موقف؟", a: "نعم، يوجد موقف متوفر." },
-          { q: "هل يمكن التمديد؟", a: "حسب التوفر، يرجى التواصل معنا." }
-        ]
-      },
-      "demo-apartment": {
-        brandName: "Host Flow AI",
-        propertyName: "شقق النخبة",
-        propertyType: "شقق مفروشة",
-        heroTitle: "دليل الإقامة الذكي للضيف",
-        heroDesc: "كل المعلومات والخدمات المهمة للضيف داخل صفحة واحدة بسيطة وسريعة.",
-        heroDesc2: "مناسبة للشقق المفروشة والوحدات اليومية لتقليل الاتصالات والأسئلة المتكررة.",
-        qrText: "📷 امسح رمز QR داخل الشقة للوصول لهذه الصفحة في أي وقت",
-        propertyChip: "🏠 شقق النخبة",
-        wifiName: "EliteStay",
-        wifiPassword: "88997766",
-        checkIn: "4:00 مساءً",
-        checkOut: "11:00 صباحًا",
-        locationUrl: "https://maps.google.com",
-        propertyPhone: "+966511111111",
-        frontDeskPhone: "+966522222222",
-        emergencyPhone: "+966533333333",
-        whatsappBase: "+966511111111",
-        feedbackUrl: "https://forms.gle/",
-        englishEnabled: false,
-        englishUrl: "#",
-        heroItems: [
-          "📶 الواي فاي ومعلومات الإقامة",
-          "📍 الموقع وتعليمات الوصول",
-          "🛎️ خدمات الشقة",
-          "🔧 الدعم والصيانة",
-          "🚨 الطوارئ",
-          "📍 اقتراحات قريبة"
-        ],
-        checkinInstructions: [
-          "افتح الموقع في الخريطة وتوجه إلى البناية.",
-          "استخدم رمز الدخول أو المفتاح المرسل لك.",
-          "بعد الدخول، تأكد من إغلاق الباب بإحكام.",
-          "عند الحاجة، اطلب مساعدة مباشرة من الصفحة."
-        ],
-        services: [
-          { label: "🧹 طلب تنظيف", text: "أحتاج تنظيف للشقة" },
-          { label: "🛁 طلب مستلزمات", text: "أحتاج مناشف أو مستلزمات" },
-          { label: "❄️ مشكلة في التكييف", text: "لدي مشكلة في التكييف" },
-          { label: "🔧 صيانة", text: "أحتاج صيانة في الشقة" },
-          { label: "❓ طلب مساعدة", text: "أحتاج مساعدة بخصوص الإقامة" },
-          { label: "🚪 مشكلة دخول", text: "لدي مشكلة في الدخول" }
-        ],
-        rules: [
-          "الحفاظ على الهدوء واحترام الجيران.",
-          "يمنع إقامة الحفلات أو التجمعات المزعجة.",
-          "عدم التدخين داخل الوحدة.",
-          "الالتزام بوقت الخروج المحدد."
-        ],
-        places: [
-          { name: "🍽️ مطاعم قريبة", url: "https://maps.google.com" },
-          { name: "☕ كافيهات", url: "https://maps.google.com" },
-          { name: "🛒 بقالة / سوبر ماركت", url: "https://maps.google.com" },
-          { name: "🏥 مركز صحي", url: "https://maps.google.com" }
-        ],
-        faqs: [
-          { q: "كيف أمدد الإقامة؟", a: "تواصل معنا لمعرفة التوفر والسعر." },
-          { q: "هل يوجد موقف؟", a: "يعتمد على الوحدة، يرجى مراجعة التعليمات المرسلة لك." },
-          { q: "كيف أحصل على الواي فاي؟", a: "بيانات الواي فاي موجودة في أعلى الصفحة." }
-        ]
-      }
+    const DEFAULT_DATA = {
+      brandName: 'Host Flow AI',
+      propertyName: 'فندق تجريبي',
+      propertyType: 'فندق',
+      heroTitle: 'كل ما يحتاجه الضيف خلال إقامته',
+      heroDesc: 'من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد وبدون مكالمات متكررة.',
+      heroDesc2: 'هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.',
+      qrText: '📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت',
+      propertyChip: '🏨 منشأة ذكية',
+      wifiName: 'HotelWiFi',
+      wifiPassword: '12345678',
+      checkIn: '3:00 مساءً',
+      checkOut: '12:00 ظهرًا',
+      locationUrl: 'https://maps.google.com',
+      propertyPhone: '+966000000000',
+      frontDeskPhone: '+966000000000',
+      emergencyPhone: '+966000000000',
+      feedbackUrl: '#',
+      englishEnabled: false,
+      englishUrl: '#',
+      heroItems: ['📶 بيانات الواي فاي','🕒 وقت الدخول والخروج','🔑 تعليمات الدخول','🛎️ طلب الخدمات بضغطة زر','🚨 الطوارئ والتواصل السريع','📍 دليل الأماكن القريبة'],
+      checkinInstructions: ['توجه إلى الموقع باستخدام الخريطة.','استخدم الرمز أو المفتاح الخاص بك للدخول.','تأكد من إغلاق الباب جيدًا بعد الدخول.','في حال واجهت أي مشكلة، استخدم زر طلب مساعدة أو اتصل بنا مباشرة.'],
+      services: [
+        { label: '🧹 طلب تنظيف', text: 'أحتاج تنظيف' },
+        { label: '🛁 طلب مناشف', text: 'أحتاج مناشف' },
+        { label: '❄️ مشكلة في التكييف', text: 'عندي مشكلة في التكييف' },
+        { label: '🔧 صيانة', text: 'أحتاج صيانة' },
+        { label: '❓ طلب مساعدة', text: 'أحتاج مساعدة' },
+        { label: '💬 استفسار عام', text: 'عندي استفسار' }
+      ],
+      rules: ['يمنع الإزعاج بعد الساعة 10 مساءً.','يمنع التدخين داخل الوحدة.','يرجى المحافظة على نظافة المكان.','الالتزام بوقت تسجيل الخروج.'],
+      places: [
+        { name: '🍽️ مطاعم', url: 'https://maps.google.com' },
+        { name: '☕ كافيهات', url: 'https://maps.google.com' },
+        { name: '🛒 سوبر ماركت', url: 'https://maps.google.com' },
+        { name: '🏥 مستشفى', url: 'https://maps.google.com' }
+      ],
+      faqs: [
+        { q: 'كيف أطلب خدمة؟', a: 'من قسم طلب خدمة اختر الزر المناسب وسيتم توجيهك مباشرة للتواصل.' },
+        { q: 'هل يوجد موقف؟', a: 'نعم، يوجد موقف متوفر.' },
+        { q: 'هل يمكن التمديد؟', a: 'حسب التوفر، يرجى التواصل معنا.' }
+      ]
     };
-
-    function getParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-
-    function whatsappLink(number, text) {
-      const clean = String(number || '').replace(/[^\d+]/g, '');
-      return `https://wa.me/${clean.replace('+', '')}?text=${encodeURIComponent(text)}`;
-    }
 
     function setText(id, value) {
       const el = document.getElementById(id);
       if (el) el.textContent = value;
     }
-
     function setHref(id, value) {
       const el = document.getElementById(id);
       if (el) el.href = value;
     }
-
+    function createLi(text) {
+      const li = document.createElement('li');
+      li.textContent = text;
+      return li;
+    }
     function renderList(listId, items, renderItem) {
       const root = document.getElementById(listId);
       if (!root) return;
       root.innerHTML = '';
       items.forEach(item => root.appendChild(renderItem(item)));
     }
-
-    function createLi(text) {
-      const li = document.createElement('li');
-      li.textContent = text;
-      return li;
+    function whatsappLink(number, text) {
+      const clean = String(number || '').replace(/[^\d+]/g, '');
+      return `https://wa.me/${clean.replace('+', '')}?text=${encodeURIComponent(text)}`;
     }
-
+    function encodeConfig(obj) {
+      return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+    }
+    function decodeConfig(str) {
+      try {
+        return JSON.parse(decodeURIComponent(escape(atob(str))));
+      } catch (e) {
+        return null;
+      }
+    }
+    function splitLines(text) {
+      return String(text || '').split('\n').map(s => s.trim()).filter(Boolean);
+    }
+    function parseFaqs(text) {
+      return splitLines(text).map(line => {
+        const parts = line.split('|');
+        return { q: (parts[0] || '').trim(), a: (parts[1] || '').trim() };
+      }).filter(x => x.q && x.a);
+    }
+    function parsePlaces(text) {
+      return splitLines(text).map(line => {
+        const parts = line.split('|');
+        return { name: (parts[0] || '').trim(), url: (parts[1] || '').trim() };
+      }).filter(x => x.name && x.url);
+    }
+    function fillForm(data) {
+      document.getElementById('fPropertyName').value = data.propertyName || '';
+      document.getElementById('fPropertyType').value = data.propertyType || 'فندق';
+      document.getElementById('fWifiName').value = data.wifiName || '';
+      document.getElementById('fWifiPassword').value = data.wifiPassword || '';
+      document.getElementById('fCheckIn').value = data.checkIn || '';
+      document.getElementById('fCheckOut').value = data.checkOut || '';
+      document.getElementById('fLocation').value = data.locationUrl || '';
+      document.getElementById('fPropertyPhone').value = data.propertyPhone || '';
+      document.getElementById('fFrontDeskPhone').value = data.frontDeskPhone || '';
+      document.getElementById('fEmergencyPhone').value = data.emergencyPhone || '';
+      document.getElementById('fFeedbackUrl').value = data.feedbackUrl === '#' ? '' : (data.feedbackUrl || '');
+      document.getElementById('fCheckinInstructions').value = (data.checkinInstructions || []).join('\n');
+      document.getElementById('fRules').value = (data.rules || []).join('\n');
+      document.getElementById('fFaqs').value = (data.faqs || []).map(x => `${x.q} | ${x.a}`).join('\n');
+      document.getElementById('fPlaces').value = (data.places || []).map(x => `${x.name} | ${x.url}`).join('\n');
+      document.getElementById('fHeroLine').value = data.heroTitle || '';
+      document.getElementById('fHeroLine2').value = data.heroDesc || '';
+      document.getElementById('fHeroLine3').value = data.heroDesc2 || '';
+      document.getElementById('fQrText').value = data.qrText || '';
+    }
+    function collectFormData() {
+      const propertyName = document.getElementById('fPropertyName').value.trim() || 'منشأة جديدة';
+      const propertyType = document.getElementById('fPropertyType').value.trim() || 'فندق';
+      const propertyPhone = document.getElementById('fPropertyPhone').value.trim() || '+966000000000';
+      return {
+        brandName: 'Host Flow AI',
+        propertyName,
+        propertyType,
+        heroTitle: document.getElementById('fHeroLine').value.trim() || 'كل ما يحتاجه الضيف خلال إقامته',
+        heroDesc: document.getElementById('fHeroLine2').value.trim() || 'من معلومات الدخول إلى طلب الخدمات والتواصل والطوارئ، كل شيء في مكان واحد.',
+        heroDesc2: document.getElementById('fHeroLine3').value.trim() || 'هذه الصفحة مصممة لتكون بديلًا ذكيًا لهاتف الغرفة وتجعل تجربة الإقامة أوضح وأسهل للضيف.',
+        qrText: document.getElementById('fQrText').value.trim() || '📷 امسح رمز QR داخل الغرفة للوصول لهذه الصفحة في أي وقت',
+        propertyChip: `${propertyType === 'فندق' ? '🏨' : '🏠'} ${propertyName}`,
+        wifiName: document.getElementById('fWifiName').value.trim() || 'HotelWiFi',
+        wifiPassword: document.getElementById('fWifiPassword').value.trim() || '12345678',
+        checkIn: document.getElementById('fCheckIn').value.trim() || '3:00 مساءً',
+        checkOut: document.getElementById('fCheckOut').value.trim() || '12:00 ظهرًا',
+        locationUrl: document.getElementById('fLocation').value.trim() || 'https://maps.google.com',
+        propertyPhone,
+        frontDeskPhone: document.getElementById('fFrontDeskPhone').value.trim() || propertyPhone,
+        emergencyPhone: document.getElementById('fEmergencyPhone').value.trim() || propertyPhone,
+        feedbackUrl: document.getElementById('fFeedbackUrl').value.trim() || '#',
+        englishEnabled: false,
+        englishUrl: '#',
+        heroItems: ['📶 بيانات الواي فاي','🕒 وقت الدخول والخروج','🔑 تعليمات الدخول','🛎️ طلب الخدمات بضغطة زر','🚨 الطوارئ والتواصل السريع','📍 دليل الأماكن القريبة'],
+        checkinInstructions: splitLines(document.getElementById('fCheckinInstructions').value).length ? splitLines(document.getElementById('fCheckinInstructions').value) : DEFAULT_DATA.checkinInstructions,
+        services: [
+          { label: '🧹 طلب تنظيف', text: `أحتاج تنظيف في ${propertyName}` },
+          { label: '🛁 طلب مناشف', text: `أحتاج مناشف في ${propertyName}` },
+          { label: '❄️ مشكلة في التكييف', text: `عندي مشكلة في التكييف في ${propertyName}` },
+          { label: '🔧 صيانة', text: `أحتاج صيانة في ${propertyName}` },
+          { label: '❓ طلب مساعدة', text: `أحتاج مساعدة في ${propertyName}` },
+          { label: '💬 استفسار عام', text: `لدي استفسار بخصوص ${propertyName}` }
+        ],
+        rules: splitLines(document.getElementById('fRules').value).length ? splitLines(document.getElementById('fRules').value) : DEFAULT_DATA.rules,
+        places: parsePlaces(document.getElementById('fPlaces').value).length ? parsePlaces(document.getElementById('fPlaces').value) : DEFAULT_DATA.places,
+        faqs: parseFaqs(document.getElementById('fFaqs').value).length ? parseFaqs(document.getElementById('fFaqs').value) : DEFAULT_DATA.faqs
+      };
+    }
     function renderProperty(data) {
       document.title = `${data.brandName} - ${data.propertyName}`;
       setText('propertyMini', data.propertyName);
@@ -702,7 +803,7 @@
       setHref('emergencyBtn', `tel:${data.emergencyPhone}`);
       setHref('floatingEmergency', `tel:${data.emergencyPhone}`);
       setHref('frontDeskBtn', `tel:${data.frontDeskPhone}`);
-      setHref('feedbackBtn', data.feedbackUrl);
+      setHref('feedbackBtn', data.feedbackUrl || '#');
       setHref('contactBadge', whatsappLink(data.propertyPhone, `مرحباً، لدي استفسار بخصوص ${data.propertyName}`));
       setHref('wifiHelpBtn', whatsappLink(data.propertyPhone, `مرحباً، أحتاج مساعدة بخصوص الواي فاي في ${data.propertyName}`));
 
@@ -710,7 +811,6 @@
       if (data.englishEnabled && data.englishUrl && data.englishUrl !== '#') {
         langBadge.textContent = 'English';
         langBadge.href = data.englishUrl;
-        langBadge.classList.remove('hidden');
       } else {
         langBadge.textContent = 'English قريبًا';
         langBadge.href = '#';
@@ -721,20 +821,17 @@
         li.textContent = item;
         return li;
       });
-
       renderList('checkinSteps', data.checkinInstructions, item => createLi(item));
       renderList('rulesList', data.rules, item => createLi(item));
-
       renderList('serviceGrid', data.services, item => {
         const a = document.createElement('a');
         a.className = 'btn btn-soft';
         a.target = '_blank';
         a.rel = 'noopener';
-        a.href = whatsappLink(data.whatsappBase, item.text);
+        a.href = whatsappLink(data.propertyPhone, item.text);
         a.textContent = item.label;
         return a;
       });
-
       renderList('placesGrid', data.places, item => {
         const a = document.createElement('a');
         a.className = 'place-link';
@@ -744,7 +841,6 @@
         a.textContent = item.name;
         return a;
       });
-
       renderList('faqWrap', data.faqs, item => {
         const wrapper = document.createElement('div');
         wrapper.className = 'faq-item';
@@ -753,13 +849,68 @@
       });
     }
 
-    const propertyKey = getParam('property') || 'demo-hotel';
-    const data = PROPERTY_DATA[propertyKey] || PROPERTY_DATA['demo-hotel'];
-    renderProperty(data);
+    function currentBaseUrl() {
+      return window.location.origin + window.location.pathname;
+    }
 
-    if (!getParam('property')) {
+    function generateShareLink(data) {
+      const encoded = encodeConfig(data);
+      return `${currentBaseUrl()}#cfg=${encoded}`;
+    }
+
+    const setupPanelWrap = document.getElementById('setupPanelWrap');
+    document.getElementById('openSetupBtn').addEventListener('click', () => setupPanelWrap.classList.add('show'));
+    document.getElementById('closeSetupBtn').addEventListener('click', () => setupPanelWrap.classList.remove('show'));
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const data = collectFormData();
+      const link = generateShareLink(data);
+      document.getElementById('generatedLink').textContent = link;
+      localStorage.setItem('hostflow_last_config', JSON.stringify(data));
+    });
+
+    document.getElementById('applyBtn').addEventListener('click', () => {
+      const data = collectFormData();
+      renderProperty(data);
+      const link = generateShareLink(data);
+      document.getElementById('generatedLink').textContent = link;
+      localStorage.setItem('hostflow_last_config', JSON.stringify(data));
+      history.replaceState(null, '', `#cfg=${encodeConfig(data)}`);
+      setupPanelWrap.classList.remove('show');
+    });
+
+    document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+      const data = collectFormData();
+      const link = generateShareLink(data);
+      document.getElementById('generatedLink').textContent = link;
+      try {
+        await navigator.clipboard.writeText(link);
+        alert('تم نسخ الرابط');
+      } catch {
+        alert('انسخ الرابط يدويًا من الصندوق');
+      }
+    });
+
+    document.getElementById('saveLocalBtn').addEventListener('click', () => {
+      const data = collectFormData();
+      localStorage.setItem('hostflow_last_config', JSON.stringify(data));
+      alert('تم حفظ بيانات هذه المنشأة على هذا الجهاز');
+    });
+
+    const hash = window.location.hash || '';
+    let activeData = DEFAULT_DATA;
+    if (hash.startsWith('#cfg=')) {
+      const decoded = decodeConfig(hash.replace('#cfg=', ''));
+      if (decoded) activeData = decoded;
+    } else {
+      const saved = localStorage.getItem('hostflow_last_config');
+      if (saved) {
+        try { activeData = JSON.parse(saved); } catch {}
+      }
       document.getElementById('demoNotice').classList.add('show');
     }
+    renderProperty(activeData);
+    fillForm(activeData);
   </script>
 </body>
 </html>
