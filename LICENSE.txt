@@ -1,1 +1,15 @@
+Copyright (c) 2026 Abdullah Shrahily - Syan Systems
 
+All rights reserved.
+
+This software (HostFlow AI) is the intellectual property of Abdullah Shrahily.
+
+You may NOT:
+- Copy this software
+- Modify it
+- Resell it
+- Distribute it
+
+Without explicit written permission.
+
+Legal action may be taken against violations.
