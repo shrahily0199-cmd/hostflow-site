@@ -226,7 +226,9 @@
 
   <script>
     const RIGHTS = "HostFlow AI © 2026 Abdulrahman Shrahily. All Rights Reserved.";
-    const STORAGE_KEY = "hostflow_clean_v4";
+    const STORAGE_KEY = "hostflow_clean_v5";
+
+    function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
 
     const DEFAULT_DATA = {
       property: {
@@ -267,18 +269,19 @@
     let db = loadData();
 
     function loadData() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return structuredClone(DEFAULT_DATA);
       try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return clone(DEFAULT_DATA);
         const parsed = JSON.parse(raw);
         return normalizeDb(parsed);
-      } catch {
-        return structuredClone(DEFAULT_DATA);
+      } catch (e) {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        return clone(DEFAULT_DATA);
       }
     }
 
     function normalizeDb(data) {
-      const merged = structuredClone(DEFAULT_DATA);
+      const merged = clone(DEFAULT_DATA);
       Object.assign(merged.property, data.property || {});
       merged.rules = Array.isArray(data.rules) ? data.rules : merged.rules;
       merged.instructions = Array.isArray(data.instructions) ? data.instructions : merged.instructions;
@@ -308,7 +311,7 @@
       return merged;
     }
 
-    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+    function saveData() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); } catch (e) { console.error("Save failed", e); } }
     function q(id) { return document.getElementById(id); }
 
     function showStatus(msg) {
@@ -416,8 +419,17 @@
           renderAdmin();
         }
       } catch (e) {
-        console.error(e);
-        renderGuestError("حدث خطأ في تشغيل الصفحة. يرجى إعادة تحميل الموقع.");
+        console.error("Render failed; resetting local data", e);
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        try {
+          db = clone(DEFAULT_DATA);
+          saveData();
+          renderAdmin();
+          setTimeout(() => showStatus("تم تنظيف بيانات قديمة كانت تسبب خطأ في التشغيل"), 200);
+        } catch (e2) {
+          console.error(e2);
+          renderGuestError("حدث خطأ في تشغيل الصفحة. يرجى إعادة تحميل الموقع.");
+        }
       }
     }
 
@@ -900,7 +912,7 @@
 
 
     function loadDemo() {
-      db = structuredClone(DEFAULT_DATA);
+      db = clone(DEFAULT_DATA);
       db.units = [
         { floor: "الدور الأول", name: "101", wifi: "Future-101", password: "12345678", checkIn: "3:00 مساءً", checkOut: "12:00 ظهرًا" },
         { floor: "الدور الثاني", name: "204", wifi: "Future-204", password: "87654321", checkIn: "3:00 مساءً", checkOut: "12:00 ظهرًا" }
