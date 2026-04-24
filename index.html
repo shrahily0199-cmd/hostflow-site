@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>HostFlow AI</title>
 
+<style>
+body {
+font-family: Arial;
+background:#0f172a;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.card {
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+margin:15px auto;
+max-width:500px;
+}
+
+input, button {
+width:100%;
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:8px;
+}
+
+button {
+background:#38bdf8;
+cursor:pointer;
+}
+
+a {color:#38bdf8;}
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+
+// قراءة الرابط
+let params = new URLSearchParams(location.search)
+let data = params.get("data")
+
+// ==================
+// 🎯 وضع الضيف
+// ==================
+if(data){
+
+let decoded = JSON.parse(atob(data))
+
+// انتهاء الصلاحية
+let today = new Date().toISOString().split("T")[0]
+
+if(today > decoded.checkout){
+
+document.body.innerHTML = "<h2>انتهت صلاحية الرابط</h2>"
+
+}else{
+
+document.getElementById("app").innerHTML = `
+<div class="card">
+<h2>أهلاً ${decoded.name} 👋</h2>
+<p>نتمنى لك إقامة مريحة ومميزة</p>
+
+<hr>
+
+<p>📍 الوحدة: ${decoded.unit}</p>
+<p>📶 WiFi: ${decoded.wifi}</p>
+<p>🔐 Password: ${decoded.pass}</p>
+
+<hr>
+
+<h3>📋 القوانين</h3>
+<p>• يمنع الإزعاج بعد 10 مساءً</p>
+<p>• يمنع التدخين داخل الوحدة</p>
+<p>• المحافظة على النظافة</p>
+
+<hr>
+
+<h3>🛎️ الطلبات</h3>
+
+<button onclick="send('تنظيف')">🧹 تنظيف</button>
+<button onclick="send('مناشف')">🛁 مناشف</button>
+<button onclick="send('صيانة')">🔧 صيانة</button>
+<button onclick="send('مساعدة')">❓ مساعدة</button>
+
+</div>
+`
+}
+
+function send(type){
+let msg = `السلام عليكم، أنا ${decoded.name} من الوحدة ${decoded.unit} وأحتاج ${type}`
+window.open(`https://wa.me/${decoded.phone}?text=`+encodeURIComponent(msg))
+}
+
+}
+
+// ==================
+// 🧠 وضع الإدارة
+// ==================
+else{
+
+document.getElementById("app").innerHTML = `
+<div class="card">
+<h2>إضافة مستأجر</h2>
+
+<input id="name" placeholder="اسم العميل">
+<input id="phone" placeholder="رقم واتساب المنشأة">
+<input id="unit" placeholder="رقم الوحدة">
+<input id="wifi" placeholder="اسم الواي فاي">
+<input id="pass" placeholder="كلمة المرور">
+<input id="checkout" type="date">
+
+<button onclick="generate()">إنشاء الرابط</button>
+
+<p id="link"></p>
+</div>
+`
+}
+
+function generate(){
+
+let data = {
+name: name.value,
+phone: phone.value,
+unit: unit.value,
+wifi: wifi.value,
+pass: pass.value,
+checkout: checkout.value
+}
+
+let encoded = btoa(JSON.stringify(data))
+
+let url = location.origin + location.pathname + "?data=" + encoded
+
+link.innerHTML = `
+<p>انسخ الرابط:</p>
+<a href="${url}" target="_blank">${url}</a>
+`
+
+navigator.clipboard.writeText(url)
+
+alert("تم إنشاء الرابط ونسخه 👍")
+
+}
+</script>
+
+</body>
+</html>
