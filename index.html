@@ -1,8 +1,8 @@
 <!--
 ============================================================
  HostFlow AI
- Developed for: Abdurahman Shrahily
- © 2026 Abdurahman Shrahily. All Rights Reserved.
+ Owner: Abdulrahman Shrahily
+ © 2026 Abdulrahman Shrahily. All Rights Reserved.
 
  This software is proprietary.
  Unauthorized copying, resale, redistribution, or imitation
@@ -30,13 +30,10 @@
       --danger: #dc2626;
       --danger-soft: #fff1f2;
       --dark: #0f172a;
-      --dark-soft: #1e293b;
       --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
       --radius: 18px;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
@@ -44,24 +41,15 @@
       color: var(--text);
       line-height: 1.6;
     }
-
     a { color: inherit; }
-
-    .container {
-      width: min(1240px, calc(100% - 28px));
-      margin: 0 auto;
-    }
-
+    .container { width: min(1240px, calc(100% - 28px)); margin: 0 auto; }
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      position: sticky; top: 0; z-index: 1000;
       background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(12px);
       color: #fff;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-
     .topbar-inner {
       min-height: 72px;
       display: flex;
@@ -69,54 +57,34 @@
       justify-content: space-between;
       gap: 14px;
     }
-
     .brand { font-weight: 800; font-size: 1.1rem; }
     .subbrand { font-size: 0.85rem; color: rgba(255,255,255,0.78); margin-top: 3px; }
-
     .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
     .pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 42px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      cursor: pointer;
-      font-weight: 700;
-      text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; min-height: 42px; padding: 10px 14px;
+      border-radius: 999px; border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08); color: #fff;
+      cursor: pointer; font-weight: 700; text-decoration: none;
     }
-
     .hero {
       background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
       color: #fff;
       padding: 30px 0 42px;
     }
-
     .hero-grid {
       display: grid;
       grid-template-columns: 1.25fr 0.95fr;
       gap: 20px;
       align-items: stretch;
     }
-
     .hero h1 {
       margin: 0 0 12px;
       font-size: clamp(2rem, 4vw, 3.3rem);
       line-height: 1.12;
       letter-spacing: -0.02em;
     }
-
-    .hero p {
-      margin: 0 0 12px;
-      color: rgba(255,255,255,0.9);
-      max-width: 760px;
-    }
-
+    .hero p { margin: 0 0 12px; color: rgba(255,255,255,0.9); max-width: 760px; }
     .hero-card {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.14);
@@ -124,20 +92,9 @@
       padding: 20px;
       backdrop-filter: blur(10px);
     }
-
-    .hero-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 10px;
-      font-size: 0.96rem;
-    }
-
+    .hero-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 0.96rem; }
     .hero-list li { display: flex; gap: 10px; align-items: center; }
-
     main { padding: 24px 0 60px; }
-
     .notice {
       background: #fff8e6;
       color: #7a5b00;
@@ -146,19 +103,8 @@
       border-radius: 14px;
       margin-bottom: 18px;
     }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .card {
       background: var(--card);
       border: 1px solid var(--line);
@@ -167,16 +113,11 @@
       padding: 22px;
       margin-bottom: 18px;
     }
-
     .section-title { margin: 0 0 12px; font-size: 1.18rem; font-weight: 800; }
     .section-subtitle { margin: -4px 0 14px; color: var(--muted); font-size: 0.95rem; }
-
     .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
     .field label { font-size: 0.94rem; font-weight: 700; }
-
-    .field input,
-    .field textarea,
-    .field select {
+    .field input, .field textarea, .field select {
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 12px;
@@ -185,71 +126,31 @@
       background: #fff;
       color: var(--text);
     }
-
     .field textarea { min-height: 110px; resize: vertical; }
     .hint { color: var(--muted); font-size: 0.84rem; }
-
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 48px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: 1px solid transparent;
-      text-decoration: none;
-      cursor: pointer;
-      font-weight: 800;
-      font: inherit;
-      transition: 0.2s ease;
-      text-align: center;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; min-height: 48px; padding: 12px 16px;
+      border-radius: 14px; border: 1px solid transparent;
+      text-decoration: none; cursor: pointer; font-weight: 800;
+      font: inherit; transition: 0.2s ease; text-align: center;
     }
-
     .btn:hover { transform: translateY(-1px); }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-soft { background: var(--primary-soft); color: var(--primary-dark); border-color: #d8e6ff; }
     .btn-success { background: var(--success-soft); color: var(--success); border-color: #d0f5f0; }
     .btn-danger { background: var(--danger-soft); color: var(--danger); border-color: #ffd8df; }
     .btn-dark { background: var(--dark); color: #fff; }
-
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .kpi {
-      background: #fafcff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 16px;
-    }
-
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .kpi { background: #fafcff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
     .kpi .label { color: var(--muted); font-size: 0.88rem; margin-bottom: 6px; }
     .kpi .value { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-
     .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      min-width: 860px;
-    }
-
-    th, td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--line);
-      text-align: right;
-      vertical-align: top;
-      font-size: 0.95rem;
-    }
-
+    table { width: 100%; border-collapse: collapse; background: #fff; min-width: 860px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; font-size: 0.95rem; }
     th { background: #fafcff; font-weight: 800; white-space: nowrap; }
     tr:last-child td { border-bottom: 0; }
     .table-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
     .chip-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
     .chip {
       padding: 10px 14px;
@@ -259,33 +160,20 @@
       color: #fff;
       font-size: 0.92rem;
     }
-
     .info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
     .info-box { background: #fafcff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
     .info-box strong { display: block; margin-bottom: 4px; }
-
     .steps, .rules-list { margin: 0; padding-right: 18px; color: var(--muted); }
     .steps li, .rules-list li { margin-bottom: 10px; }
     .action-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-
     .status-box {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1200;
-      background: #0f172a;
-      color: #fff;
-      padding: 14px 16px;
-      border-radius: 14px;
-      box-shadow: 0 20px 40px rgba(15,23,42,0.25);
-      display: none;
-      max-width: 380px;
+      position: fixed; bottom: 20px; right: 20px; z-index: 1200;
+      background: #0f172a; color: #fff; padding: 14px 16px;
+      border-radius: 14px; box-shadow: 0 20px 40px rgba(15,23,42,0.25);
+      display: none; max-width: 380px;
     }
-
     .status-box.show { display: block; }
-
     .footer-note { text-align: center; color: var(--muted); margin-top: 20px; }
-
     @media (max-width: 1100px) {
       .hero-grid, .grid-2, .grid-3, .kpis, .info-grid, .action-grid { grid-template-columns: 1fr; }
     }
@@ -296,52 +184,106 @@
   <div class="status-box" id="statusBox"></div>
 
   <script>
-    const RIGHTS = "HostFlow AI © 2026 Abdullah Shrahily. All Rights Reserved.";
-    const STORAGE_KEY = 'hostflow_clean_v1';
+    const RIGHTS = "HostFlow AI © 2026 Abdulrahman Shrahily. All Rights Reserved.";
+    const STORAGE_KEY = "hostflow_clean_v4";
 
     const DEFAULT_DATA = {
       property: {
-        name: 'منشأة المستقبل',
-        type: 'شقق مفروشة',
-        phone: '966500000000',
-        frontDeskPhone: '966500000000',
-        emergencyPhone: '966500000000',
-        locationUrl: 'https://maps.google.com',
-        feedbackUrl: '',
-        heroTitle: 'كل ما يحتاجه الضيف خلال إقامته',
-        heroDesc: 'كل شيء في مكان واحد وبدون مكالمات متكررة.'
+        name: "منشأة المستقبل",
+        type: "شقق مفروشة",
+        phone: "966500000000",
+        frontDeskPhone: "966500000000",
+        emergencyPhone: "966500000000",
+        locationUrl: "https://maps.google.com",
+        feedbackUrl: "",
+        heroTitle: "كل ما يحتاجه الضيف خلال إقامته",
+        heroDesc: "كل شيء في مكان واحد وبدون مكالمات متكررة."
       },
       rules: [
-        'يمنع الإزعاج بعد الساعة 10 مساءً.',
-        'يمنع التدخين داخل الوحدة.',
-        'يرجى المحافظة على نظافة المكان.',
-        'الالتزام بوقت تسجيل الخروج.',
-        'في حال وجود أي مشكلة، يرجى استخدام زر طلب المساعدة.'
+        "يمنع الإزعاج بعد الساعة 10 مساءً.",
+        "يمنع التدخين داخل الوحدة.",
+        "يرجى المحافظة على نظافة المكان.",
+        "الالتزام بوقت تسجيل الخروج.",
+        "في حال وجود أي مشكلة، يرجى استخدام زر طلب المساعدة."
       ],
       instructions: [
-        'تأكد من رقم الوحدة قبل الدخول.',
-        'استخدم بيانات الدخول المرسلة لك من المنشأة.',
-        'تأكد من إغلاق الباب جيدًا عند الخروج.'
+        "تأكد من رقم الشقة والدور قبل الدخول.",
+        "استخدم بيانات الدخول المرسلة لك من المنشأة.",
+        "تأكد من إغلاق الباب جيدًا عند الخروج."
       ],
       services: [
-        { label: '🧹 طلب تنظيف', type: 'تنظيف', enabled: true },
-        { label: '🛁 طلب مناشف', type: 'مناشف', enabled: true },
-        { label: '❄️ مشكلة في التكييف', type: 'مشكلة في التكييف', enabled: true },
-        { label: '🔧 طلب صيانة', type: 'صيانة', enabled: true },
-        { label: '❓ طلب مساعدة', type: 'مساعدة', enabled: true }
+        { label: "🧹 طلب تنظيف", type: "تنظيف", enabled: true },
+        { label: "🛁 طلب مناشف", type: "مناشف", enabled: true },
+        { label: "❄️ مشكلة في التكييف", type: "مشكلة في التكييف", enabled: true },
+        { label: "🔧 طلب صيانة", type: "صيانة", enabled: true },
+        { label: "❓ طلب مساعدة", type: "مساعدة", enabled: true }
       ],
       units: [],
-      guests: []
+      guests: [],
+      auditLog: []
     };
 
     let db = loadData();
+
+    function loadData() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(DEFAULT_DATA);
+      try {
+        const parsed = JSON.parse(raw);
+        return normalizeDb(parsed);
+      } catch {
+        return structuredClone(DEFAULT_DATA);
+      }
+    }
+
+    function normalizeDb(data) {
+      const merged = structuredClone(DEFAULT_DATA);
+      Object.assign(merged.property, data.property || {});
+      merged.rules = Array.isArray(data.rules) ? data.rules : merged.rules;
+      merged.instructions = Array.isArray(data.instructions) ? data.instructions : merged.instructions;
+      merged.services = Array.isArray(data.services) ? data.services.map(s => ({
+        label: s.label || "خدمة",
+        type: s.type || s.label || "خدمة",
+        enabled: s.enabled !== false
+      })) : merged.services;
+      merged.units = Array.isArray(data.units) ? data.units.map(u => ({
+        floor: u.floor || "-",
+        name: u.name || "-",
+        wifi: u.wifi || "-",
+        password: u.password || "-",
+        checkIn: u.checkIn || "3:00 مساءً",
+        checkOut: u.checkOut || "12:00 ظهرًا"
+      })) : [];
+      merged.guests = Array.isArray(data.guests) ? data.guests.map(g => ({
+        name: g.name || "-",
+        phone: g.phone || "",
+        unitIndex: Number.isInteger(g.unitIndex) ? g.unitIndex : 0,
+        checkInDate: g.checkInDate || "",
+        checkOutDate: g.checkOutDate || "",
+        createdAt: g.createdAt || Date.now()
+      })) : [];
+      merged.auditLog = Array.isArray(data.auditLog) ? data.auditLog : [];
+      return merged;
+    }
+
+    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+    function q(id) { return document.getElementById(id); }
+
+    function showStatus(msg) {
+      const box = q("statusBox");
+      if (!box) return;
+      box.textContent = msg;
+      box.classList.add("show");
+      clearTimeout(showStatus._t);
+      showStatus._t = setTimeout(() => box.classList.remove("show"), 2600);
+    }
 
     function addAudit(action, details = {}) {
       if (!Array.isArray(db.auditLog)) db.auditLog = [];
       db.auditLog.unshift({
         action,
         details,
-        time: new Date().toLocaleString('ar-SA'),
+        time: new Date().toLocaleString("ar-SA"),
         timestamp: new Date().toISOString()
       });
       db.auditLog = db.auditLog.slice(0, 300);
@@ -350,54 +292,34 @@
 
     function showLegalLog() {
       const logs = Array.isArray(db.auditLog) ? db.auditLog : [];
-      if (!logs.length) return alert('لا يوجد سجل حتى الآن.');
+      if (!logs.length) return alert("لا يوجد سجل حتى الآن.");
       const text = logs.map((log, i) => {
         const d = log.details || {};
-        return `${i + 1}) ${log.time}
-الإجراء: ${log.action}
-${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
-')}`;
-      }).join('
-
-----------------------
-
-');
+        const details = Object.keys(d).map(k => `${k}: ${d[k]}`).join("\\n");
+        return `${i + 1}) ${log.time}\\nالإجراء: ${log.action}\\n${details}`;
+      }).join("\\n\\n----------------------\\n\\n");
       alert(text);
     }
 
-    function loadData() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return structuredClone(DEFAULT_DATA);
-      try { return JSON.parse(raw); } catch { return structuredClone(DEFAULT_DATA); }
-    }
-
-    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
-    function q(id) { return document.getElementById(id); }
-
-    function showStatus(msg) {
-      const box = q('statusBox');
-      box.textContent = msg;
-      box.classList.add('show');
-      clearTimeout(showStatus._t);
-      showStatus._t = setTimeout(() => box.classList.remove('show'), 2600);
-    }
-
-    function cleanPhone(phone) { return String(phone || '').replace(/[^\d]/g, ''); }
+    function cleanPhone(phone) { return String(phone || "").replace(/[^\\d]/g, ""); }
 
     function encodePayload(obj) {
       const json = JSON.stringify(obj);
-      const utf8 = encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode('0x' + p1));
-      return btoa(utf8).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+      const utf8 = encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16)));
+      return btoa(utf8).replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/g, "");
     }
 
     function decodePayload(str) {
       try {
-        let base64 = String(str || '').replace(/-/g, '+').replace(/_/g, '/');
-        while (base64.length % 4) base64 += '=';
+        let base64 = String(str || "").replace(/-/g, "+").replace(/_/g, "/");
+        while (base64.length % 4) base64 += "=";
         const binary = atob(base64);
-        const json = decodeURIComponent(Array.from(binary).map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
+        const json = decodeURIComponent(Array.from(binary).map(c => "%" + c.charCodeAt(0).toString(16).padStart(2, "0")).join(""));
         return JSON.parse(json);
-      } catch (e) { return null; }
+      } catch (e) {
+        console.error("Payload decode failed", e);
+        return null;
+      }
     }
 
     function todayText() { return new Date().toISOString().slice(0, 10); }
@@ -413,53 +335,50 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
     }
 
     function fixedWelcomeMessage(guest, property, link) {
-      return `أهلًا ${guest.name}،
-نرحب بك في ${property.name} ونتمنى لك إقامة مريحة ومميزة.
-
-تم تجهيز صفحة خاصة بك تحتوي على أهم معلومات إقامتك وطلبات الخدمة.
-
-رابط الضيف:
-${link}`;
+      return `أهلًا ${guest.name}،\\nنرحب بك في ${property.name} ونتمنى لك إقامة مريحة ومميزة.\\n\\nتم تجهيز صفحة خاصة بك تحتوي على أهم معلومات إقامتك وطلبات الخدمة.\\n\\nرابط الضيف:\\n${link}`;
     }
 
     function serviceMessage(payload, serviceType) {
-      return `السلام عليكم،
-أنا ${payload.guest.name}
-الوحدة: ${payload.unit.name}
-المنشأة: ${payload.property.name}
-
-أرغب بطلب: ${serviceType}
-
-شكرًا لكم.`;
-    }
-
-    function serviceConfirmText(serviceType) {
-      return `تم تجهيز طلب ${serviceType} في رسالة واتساب جاهزة للمنشأة.`;
+      return `السلام عليكم،\\nأنا ${payload.guest.name}\\nالدور: ${payload.unit.floor || "-"}\\nالشقة: ${payload.unit.name}\\nالمنشأة: ${payload.property.name}\\n\\nأرغب بطلب: ${serviceType}\\n\\nشكرًا لكم.`;
     }
 
     function splitLines(text) {
-      return String(text || '').split('\n').map(x => x.trim()).filter(Boolean);
+      return String(text || "").split("\\n").map(x => x.trim()).filter(Boolean);
     }
 
     function parseDataFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      return params.get('data');
+      return params.get("data");
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[ch]));
     }
 
     function render() {
-      const encoded = parseDataFromUrl();
-      if (encoded) {
-        const payload = decodePayload(encoded);
-        renderGuest(payload);
-      } else {
-        renderAdmin();
+      try {
+        const encoded = parseDataFromUrl();
+        if (encoded) {
+          renderGuest(decodePayload(encoded));
+        } else {
+          renderAdmin();
+        }
+      } catch (e) {
+        console.error(e);
+        renderGuestError("حدث خطأ في تشغيل الصفحة. يرجى إعادة تحميل الموقع.");
       }
     }
 
     function renderAdmin() {
-      document.documentElement.lang = 'ar';
-      document.documentElement.dir = 'rtl';
-      q('app').innerHTML = `
+      document.documentElement.lang = "ar";
+      document.documentElement.dir = "rtl";
+      q("app").innerHTML = `
         <div class="topbar">
           <div class="container topbar-inner">
             <div>
@@ -479,7 +398,7 @@ ${link}`;
             <div class="hero-grid">
               <div>
                 <h1>إدارة احترافية للمنشأة</h1>
-                <p>لوحة واحدة لإدارة بيانات المنشأة، الوحدات، الواي فاي، والمستأجرين، مع رابط ضيف خاص ينتهي بعد تاريخ الخروج.</p>
+                <p>لوحة واحدة لإدارة بيانات المنشأة، الشقق، الواي فاي، والمستأجرين، مع رابط ضيف خاص ينتهي بعد تاريخ الخروج.</p>
                 <p>هذه الواجهة خاصة بالمنشأة فقط. المستأجر يرى صفحة خاصة به عبر الرابط.</p>
               </div>
               <div class="hero-card">
@@ -487,7 +406,7 @@ ${link}`;
                   <li>🏨 مناسب للشقق والفنادق والفلل والاستراحات</li>
                   <li>🏢 تنظيم الدور ورقم الشقة وبيانات الواي فاي</li>
                   <li>👤 إنشاء صفحة خاصة لكل مستأجر حسب مدة إقامته</li>
-                  <li>💬 رسالة ترحيب واتساب راقية تحتوي على رابط الضيف فقط</li>
+                  <li>💬 رسالة ترحيب واتساب راقية تحتوي على رابط الضيف</li>
                   <li>🛎️ خدمات جاهزة للضيف بضغطة واحدة</li>
                   <li>⏳ رابط الضيف ينتهي تلقائيًا بعد تاريخ الخروج</li>
                   <li>🔒 ${RIGHTS}</li>
@@ -504,9 +423,9 @@ ${link}`;
             <section class="card">
               <h2 class="section-title">ملخص سريع</h2>
               <div class="kpis">
-                <div class="kpi"><div class="label">الوحدات</div><div class="value">${db.units.length}</div></div>
+                <div class="kpi"><div class="label">الشقق / الوحدات</div><div class="value">${db.units.length}</div></div>
                 <div class="kpi"><div class="label">المستأجرون</div><div class="value">${db.guests.length}</div></div>
-                <div class="kpi"><div class="label">الخدمات الثابتة</div><div class="value">${db.services.length}</div></div>
+                <div class="kpi"><div class="label">الخدمات</div><div class="value">${db.services.filter(s => s.enabled !== false).length}</div></div>
                 <div class="kpi"><div class="label">الحالة</div><div class="value">جاهز</div></div>
               </div>
             </section>
@@ -514,24 +433,24 @@ ${link}`;
             <div class="grid-2">
               <section class="card">
                 <h2 class="section-title">بيانات المنشأة</h2>
-                <div class="field"><label>اسم المنشأة</label><input id="propertyName" value="${db.property.name}"></div>
+                <div class="field"><label>اسم المنشأة</label><input id="propertyName" value="${esc(db.property.name)}"></div>
                 <div class="field"><label>نوع المنشأة</label>
                   <select id="propertyType">
-                    ${['شقق مفروشة','فندق','فيلا','استراحة','شاليه','منتجع'].map(t => `<option ${db.property.type === t ? 'selected' : ''}>${t}</option>`).join('')}
+                    ${["شقق مفروشة","فندق","فيلا","استراحة","شاليه","منتجع"].map(t => `<option ${db.property.type === t ? "selected" : ""}>${t}</option>`).join("")}
                   </select>
                 </div>
-                <div class="field"><label>رقم واتساب المنشأة</label><input id="propertyPhone" value="${db.property.phone}"></div>
-                <div class="field"><label>رقم الاستقبال</label><input id="frontDeskPhone" value="${db.property.frontDeskPhone}"></div>
-                <div class="field"><label>رقم الطوارئ</label><input id="emergencyPhone" value="${db.property.emergencyPhone}"></div>
-                <div class="field"><label>رابط الموقع</label><input id="locationUrl" value="${db.property.locationUrl}"></div>
-                <div class="field"><label>رابط التقييم</label><input id="feedbackUrl" value="${db.property.feedbackUrl}"></div>
+                <div class="field"><label>رقم واتساب المنشأة</label><input id="propertyPhone" value="${esc(db.property.phone)}"></div>
+                <div class="field"><label>رقم الاستقبال</label><input id="frontDeskPhone" value="${esc(db.property.frontDeskPhone)}"></div>
+                <div class="field"><label>رقم الطوارئ</label><input id="emergencyPhone" value="${esc(db.property.emergencyPhone)}"></div>
+                <div class="field"><label>رابط الموقع</label><input id="locationUrl" value="${esc(db.property.locationUrl)}"></div>
+                <div class="field"><label>رابط التقييم</label><input id="feedbackUrl" value="${esc(db.property.feedbackUrl)}"></div>
                 <button class="btn btn-dark" onclick="saveProperty()">حفظ بيانات المنشأة</button>
               </section>
 
               <section class="card">
                 <h2 class="section-title">الرسائل والقوانين الثابتة</h2>
-                <div class="field"><label>القوانين الثابتة</label><textarea id="rulesInput">${db.rules.join('\n')}</textarea></div>
-                <div class="field"><label>تعليمات الدخول</label><textarea id="instructionsInput">${db.instructions.join('\n')}</textarea></div>
+                <div class="field"><label>القوانين الثابتة</label><textarea id="rulesInput">${esc(db.rules.join("\\n"))}</textarea></div>
+                <div class="field"><label>تعليمات الدخول</label><textarea id="instructionsInput">${esc(db.instructions.join("\\n"))}</textarea></div>
                 <div class="hint">رسالة الترحيب والطلبات ثابتة تلقائيًا، وتتغير فقط باسم العميل والمنشأة والرابط.</div>
                 <button class="btn btn-soft" onclick="saveFixedContent()">حفظ القوانين والتعليمات</button>
               </section>
@@ -558,16 +477,16 @@ ${link}`;
               <div class="grid-3">
                 <div class="field"><label>الدور</label><input id="unitFloor" placeholder="مثال: الدور الثاني"></div>
                 <div class="field"><label>رقم الشقة</label><input id="unitName" placeholder="مثال: 204"></div>
-                <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifi" placeholder="مثال: HotelWiFi-101"></div>
+                <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifi" placeholder="مثال: HotelWiFi-204"></div>
                 <div class="field"><label>كلمة المرور</label><input id="unitPass" placeholder="مثال: 12345678"></div>
                 <div class="field"><label>وقت الدخول</label><input id="unitCheckIn" placeholder="مثال: 3:00 مساءً"></div>
                 <div class="field"><label>وقت الخروج</label><input id="unitCheckOut" placeholder="مثال: 12:00 ظهرًا"></div>
               </div>
-              <button class="btn btn-primary" onclick="addUnit()">حفظ الوحدة</button>
+              <button class="btn btn-primary" onclick="addUnit()">حفظ الشقة / الوحدة</button>
             </section>
 
             <section class="card">
-              <h2 class="section-title">الوحدات</h2>
+              <h2 class="section-title">الشقق / الوحدات</h2>
               <div class="table-wrap">
                 <table>
                   <thead><tr><th>الدور / الشقة</th><th>الواي فاي</th><th>الدخول / الخروج</th><th>الإجراءات</th></tr></thead>
@@ -581,7 +500,7 @@ ${link}`;
               <div class="grid-3">
                 <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="اسم العميل"></div>
                 <div class="field"><label>رقم جوال العميل</label><input id="guestPhone" placeholder="9665XXXXXXXX"></div>
-                <div class="field"><label>الدور / رقم الشقة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${u.floor || '-'} - شقة ${u.name}</option>`).join('')}</select></div>
+                <div class="field"><label>الدور / رقم الشقة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${esc(u.floor)} - شقة ${esc(u.name)}</option>`).join("")}</select></div>
                 <div class="field"><label>تاريخ الدخول</label><input id="guestCheckInDate" type="date"></div>
                 <div class="field"><label>تاريخ الخروج</label><input id="guestCheckOutDate" type="date"></div>
               </div>
@@ -592,7 +511,7 @@ ${link}`;
               <h2 class="section-title">المستأجرون والروابط</h2>
               <div class="table-wrap">
                 <table>
-                  <thead><tr><th>العميل</th><th>الوحدة</th><th>مدة الإقامة</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
+                  <thead><tr><th>العميل</th><th>الدور / الشقة</th><th>مدة الإقامة</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
                   <tbody>${renderGuestsRows()}</tbody>
                 </table>
               </div>
@@ -608,70 +527,70 @@ ${link}`;
       if (!db.services.length) return '<tr><td colspan="4">لا توجد خدمات حتى الآن</td></tr>';
       return db.services.map((s, i) => `
         <tr>
-          <td><strong>${s.label}</strong></td>
-          <td>${s.type}</td>
-          <td>${s.enabled === false ? 'معطلة' : 'مفعلة'}</td>
+          <td><strong>${esc(s.label)}</strong></td>
+          <td>${esc(s.type)}</td>
+          <td>${s.enabled === false ? "معطلة" : "مفعلة"}</td>
           <td>
             <div class="table-actions">
-              <button class="btn btn-soft" onclick="toggleService(${i})">${s.enabled === false ? 'تفعيل' : 'تعطيل'}</button>
+              <button class="btn btn-soft" onclick="toggleService(${i})">${s.enabled === false ? "تفعيل" : "تعطيل"}</button>
               <button class="btn btn-danger" onclick="deleteService(${i})">حذف</button>
             </div>
           </td>
         </tr>
-      `).join('');
+      `).join("");
     }
 
     function addService() {
-      const label = q('serviceLabel').value.trim();
-      const type = q('serviceType').value.trim();
-      if (!label || !type) return alert('أدخل اسم الزر ونوع الطلب');
+      const label = q("serviceLabel").value.trim();
+      const type = q("serviceType").value.trim();
+      if (!label || !type) return alert("أدخل اسم الزر ونوع الطلب");
       db.services.push({ label, type, enabled: true });
-      addAudit('إضافة خدمة', { الخدمة: label, النوع: type });
+      addAudit("إضافة خدمة", { الخدمة: label, النوع: type });
       saveData();
-      showStatus('تمت إضافة الخدمة');
+      showStatus("تمت إضافة الخدمة");
       renderAdmin();
     }
 
     function toggleService(i) {
       if (!db.services[i]) return;
       db.services[i].enabled = db.services[i].enabled === false ? true : false;
-      addAudit('تغيير حالة خدمة', { الخدمة: db.services[i].label, الحالة: db.services[i].enabled ? 'مفعلة' : 'معطلة' });
+      addAudit("تغيير حالة خدمة", { الخدمة: db.services[i].label, الحالة: db.services[i].enabled ? "مفعلة" : "معطلة" });
       saveData();
       renderAdmin();
     }
 
     function deleteService(i) {
-      if (!confirm('حذف هذه الخدمة؟')) return;
+      if (!confirm("حذف هذه الخدمة؟")) return;
       const removed = db.services[i];
       db.services.splice(i, 1);
-      addAudit('حذف خدمة', { الخدمة: removed?.label || '-' });
+      addAudit("حذف خدمة", { الخدمة: removed?.label || "-" });
       saveData();
       renderAdmin();
     }
 
     function renderUnitsRows() {
-      if (!db.units.length) return '<tr><td colspan="4">لا توجد وحدات حتى الآن</td></tr>';
+      if (!db.units.length) return '<tr><td colspan="4">لا توجد شقق / وحدات حتى الآن</td></tr>';
       return db.units.map((u, i) => `
         <tr>
-          <td><strong>${u.floor || '-'}</strong><br><span style="color:var(--muted)">شقة ${u.name}</span></td>
-          <td>${u.wifi}<br><span style="color:var(--muted)">${u.password}</span></td>
-          <td>${u.checkIn || '-'}<br><span style="color:var(--muted)">${u.checkOut || '-'}</span></td>
+          <td><strong>${esc(u.floor)}</strong><br><span style="color:var(--muted)">شقة ${esc(u.name)}</span></td>
+          <td>${esc(u.wifi)}<br><span style="color:var(--muted)">${esc(u.password)}</span></td>
+          <td>${esc(u.checkIn)}<br><span style="color:var(--muted)">${esc(u.checkOut)}</span></td>
           <td><button class="btn btn-danger" onclick="deleteUnit(${i})">حذف</button></td>
         </tr>
-      `).join('');
+      `).join("");
     }
 
     function renderGuestsRows() {
       if (!db.guests.length) return '<tr><td colspan="5">لا يوجد مستأجرون حتى الآن</td></tr>';
       return db.guests.map((g, i) => {
-        const unit = db.units[g.unitIndex];
+        const unit = db.units[g.unitIndex] || {};
         const payload = buildGuestPayload(g, unit);
         const link = guestUrl(payload);
         return `
           <tr>
-            <td><strong>${g.name}</strong><br><span style="color:var(--muted)">${g.phone}</span></td>
-            <td>${unit ? `${unit.floor || '-'} - شقة ${unit.name}` : '-'}</td>
-            <td>${g.checkInDate || '-'}<br><span style="color:var(--muted)">${g.checkOutDate || '-'}</span></td>
+            <td><strong>${esc(g.name)}</strong><br><span style="color:var(--muted)">${esc(g.phone)}</span></td>
+            <td>${esc(unit.floor || "-")} - شقة ${esc(unit.name || "-")}</td>
+            <td>${esc(g.checkInDate || "-")}<br><span style="color:var(--muted)">${esc(g.checkOutDate || "-")}</span></td>
             <td><a href="${link}" target="_blank">فتح الرابط</a></td>
             <td>
               <div class="table-actions">
@@ -682,100 +601,101 @@ ${link}`;
             </td>
           </tr>
         `;
-      }).join('');
+      }).join("");
     }
 
     function saveProperty() {
       db.property = {
-        name: q('propertyName').value.trim() || 'منشأة جديدة',
-        type: q('propertyType').value,
-        phone: q('propertyPhone').value.trim(),
-        frontDeskPhone: q('frontDeskPhone').value.trim(),
-        emergencyPhone: q('emergencyPhone').value.trim(),
-        locationUrl: q('locationUrl').value.trim(),
-        feedbackUrl: q('feedbackUrl').value.trim(),
+        name: q("propertyName").value.trim() || "منشأة جديدة",
+        type: q("propertyType").value,
+        phone: q("propertyPhone").value.trim(),
+        frontDeskPhone: q("frontDeskPhone").value.trim(),
+        emergencyPhone: q("emergencyPhone").value.trim(),
+        locationUrl: q("locationUrl").value.trim(),
+        feedbackUrl: q("feedbackUrl").value.trim(),
         heroTitle: DEFAULT_DATA.property.heroTitle,
         heroDesc: DEFAULT_DATA.property.heroDesc
       };
       saveData();
-      addAudit('حفظ بيانات المنشأة', { المنشأة: db.property.name, النوع: db.property.type });
-      showStatus('تم حفظ بيانات المنشأة');
+      addAudit("حفظ بيانات المنشأة", { المنشأة: db.property.name, النوع: db.property.type });
+      showStatus("تم حفظ بيانات المنشأة");
       renderAdmin();
     }
 
     function saveFixedContent() {
-      db.rules = splitLines(q('rulesInput').value);
-      db.instructions = splitLines(q('instructionsInput').value);
+      db.rules = splitLines(q("rulesInput").value);
+      db.instructions = splitLines(q("instructionsInput").value);
       if (!db.rules.length) db.rules = structuredClone(DEFAULT_DATA.rules);
       if (!db.instructions.length) db.instructions = structuredClone(DEFAULT_DATA.instructions);
       saveData();
-      addAudit('حفظ القوانين والتعليمات', { عدد_القوانين: db.rules.length, عدد_التعليمات: db.instructions.length });
-      showStatus('تم حفظ القوانين والتعليمات');
+      addAudit("حفظ القوانين والتعليمات", { عدد_القوانين: db.rules.length, عدد_التعليمات: db.instructions.length });
+      showStatus("تم حفظ القوانين والتعليمات");
       renderAdmin();
     }
 
     function addUnit() {
-      const floor = q('unitFloor').value.trim();
-      const name = q('unitName').value.trim();
-      const wifi = q('unitWifi').value.trim();
-      const password = q('unitPass').value.trim();
-      if (!name || !wifi || !password) return alert('أدخل رقم الوحدة والواي فاي وكلمة المرور');
+      const floor = q("unitFloor").value.trim();
+      const name = q("unitName").value.trim();
+      const wifi = q("unitWifi").value.trim();
+      const password = q("unitPass").value.trim();
+      if (!name || !wifi || !password) return alert("أدخل الدور ورقم الشقة والواي فاي وكلمة المرور");
       db.units.push({
-        floor: floor || '-',
+        floor: floor || "-",
         name,
         wifi,
         password,
-        checkIn: q('unitCheckIn').value.trim() || '3:00 مساءً',
-        checkOut: q('unitCheckOut').value.trim() || '12:00 ظهرًا'
+        checkIn: q("unitCheckIn").value.trim() || "3:00 مساءً",
+        checkOut: q("unitCheckOut").value.trim() || "12:00 ظهرًا"
       });
+      addAudit("إضافة شقة / وحدة", { الدور: floor || "-", الشقة: name, الواي_فاي: wifi });
       saveData();
-      addAudit('إضافة شقة / وحدة', { الدور: floor || '-', الشقة: name, الواي_فاي: wifi });
-      showStatus('تم حفظ الوحدة');
+      showStatus("تم حفظ الشقة / الوحدة");
       renderAdmin();
     }
 
     function deleteUnit(i) {
-      if (!confirm('حذف الوحدة؟')) return;
+      if (!confirm("حذف الشقة / الوحدة؟")) return;
+      const removed = db.units[i];
       db.units.splice(i, 1);
       db.guests = db.guests.filter(g => g.unitIndex !== i);
-      addAudit('حذف وحدة', { رقم_الوحدة: i });
+      addAudit("حذف شقة / وحدة", { الدور: removed?.floor || "-", الشقة: removed?.name || "-" });
       saveData();
       renderAdmin();
     }
 
     function addGuest() {
-      if (!db.units.length) return alert('أضف وحدة أولًا');
-      const name = q('guestName').value.trim();
-      const phone = q('guestPhone').value.trim();
-      const unitIndex = Number(q('guestUnit').value);
-      const checkInDate = q('guestCheckInDate').value;
-      const checkOutDate = q('guestCheckOutDate').value;
-      if (!name || !phone || !checkOutDate) return alert('أدخل اسم العميل ورقمه وتاريخ الخروج');
+      if (!db.units.length) return alert("أضف شقة / وحدة أولًا");
+      const name = q("guestName").value.trim();
+      const phone = q("guestPhone").value.trim();
+      const unitIndex = Number(q("guestUnit").value);
+      const checkInDate = q("guestCheckInDate").value;
+      const checkOutDate = q("guestCheckOutDate").value;
+      if (!name || !phone || !checkOutDate) return alert("أدخل اسم العميل ورقمه وتاريخ الخروج");
       db.guests.push({ name, phone, unitIndex, checkInDate, checkOutDate, createdAt: Date.now() });
-      addAudit('إضافة مستأجر', { العميل: name, الجوال: phone, الوحدة: db.units[unitIndex]?.name || unitIndex, من: checkInDate || '-', إلى: checkOutDate });
+      addAudit("إضافة مستأجر", { العميل: name, الجوال: phone, الشقة: db.units[unitIndex]?.name || "-", إلى: checkOutDate });
       saveData();
-      showStatus('تم حفظ المستأجر وإنشاء رابطه');
+      showStatus("تم حفظ المستأجر وإنشاء رابطه");
       renderAdmin();
     }
 
     function deleteGuest(i) {
-      if (!confirm('حذف المستأجر؟')) return;
+      if (!confirm("حذف المستأجر؟")) return;
       const removedGuest = db.guests[i];
       db.guests.splice(i, 1);
-      addAudit('حذف مستأجر', { العميل: removedGuest?.name || '-', الجوال: removedGuest?.phone || '-' });
+      addAudit("حذف مستأجر", { العميل: removedGuest?.name || "-", الجوال: removedGuest?.phone || "-" });
       saveData();
       renderAdmin();
     }
 
     function buildGuestPayload(guest, unit) {
-      const safeUnit = unit ? {
-        floor: unit.floor || '-',
-        name: unit.name || '-',
-        wifi: unit.wifi || '-',
-        password: unit.password || '-',
-        checkIn: unit.checkIn || '3:00 مساءً',
-        checkOut: unit.checkOut || '12:00 ظهرًا'
-      } : { floor: '-', name: '-', wifi: '-', password: '-', checkIn: '-', checkOut: '-' };
+      const safeUnit = {
+        floor: unit.floor || "-",
+        name: unit.name || "-",
+        wifi: unit.wifi || "-",
+        password: unit.password || "-",
+        checkIn: unit.checkIn || "3:00 مساءً",
+        checkOut: unit.checkOut || "12:00 ظهرًا"
+      };
       return {
         property: db.property,
         guest,
@@ -789,64 +709,72 @@ ${link}`;
 
     async function copyGuestLink(i) {
       const guest = db.guests[i];
-      const unit = db.units[guest.unitIndex];
+      const unit = db.units[guest.unitIndex] || {};
       const link = guestUrl(buildGuestPayload(guest, unit));
       try {
         await navigator.clipboard.writeText(link);
-        addAudit('نسخ رابط الضيف', { العميل: guest.name, الوحدة: unit?.name || '-' });
-        showStatus('تم نسخ رابط الضيف');
+        addAudit("نسخ رابط الضيف", { العميل: guest.name, الشقة: unit?.name || "-" });
+        showStatus("تم نسخ رابط الضيف");
       } catch (e) {
-        prompt('انسخ الرابط:', link);
+        prompt("انسخ الرابط:", link);
       }
     }
 
     function sendWelcome(i) {
       const guest = db.guests[i];
-      const unit = db.units[guest.unitIndex];
+      const unit = db.units[guest.unitIndex] || {};
       const link = guestUrl(buildGuestPayload(guest, unit));
       const msg = fixedWelcomeMessage(guest, db.property, link);
-      addAudit('إرسال رسالة ترحيب واتساب', { العميل: guest.name, الجوال: guest.phone });
-      window.open(whatsappLink(guest.phone, msg), '_blank');
+      addAudit("إرسال رسالة ترحيب واتساب", { العميل: guest.name, الجوال: guest.phone });
+      window.open(whatsappLink(guest.phone, msg), "_blank");
     }
 
     function loadDemo() {
       db = structuredClone(DEFAULT_DATA);
       db.units = [
-        { name: '101', wifi: 'Future-101', password: '12345678', checkIn: '3:00 مساءً', checkOut: '12:00 ظهرًا' },
-        { name: '102', wifi: 'Future-102', password: '87654321', checkIn: '3:00 مساءً', checkOut: '12:00 ظهرًا' }
+        { floor: "الدور الأول", name: "101", wifi: "Future-101", password: "12345678", checkIn: "3:00 مساءً", checkOut: "12:00 ظهرًا" },
+        { floor: "الدور الثاني", name: "204", wifi: "Future-204", password: "87654321", checkIn: "3:00 مساءً", checkOut: "12:00 ظهرًا" }
       ];
       saveData();
       renderAdmin();
-      showStatus('تم تحميل المثال');
+      showStatus("تم تحميل المثال");
     }
 
     function exportData() {
-      const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify(db, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'hostflow-data.json';
+      a.download = "hostflow-data.json";
       a.click();
       URL.revokeObjectURL(url);
     }
 
     function renderGuest(payload) {
       if (!payload || !payload.guest || !payload.unit || !payload.property) {
-        return renderGuestError('رابط غير صالح. يرجى التواصل مع المنشأة.');
+        return renderGuestError("رابط غير صالح. يرجى التواصل مع المنشأة.");
       }
+      payload.unit.floor = payload.unit.floor || "-";
+      payload.unit.name = payload.unit.name || "-";
+      payload.unit.wifi = payload.unit.wifi || "-";
+      payload.unit.password = payload.unit.password || "-";
+      payload.unit.checkOut = payload.unit.checkOut || "-";
+      if (!Array.isArray(payload.rules)) payload.rules = DEFAULT_DATA.rules;
+      if (!Array.isArray(payload.instructions)) payload.instructions = DEFAULT_DATA.instructions;
+      if (!Array.isArray(payload.services)) payload.services = DEFAULT_DATA.services;
 
       if (isExpired(payload.guest.checkOutDate)) {
-        return renderGuestError('انتهت صلاحية هذا الرابط. يرجى التواصل مع المنشأة.');
+        return renderGuestError("انتهت صلاحية هذا الرابط. يرجى التواصل مع المنشأة.");
       }
 
-      document.documentElement.lang = 'ar';
-      document.documentElement.dir = 'rtl';
-      q('app').innerHTML = `
+      document.documentElement.lang = "ar";
+      document.documentElement.dir = "rtl";
+      q("app").innerHTML = `
         <div class="topbar">
           <div class="container topbar-inner">
             <div>
               <div class="brand">HostFlow AI</div>
-              <div class="subbrand">صفحة الضيف - ${payload.property.name}</div>
+              <div class="subbrand">صفحة الضيف - ${esc(payload.property.name)}</div>
             </div>
           </div>
         </div>
@@ -855,21 +783,21 @@ ${link}`;
           <div class="container">
             <div class="hero-grid">
               <div>
-                <h1>👋 أهلًا بك ${payload.guest.name}</h1>
+                <h1>👋 أهلًا بك ${esc(payload.guest.name)}</h1>
                 <p>نسعد باستضافتك ونتمنى لك إقامة مريحة ومميزة.</p>
                 <div class="chip-row">
-                  <div class="chip">🏨 ${payload.property.name}</div>
-                  <div class="chip">🏢 ${payload.unit.floor || '-'} - شقة ${payload.unit.name || '-'}</div>
+                  <div class="chip">🏨 ${esc(payload.property.name)}</div>
+                  <div class="chip">🏢 ${esc(payload.unit.floor)} - شقة ${esc(payload.unit.name)}</div>
                   <div class="chip">كل ما تحتاجه موجود هنا</div>
                 </div>
               </div>
               <div class="hero-card">
                 <ul class="hero-list">
-                  <li>📶 بيانات الواي فاي</li>
-                  <li>🔑 تعليمات الدخول</li>
-                  <li>🛎️ طلب الخدمات</li>
-                  <li>🚨 الطوارئ والتواصل</li>
-                  <li>⭐ التقييم</li>
+                  <li>📶 بيانات الواي فاي الخاصة بالشقة</li>
+                  <li>🔑 تعليمات الدخول والإقامة</li>
+                  <li>🛎️ طلب الخدمات بضغطة واحدة</li>
+                  <li>🚨 أرقام التواصل والطوارئ</li>
+                  <li>⭐ تقييم التجربة بعد الإقامة</li>
                 </ul>
               </div>
             </div>
@@ -882,21 +810,21 @@ ${link}`;
               <section class="card">
                 <h2 class="section-title">المعلومات الأساسية</h2>
                 <div class="info-grid">
-                  <div class="info-box"><strong>الدور</strong>${payload.unit.floor || '-'}</div>
-                  <div class="info-box"><strong>رقم الشقة</strong>${payload.unit.name || '-'}</div>
-                  <div class="info-box"><strong>اسم الشبكة</strong>${payload.unit.wifi || '-'}</div>
-                  <div class="info-box"><strong>كلمة المرور</strong>${payload.unit.password || '-'}</div>
-                  <div class="info-box"><strong>الخروج</strong>${payload.unit.checkOut || '-'}</div>
+                  <div class="info-box"><strong>الدور</strong>${esc(payload.unit.floor)}</div>
+                  <div class="info-box"><strong>رقم الشقة</strong>${esc(payload.unit.name)}</div>
+                  <div class="info-box"><strong>اسم الشبكة</strong>${esc(payload.unit.wifi)}</div>
+                  <div class="info-box"><strong>كلمة المرور</strong>${esc(payload.unit.password)}</div>
+                  <div class="info-box"><strong>الخروج</strong>${esc(payload.unit.checkOut)}</div>
                 </div>
                 <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
-                  <a class="btn btn-primary" href="${payload.property.locationUrl || '#'}" target="_blank">📍 فتح الموقع</a>
-                  <a class="btn btn-soft" href="tel:${payload.property.frontDeskPhone || payload.property.phone}">☎️ الاستقبال</a>
+                  <a class="btn btn-primary" href="${esc(payload.property.locationUrl || "#")}" target="_blank">📍 فتح الموقع</a>
+                  <a class="btn btn-soft" href="tel:${cleanPhone(payload.property.frontDeskPhone || payload.property.phone)}">☎️ الاستقبال</a>
                 </div>
               </section>
 
               <section class="card">
                 <h2 class="section-title">تعليمات الدخول</h2>
-                <ol class="steps">${payload.instructions.map(x => `<li>${x}</li>`).join('')}</ol>
+                <ol class="steps">${payload.instructions.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
               </section>
             </div>
 
@@ -904,22 +832,22 @@ ${link}`;
               <h2 class="section-title">طلب خدمة</h2>
               <div class="section-subtitle">اختر الخدمة المطلوبة وسيتم فتح رسالة واتساب جاهزة للمنشأة.</div>
               <div class="action-grid">
-                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" onclick="showStatus('${serviceConfirmText(s.type)}')" href="${whatsappLink(payload.property.phone, serviceMessage(payload, s.type))}">${s.label}</a>`).join('')}
+                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" href="${whatsappLink(payload.property.phone, serviceMessage(payload, s.type))}">${esc(s.label)}</a>`).join("")}
               </div>
             </section>
 
             <div class="grid-2">
               <section class="card">
                 <h2 class="section-title">القوانين</h2>
-                <ul class="rules-list">${payload.rules.map(x => `<li>${x}</li>`).join('')}</ul>
+                <ul class="rules-list">${payload.rules.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
               </section>
 
               <section class="card">
                 <h2 class="section-title">الطوارئ والتقييم</h2>
                 <p class="section-subtitle">في الحالات الطارئة يرجى التواصل فورًا.</p>
                 <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                  <a class="btn btn-danger" href="tel:${payload.property.emergencyPhone || payload.property.phone}">🚨 اتصال طارئ</a>
-                  ${payload.property.feedbackUrl ? `<a class="btn btn-success" href="${payload.property.feedbackUrl}" target="_blank">⭐ قيّم تجربتك</a>` : ''}
+                  <a class="btn btn-danger" href="tel:${cleanPhone(payload.property.emergencyPhone || payload.property.phone)}">🚨 اتصال طارئ</a>
+                  ${payload.property.feedbackUrl ? `<a class="btn btn-success" href="${esc(payload.property.feedbackUrl)}" target="_blank">⭐ قيّم تجربتك</a>` : ""}
                 </div>
               </section>
             </div>
@@ -931,11 +859,11 @@ ${link}`;
     }
 
     function renderGuestError(message) {
-      q('app').innerHTML = `
+      q("app").innerHTML = `
         <main>
           <div class="container">
             <section class="card" style="margin-top:70px;text-align:center;">
-              <h2>${message}</h2>
+              <h2>${esc(message)}</h2>
               <p class="section-subtitle">HostFlow AI</p>
             </section>
           </div>
@@ -943,9 +871,7 @@ ${link}`;
       `;
     }
 
-    // حماية خفيفة، ليست حماية قانونية كاملة.
-    document.addEventListener('contextmenu', e => e.preventDefault());
-
+    document.addEventListener("contextmenu", e => e.preventDefault());
     render();
   </script>
 </body>
