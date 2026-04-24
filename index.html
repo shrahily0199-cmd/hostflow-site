@@ -184,9 +184,8 @@
   <div class="status-box" id="statusBox"></div>
 
   <datalist id="guestNameSuggestions">
-    <option value="عبدالرحمن شراحيلي"></option>
-    <option value="أحمد محمد"></option>
-    <option value="محمد عبدالله"></option>
+    <option value="اسم العميل"></option>
+    <option value="ضيف رقم 1"></option>
   </datalist>
   <datalist id="floorSuggestions">
     <option value="الدور الأرضي"></option>
@@ -377,6 +376,10 @@
       return `https://wa.me/${cleanPhone(phone)}?text=${encodeURIComponent(message)}`;
     }
 
+    function qrUrl(link, size = 180) {
+      return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(link)}`;
+    }
+
     function fixedWelcomeMessage(guest, property, link) {
       return `أهلًا ${guest.name}،\\nنرحب بك في ${property.name} ونتمنى لك إقامة مريحة ومميزة.\\n\\nتم تجهيز صفحة خاصة بك تحتوي على أهم معلومات إقامتك وطلبات الخدمة.\\n\\nرابط الضيف:\\n${link}`;
     }
@@ -432,6 +435,7 @@
               <button class="pill" onclick="loadDemo()">تحميل مثال</button>
               <button class="pill" onclick="exportData()">نسخة احتياطية</button>
               <button class="pill" onclick="showLegalLog()">سجل العمليات</button>
+              <button class="pill" onclick="printOperationsPdf()">تقرير PDF</button>
             </div>
           </div>
         </div>
@@ -441,7 +445,7 @@
             <div class="hero-grid">
               <div>
                 <h1>إدارة احترافية للمنشأة</h1>
-                <p>لوحة واحدة لإدارة بيانات المنشأة، الشقق، الواي فاي، والمستأجرين، مع رابط ضيف خاص ينتهي بعد تاريخ الخروج.</p>
+                <p>لوحة واحدة لإدارة بيانات المنشأة، الشقق، الواي فاي، والمستأجرين، مع رابط ضيف خاص وQR لكل مستأجر ينتهي بعد تاريخ الخروج.</p>
                 <p>هذه الواجهة خاصة بالمنشأة فقط. المستأجر يرى صفحة خاصة به عبر الرابط.</p>
               </div>
               <div class="hero-card">
@@ -554,7 +558,7 @@
               <h2 class="section-title">المستأجرون والروابط</h2>
               <div class="table-wrap">
                 <table>
-                  <thead><tr><th>العميل</th><th>الدور / الشقة</th><th>مدة الإقامة</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
+                  <thead><tr><th>العميل</th><th>الدور / الشقة</th><th>مدة الإقامة</th><th>الرابط / QR</th><th>الإجراءات</th></tr></thead>
                   <tbody>${renderGuestsRows()}</tbody>
                 </table>
               </div>
@@ -634,10 +638,14 @@
             <td><strong>${esc(g.name)}</strong><br><span style="color:var(--muted)">${esc(g.phone)}</span></td>
             <td>${esc(unit.floor || "-")} - شقة ${esc(unit.name || "-")}</td>
             <td>${esc(g.checkInDate || "-")}<br><span style="color:var(--muted)">${esc(g.checkOutDate || "-")}</span></td>
-            <td><a href="${link}" target="_blank">فتح الرابط</a></td>
+            <td>
+              <a href="${link}" target="_blank">فتح الرابط</a><br>
+              <img alt="QR" src="${qrUrl(link)}" style="width:90px;height:90px;margin-top:8px;border:1px solid var(--line);border-radius:10px;padding:5px;background:#fff;">
+            </td>
             <td>
               <div class="table-actions">
                 <button class="btn btn-primary" onclick="copyGuestLink(${i})">نسخ الرابط</button>
+                <button class="btn btn-soft" onclick="printGuestQr(${i})">طباعة QR</button>
                 <button class="btn btn-success" onclick="sendWelcome(${i})">ترحيب واتساب</button>
                 <button class="btn btn-danger" onclick="deleteGuest(${i})">حذف</button>
               </div>
@@ -707,7 +715,9 @@
     }
 
     function addGuest() {
+      if (!Array.isArray(db.guests)) db.guests = [];
       if (!db.units.length) return alert("أضف شقة / وحدة أولًا");
+
       const name = q("guestName").value.trim();
       const phone = q("guestPhone").value.trim();
       const unitIndex = Number(q("guestUnit").value);
@@ -733,17 +743,25 @@
       };
 
       db.guests.push(guest);
-      saveData();
+
       addAudit("إضافة مستأجر", {
         العميل: name,
         الجوال: phone,
         الدور: db.units[unitIndex]?.floor || "-",
         الشقة: db.units[unitIndex]?.name || "-",
+        من: checkInDate || "-",
         إلى: checkOutDate
       });
 
+      saveData();
       showStatus("تم حفظ المستأجر وظهر في جدول المستأجرين");
       renderAdmin();
+
+      setTimeout(() => {
+        const sectionTitles = Array.from(document.querySelectorAll(".section-title"));
+        const target = sectionTitles.find(x => x.textContent.includes("المستأجرون"));
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
 
     function deleteGuest(i) {
@@ -797,6 +815,90 @@
       window.open(whatsappLink(guest.phone, msg), "_blank");
     }
 
+    
+    function printOperationsPdf() {
+      const logs = Array.isArray(db.auditLog) ? db.auditLog : [];
+      const rows = logs.map((log, i) => {
+        const d = log.details || {};
+        const details = Object.keys(d).map(k => `<div><strong>${esc(k)}:</strong> ${esc(d[k])}</div>`).join("");
+        return `<tr><td>${i + 1}</td><td>${esc(log.time)}</td><td>${esc(log.action)}</td><td>${details}</td></tr>`;
+      }).join("");
+
+      const win = window.open("", "_blank");
+      win.document.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="UTF-8">
+          <title>تقرير سجل العمليات - HostFlow AI</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 28px; color: #162033; }
+            h1 { margin-bottom: 6px; }
+            .meta { color: #667085; margin-bottom: 24px; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid #d9e2ec; padding: 10px; text-align: right; vertical-align: top; }
+            th { background: #f4f7fb; }
+            .footer { margin-top: 24px; color: #667085; font-size: 12px; }
+            @media print { button { display: none; } }
+          </style>
+        </head>
+        <body>
+          <button onclick="window.print()">طباعة / حفظ PDF</button>
+          <h1>تقرير سجل العمليات</h1>
+          <div class="meta">
+            المنشأة: ${esc(db.property.name)}<br>
+            تاريخ التقرير: ${new Date().toLocaleString("ar-SA")}<br>
+            ${RIGHTS}
+          </div>
+          <table>
+            <thead><tr><th>#</th><th>الوقت</th><th>الإجراء</th><th>التفاصيل</th></tr></thead>
+            <tbody>${rows || `<tr><td colspan="4">لا يوجد سجل حتى الآن</td></tr>`}</tbody>
+          </table>
+          <div class="footer">${RIGHTS}</div>
+        </body>
+        </html>
+      `);
+      win.document.close();
+      addAudit("تصدير تقرير PDF لسجل العمليات", { المنشأة: db.property.name });
+    }
+
+    function printGuestQr(i) {
+      const guest = db.guests[i];
+      const unit = db.units[guest.unitIndex] || {};
+      const link = guestUrl(buildGuestPayload(guest, unit));
+      const win = window.open("", "_blank");
+      win.document.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="UTF-8">
+          <title>QR الضيف - HostFlow AI</title>
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 32px; color: #162033; }
+            .card { border: 1px solid #d9e2ec; border-radius: 18px; padding: 28px; max-width: 420px; margin: auto; }
+            img { width: 240px; height: 240px; margin: 18px 0; }
+            .muted { color: #667085; }
+            @media print { button { display: none; } }
+          </style>
+        </head>
+        <body>
+          <button onclick="window.print()">طباعة / حفظ PDF</button>
+          <div class="card">
+            <h1>${esc(db.property.name)}</h1>
+            <p>امسح الرمز للدخول إلى صفحة الضيف</p>
+            <img src="${qrUrl(link, 240)}" alt="QR">
+            <h2>${esc(unit.floor || "-")} - شقة ${esc(unit.name || "-")}</h2>
+            <p class="muted">خاص بالضيف: ${esc(guest.name)}</p>
+            <p class="muted">${RIGHTS}</p>
+          </div>
+        </body>
+        </html>
+      `);
+      win.document.close();
+      addAudit("طباعة QR للضيف", { العميل: guest.name, الشقة: unit.name || "-" });
+    }
+
+
     function loadDemo() {
       db = structuredClone(DEFAULT_DATA);
       db.units = [
@@ -816,7 +918,7 @@
       a.download = "hostflow-backup.json";
       a.click();
       URL.revokeObjectURL(url);
-      showStatus("تم تحميل النسخة الاحتياطية");
+      showStatus("تم تحميل نسخة احتياطية بصيغة JSON");
     }
 
     function renderGuest(payload) {
