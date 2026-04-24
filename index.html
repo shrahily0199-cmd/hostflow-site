@@ -1,8 +1,8 @@
 <!--
 ============================================================
  HostFlow AI
- Developed for: Abdulrahman Shrahily
- © 2026 Abdulrahman Shrahily. All Rights Reserved.
+ Developed for: Abdurahman Shrahily
+ © 2026 Abdurahman Shrahily. All Rights Reserved.
 
  This software is proprietary.
  Unauthorized copying, resale, redistribution, or imitation
@@ -413,7 +413,13 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
     }
 
     function fixedWelcomeMessage(guest, property, link) {
-      return `أهلًا ${guest.name}،\nنرحب بك في ${property.name} ونتمنى لك إقامة مريحة ومميزة.\n\nتم تجهيز صفحة خاصة بك تحتوي على أهم معلومات إقامتك وطلبات الخدمة.\n\nرابط الضيف:\n${link}`;
+      return `أهلًا ${guest.name}،
+نرحب بك في ${property.name} ونتمنى لك إقامة مريحة ومميزة.
+
+تم تجهيز صفحة خاصة بك تحتوي على أهم معلومات إقامتك وطلبات الخدمة.
+
+رابط الضيف:
+${link}`;
     }
 
     function serviceMessage(payload, serviceType) {
@@ -484,7 +490,6 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
                   <li>💬 رسالة ترحيب واتساب راقية تحتوي على رابط الضيف فقط</li>
                   <li>🛎️ خدمات جاهزة للضيف بضغطة واحدة</li>
                   <li>⏳ رابط الضيف ينتهي تلقائيًا بعد تاريخ الخروج</li>
-                  <li>🔒 ${RIGHTS}</li>تاريخ الخروج</li>
                   <li>🔒 ${RIGHTS}</li>
                 </ul>
               </div>
@@ -546,10 +551,15 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
                 <div class="field"><label>نوع الطلب في الرسالة</label><input id="serviceType" placeholder="مثال: غسيل ملابس"></div>
               </div>
               <button class="btn btn-primary" onclick="addService()">إضافة خدمة</button>
-            </se<h2 class="section-title">إضافة شقة / وحدة</h2>
+            </section>
+
+            <section class="card">
+              <h2 class="section-title">إضافة شقة / وحدة</h2>
               <div class="grid-3">
                 <div class="field"><label>الدور</label><input id="unitFloor" placeholder="مثال: الدور الثاني"></div>
-                <div class="field"><label>رقم الشقة</label><input id="unitName" placeholder="مثال: 204"></div>            <div class="field"><label>كلمة المرور</label><input id="unitPass" placeholder="مثال: 12345678"></div>
+                <div class="field"><label>رقم الشقة</label><input id="unitName" placeholder="مثال: 204"></div>
+                <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifi" placeholder="مثال: HotelWiFi-101"></div>
+                <div class="field"><label>كلمة المرور</label><input id="unitPass" placeholder="مثال: 12345678"></div>
                 <div class="field"><label>وقت الدخول</label><input id="unitCheckIn" placeholder="مثال: 3:00 مساءً"></div>
                 <div class="field"><label>وقت الخروج</label><input id="unitCheckOut" placeholder="مثال: 12:00 ظهرًا"></div>
               </div>
@@ -560,14 +570,26 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
               <h2 class="section-title">الوحدات</h2>
               <div class="table-wrap">
                 <table>
-                  <thead><tr><th>الوحدة</th><th>الواي فاي</th><th>الدخول / الخروج</th><th>الإجراءات</th></tr></thead>
-                  <tbody>${renderUn<thead><tr><th>الدور / الشقة</th><th>الواي فاي</th><th>الدخول / الخروج</th><th>الإجراءات</th></tr></thead>  <section class="card">
+                  <thead><tr><th>الدور / الشقة</th><th>الواي فاي</th><th>الدخول / الخروج</th><th>الإجراءات</th></tr></thead>
+                  <tbody>${renderUnitsRows()}</tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="card">
               <h2 class="section-title">إضافة مستأجر</h2>
-              <div class="grid-اسم العميل"></div>
+              <div class="grid-3">
+                <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="اسم العميل"></div>
                 <div class="field"><label>رقم جوال العميل</label><input id="guestPhone" placeholder="9665XXXXXXXX"></div>
-                <div class="field"><label>الوحدة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${u.name}</option>`).join('')}</select></div>
-                <div class="field"><label>تاريخ الدخول</label><input id="guest<div class="field"><label>الدور / رقم الشقة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${u.floor || '-'} - شقة ${u.name}</option>`).join('')}</select></div>  </div>
-              <button class="btn btn-primary" onclick="a والروابط</h2>
+                <div class="field"><label>الدور / رقم الشقة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${u.floor || '-'} - شقة ${u.name}</option>`).join('')}</select></div>
+                <div class="field"><label>تاريخ الدخول</label><input id="guestCheckInDate" type="date"></div>
+                <div class="field"><label>تاريخ الخروج</label><input id="guestCheckOutDate" type="date"></div>
+              </div>
+              <button class="btn btn-primary" onclick="addGuest()">حفظ المستأجر وإنشاء رابطه</button>
+            </section>
+
+            <section class="card">
+              <h2 class="section-title">المستأجرون والروابط</h2>
               <div class="table-wrap">
                 <table>
                   <thead><tr><th>العميل</th><th>الوحدة</th><th>مدة الإقامة</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
@@ -631,7 +653,7 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
       if (!db.units.length) return '<tr><td colspan="4">لا توجد وحدات حتى الآن</td></tr>';
       return db.units.map((u, i) => `
         <tr>
-          <td><strong>${u.name}</strong></td>
+          <td><strong>${u.floor || '-'}</strong><br><span style="color:var(--muted)">شقة ${u.name}</span></td>
           <td>${u.wifi}<br><span style="color:var(--muted)">${u.password}</span></td>
           <td>${u.checkIn || '-'}<br><span style="color:var(--muted)">${u.checkOut || '-'}</span></td>
           <td><button class="btn btn-danger" onclick="deleteUnit(${i})">حذف</button></td>
@@ -640,20 +662,21 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
     }
 
     function renderGuestsRows() {
-<td><strong>${u.floor || '-'}</strong><br><span style="color:var(--muted)">شقة ${u.name}</span></td> '<tr><td colspan="5">لا يوجد  return db.guests.map((g, i) => {
+      if (!db.guests.length) return '<tr><td colspan="5">لا يوجد مستأجرون حتى الآن</td></tr>';
+      return db.guests.map((g, i) => {
         const unit = db.units[g.unitIndex];
         const payload = buildGuestPayload(g, unit);
         const link = guestUrl(payload);
         return `
           <tr>
             <td><strong>${g.name}</strong><br><span style="color:var(--muted)">${g.phone}</span></td>
-            <td>${unit ? unit.name : '-'}</td>
+            <td>${unit ? `${unit.floor || '-'} - شقة ${unit.name}` : '-'}</td>
             <td>${g.checkInDate || '-'}<br><span style="color:var(--muted)">${g.checkOutDate || '-'}</span></td>
             <td><a href="${link}" target="_blank">فتح الرابط</a></td>
             <td>
               <div class="table-actions">
                 <button class="btn btn-primary" onclick="copyGuestLink(${i})">نسخ الرابط</button>
-                <button class="btn btn-success" o<td>${unit ? `${unit.floor || '-'} - شقة ${unit.name}` : '-'}</td>اتساب</button>
+                <button class="btn btn-success" onclick="sendWelcome(${i})">ترحيب واتساب</button>
                 <button class="btn btn-danger" onclick="deleteGuest(${i})">حذف</button>
               </div>
             </td>
@@ -664,7 +687,8 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
 
     function saveProperty() {
       db.property = {
-        name: q('propertyName').value.tpe: q('propertyType').value,
+        name: q('propertyName').value.trim() || 'منشأة جديدة',
+        type: q('propertyType').value,
         phone: q('propertyPhone').value.trim(),
         frontDeskPhone: q('frontDeskPhone').value.trim(),
         emergencyPhone: q('emergencyPhone').value.trim(),
@@ -691,29 +715,41 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
     }
 
     function addUnit() {
+      const floor = q('unitFloor').value.trim();
       const name = q('unitName').value.trim();
       const wifi = q('unitWifi').value.trim();
       const password = q('unitPass').value.trim();
       if (!name || !wifi || !password) return alert('أدخل رقم الوحدة والواي فاي وكلمة المرور');
       db.units.push({
+        floor: floor || '-',
         name,
         wifi,
         password,
-        checkIn: q('unitCheckIn').value.trim(    });
+        checkIn: q('unitCheckIn').value.trim() || '3:00 مساءً',
+        checkOut: q('unitCheckOut').value.trim() || '12:00 ظهرًا'
+      });
       saveData();
-      addAudit('إضافة وحدة', { الوحدة: name, الواي_فاي: wifi });
-      showStatus('تconst floor = q('unitFloor').value.trim();
-      const name = q('unitName').value.trim();
-      const wifi = q('unitWifi').value.trim();firm('حذف الوحدة؟')) return;
+      addAudit('إضافة شقة / وحدة', { الدور: floor || '-', الشقة: name, الواي_فاي: wifi });
+      showStatus('تم حفظ الوحدة');
+      renderAdmin();
+    }
+
+    function deleteUnit(i) {
+      if (!confirm('حذف الوحدة؟')) return;
       db.units.splice(i, 1);
-      db.guests = db.guests.filter(ف وحدة', { رقم_الوحدة: i });
+      db.guests = db.guests.filter(g => g.unitIndex !== i);
+      addAudit('حذف وحدة', { رقم_الوحدة: i });
       saveData();
-      renderAddb.units.push({
-        floor: floor || '-',
-        name,
-        wifi,   if (!db.units.length) return alert('أضف وحدة أولًا');
+      renderAdmin();
+    }
+
+    function addGuest() {
+      if (!db.units.length) return alert('أضف وحدة أولًا');
       const name = q('guestName').value.trim();
-      const phone = q('guestPhone').value.trim      const checkInDate = q('gueaddAudit('إضافة شقة / وحدة', { الدور: floor || '-', الشقة: name, الواي_فاي: wifi });CheckOutDate').value;
+      const phone = q('guestPhone').value.trim();
+      const unitIndex = Number(q('guestUnit').value);
+      const checkInDate = q('guestCheckInDate').value;
+      const checkOutDate = q('guestCheckOutDate').value;
       if (!name || !phone || !checkOutDate) return alert('أدخل اسم العميل ورقمه وتاريخ الخروج');
       db.guests.push({ name, phone, unitIndex, checkInDate, checkOutDate, createdAt: Date.now() });
       addAudit('إضافة مستأجر', { العميل: name, الجوال: phone, الوحدة: db.units[unitIndex]?.name || unitIndex, من: checkInDate || '-', إلى: checkOutDate });
@@ -732,10 +768,18 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
     }
 
     function buildGuestPayload(guest, unit) {
+      const safeUnit = unit ? {
+        floor: unit.floor || '-',
+        name: unit.name || '-',
+        wifi: unit.wifi || '-',
+        password: unit.password || '-',
+        checkIn: unit.checkIn || '3:00 مساءً',
+        checkOut: unit.checkOut || '12:00 ظهرًا'
+      } : { floor: '-', name: '-', wifi: '-', password: '-', checkIn: '-', checkOut: '-' };
       return {
         property: db.property,
         guest,
-        unit,
+        unit: safeUnit,
         rules: db.rules,
         instructions: db.instructions,
         services: db.services.filter(s => s.enabled !== false),
@@ -815,14 +859,19 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
                 <p>نسعد باستضافتك ونتمنى لك إقامة مريحة ومميزة.</p>
                 <div class="chip-row">
                   <div class="chip">🏨 ${payload.property.name}</div>
-                  <div class="chip">🚪 الوحدة ${payload.unit.name}</div>
+                  <div class="chip">🏢 ${payload.unit.floor || '-'} - شقة ${payload.unit.name || '-'}</div>
                   <div class="chip">كل ما تحتاجه موجود هنا</div>
                 </div>
               </div>
               <div class="hero-card">
                 <ul class="hero-list">
                   <li>📶 بيانات الواي فاي</li>
-         /div>
+                  <li>🔑 تعليمات الدخول</li>
+                  <li>🛎️ طلب الخدمات</li>
+                  <li>🚨 الطوارئ والتواصل</li>
+                  <li>⭐ التقييم</li>
+                </ul>
+              </div>
             </div>
           </div>
         </header>
@@ -833,27 +882,30 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
               <section class="card">
                 <h2 class="section-title">المعلومات الأساسية</h2>
                 <div class="info-grid">
-                  <div class="info-box"><strong>الوحدة</strong><div class="chip">🏢 ${payload.unit.floor || '-'} - شقة ${payload.unit.name}</div>s="info-box"><strong>اسم الشبكة</strong>${payload.unit.wifi}</div>
-                  <div class="info-box"><strong>كلمة المرور</strong>${payload.unit.password}</div>
-                  <div class="info-box"><strong>الخروج</strong>${payload.unit.checkOut}</div>
+                  <div class="info-box"><strong>الدور</strong>${payload.unit.floor || '-'}</div>
+                  <div class="info-box"><strong>رقم الشقة</strong>${payload.unit.name || '-'}</div>
+                  <div class="info-box"><strong>اسم الشبكة</strong>${payload.unit.wifi || '-'}</div>
+                  <div class="info-box"><strong>كلمة المرور</strong>${payload.unit.password || '-'}</div>
+                  <div class="info-box"><strong>الخروج</strong>${payload.unit.checkOut || '-'}</div>
                 </div>
                 <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
-                  <a class="btn btn" target="_blank">📍 فتح الموقع</a>
+                  <a class="btn btn-primary" href="${payload.property.locationUrl || '#'}" target="_blank">📍 فتح الموقع</a>
                   <a class="btn btn-soft" href="tel:${payload.property.frontDeskPhone || payload.property.phone}">☎️ الاستقبال</a>
                 </div>
               </section>
 
               <section class="card">
                 <h2 class="section-title">تعليمات الدخول</h2>
-                <ol class="ste<div class="info-box"><strong>الدور</strong>${payload.unit.floor || '-'}</div>
-                  <div class="info-box"><strong>رقم الشقة</strong>${payload.unit.name}</div>           </section>
+                <ol class="steps">${payload.instructions.map(x => `<li>${x}</li>`).join('')}</ol>
+              </section>
             </div>
 
             <section class="card">
               <h2 class="section-title">طلب خدمة</h2>
               <div class="section-subtitle">اختر الخدمة المطلوبة وسيتم فتح رسالة واتساب جاهزة للمنشأة.</div>
               <div class="action-grid">
-                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" onclick="showStatus('${serviceConfirmText(s.type)}')" href="${whatsappLink(payload.property.phone, serviceMiv>
+                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" onclick="showStatus('${serviceConfirmText(s.type)}')" href="${whatsappLink(payload.property.phone, serviceMessage(payload, s.type))}">${s.label}</a>`).join('')}
+              </div>
             </section>
 
             <div class="grid-2">
