@@ -183,6 +183,48 @@
   <div id="app"></div>
   <div class="status-box" id="statusBox"></div>
 
+  <datalist id="guestNameSuggestions">
+    <option value="عبدالرحمن شراحيلي"></option>
+    <option value="أحمد محمد"></option>
+    <option value="محمد عبدالله"></option>
+  </datalist>
+  <datalist id="floorSuggestions">
+    <option value="الدور الأرضي"></option>
+    <option value="الدور الأول"></option>
+    <option value="الدور الثاني"></option>
+    <option value="الدور الثالث"></option>
+  </datalist>
+  <datalist id="apartmentSuggestions">
+    <option value="101"></option>
+    <option value="102"></option>
+    <option value="201"></option>
+    <option value="204"></option>
+  </datalist>
+  <datalist id="wifiSuggestions">
+    <option value="Future-101"></option>
+    <option value="HotelWiFi"></option>
+    <option value="Guest-WiFi"></option>
+  </datalist>
+  <datalist id="checkInSuggestions">
+    <option value="3:00 مساءً"></option>
+    <option value="4:00 مساءً"></option>
+  </datalist>
+  <datalist id="checkOutSuggestions">
+    <option value="12:00 ظهرًا"></option>
+    <option value="1:00 مساءً"></option>
+  </datalist>
+  <datalist id="serviceLabelSuggestions">
+    <option value="🧺 طلب غسيل"></option>
+    <option value="🍽️ طلب أدوات مطبخ"></option>
+    <option value="🚗 طلب موقف"></option>
+  </datalist>
+  <datalist id="serviceTypeSuggestions">
+    <option value="غسيل ملابس"></option>
+    <option value="أدوات مطبخ"></option>
+    <option value="مساعدة بخصوص الموقف"></option>
+  </datalist>
+
+
   <script>
     const RIGHTS = "HostFlow AI © 2026 Abdulrahman Shrahily. All Rights Reserved.";
     const STORAGE_KEY = "hostflow_clean_v4";
@@ -260,6 +302,7 @@
         unitIndex: Number.isInteger(g.unitIndex) ? g.unitIndex : 0,
         checkInDate: g.checkInDate || "",
         checkOutDate: g.checkOutDate || "",
+        id: g.id || ("guest-" + (g.createdAt || Date.now())),
         createdAt: g.createdAt || Date.now()
       })) : [];
       merged.auditLog = Array.isArray(data.auditLog) ? data.auditLog : [];
@@ -387,8 +430,8 @@
             </div>
             <div class="top-actions">
               <button class="pill" onclick="loadDemo()">تحميل مثال</button>
-              <button class="pill" onclick="exportData()">تصدير البيانات</button>
-              <button class="pill" onclick="showLegalLog()">السجل القانوني</button>
+              <button class="pill" onclick="exportData()">نسخة احتياطية</button>
+              <button class="pill" onclick="showLegalLog()">سجل العمليات</button>
             </div>
           </div>
         </div>
@@ -418,7 +461,7 @@
 
         <main>
           <div class="container">
-            <div class="notice">الـ Admin يبقى شغال دائمًا للمنشأة. انتهاء الصلاحية يطبق فقط على رابط المستأجر.</div>
+            <div class="notice">لوحة المنشأة تعمل دائمًا. انتهاء الصلاحية يطبّق فقط على رابط المستأجر بعد تاريخ الخروج.</div>
 
             <section class="card">
               <h2 class="section-title">ملخص سريع</h2>
@@ -466,8 +509,8 @@
                 </table>
               </div>
               <div class="grid-3" style="margin-top:16px;">
-                <div class="field"><label>اسم الزر</label><input id="serviceLabel" placeholder="مثال: 🧺 طلب غسيل"></div>
-                <div class="field"><label>نوع الطلب في الرسالة</label><input id="serviceType" placeholder="مثال: غسيل ملابس"></div>
+                <div class="field"><label>اسم الزر</label><input id="serviceLabel" placeholder="مثال: 🧺 طلب غسيل" list="serviceLabelSuggestions"></div>
+                <div class="field"><label>نوع الطلب في الرسالة</label><input id="serviceType" placeholder="مثال: غسيل ملابس" list="serviceTypeSuggestions"></div>
               </div>
               <button class="btn btn-primary" onclick="addService()">إضافة خدمة</button>
             </section>
@@ -475,12 +518,12 @@
             <section class="card">
               <h2 class="section-title">إضافة شقة / وحدة</h2>
               <div class="grid-3">
-                <div class="field"><label>الدور</label><input id="unitFloor" placeholder="مثال: الدور الثاني"></div>
-                <div class="field"><label>رقم الشقة</label><input id="unitName" placeholder="مثال: 204"></div>
-                <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifi" placeholder="مثال: HotelWiFi-204"></div>
+                <div class="field"><label>الدور</label><input id="unitFloor" placeholder="مثال: الدور الأول" list="floorSuggestions"></div>
+                <div class="field"><label>رقم الشقة</label><input id="unitName" placeholder="مثال: 101" list="apartmentSuggestions"></div>
+                <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifi" placeholder="مثال: Future-101" list="wifiSuggestions"></div>
                 <div class="field"><label>كلمة المرور</label><input id="unitPass" placeholder="مثال: 12345678"></div>
-                <div class="field"><label>وقت الدخول</label><input id="unitCheckIn" placeholder="مثال: 3:00 مساءً"></div>
-                <div class="field"><label>وقت الخروج</label><input id="unitCheckOut" placeholder="مثال: 12:00 ظهرًا"></div>
+                <div class="field"><label>وقت الدخول</label><input id="unitCheckIn" placeholder="مثال: 3:00 مساءً" list="checkInSuggestions"></div>
+                <div class="field"><label>وقت الخروج</label><input id="unitCheckOut" placeholder="مثال: 12:00 ظهرًا" list="checkOutSuggestions"></div>
               </div>
               <button class="btn btn-primary" onclick="addUnit()">حفظ الشقة / الوحدة</button>
             </section>
@@ -498,8 +541,8 @@
             <section class="card">
               <h2 class="section-title">إضافة مستأجر</h2>
               <div class="grid-3">
-                <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="اسم العميل"></div>
-                <div class="field"><label>رقم جوال العميل</label><input id="guestPhone" placeholder="9665XXXXXXXX"></div>
+                <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="مثال: عبدالرحمن شراحيلي" list="guestNameSuggestions"></div>
+                <div class="field"><label>رقم جوال العميل</label><input id="guestPhone" placeholder="مثال: 9665XXXXXXXX"></div>
                 <div class="field"><label>الدور / رقم الشقة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${esc(u.floor)} - شقة ${esc(u.name)}</option>`).join("")}</select></div>
                 <div class="field"><label>تاريخ الدخول</label><input id="guestCheckInDate" type="date"></div>
                 <div class="field"><label>تاريخ الخروج</label><input id="guestCheckOutDate" type="date"></div>
@@ -670,11 +713,36 @@
       const unitIndex = Number(q("guestUnit").value);
       const checkInDate = q("guestCheckInDate").value;
       const checkOutDate = q("guestCheckOutDate").value;
-      if (!name || !phone || !checkOutDate) return alert("أدخل اسم العميل ورقمه وتاريخ الخروج");
-      db.guests.push({ name, phone, unitIndex, checkInDate, checkOutDate, createdAt: Date.now() });
-      addAudit("إضافة مستأجر", { العميل: name, الجوال: phone, الشقة: db.units[unitIndex]?.name || "-", إلى: checkOutDate });
+
+      if (!name || !phone || !checkOutDate) {
+        return alert("أدخل اسم العميل، رقم الجوال، وتاريخ الخروج");
+      }
+
+      if (!Number.isInteger(unitIndex) || !db.units[unitIndex]) {
+        return alert("اختر شقة صحيحة للمستأجر");
+      }
+
+      const guest = {
+        id: "guest-" + Date.now(),
+        name,
+        phone,
+        unitIndex,
+        checkInDate,
+        checkOutDate,
+        createdAt: Date.now()
+      };
+
+      db.guests.push(guest);
       saveData();
-      showStatus("تم حفظ المستأجر وإنشاء رابطه");
+      addAudit("إضافة مستأجر", {
+        العميل: name,
+        الجوال: phone,
+        الدور: db.units[unitIndex]?.floor || "-",
+        الشقة: db.units[unitIndex]?.name || "-",
+        إلى: checkOutDate
+      });
+
+      showStatus("تم حفظ المستأجر وظهر في جدول المستأجرين");
       renderAdmin();
     }
 
@@ -745,9 +813,10 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "hostflow-data.json";
+      a.download = "hostflow-backup.json";
       a.click();
       URL.revokeObjectURL(url);
+      showStatus("تم تحميل النسخة الاحتياطية");
     }
 
     function renderGuest(payload) {
