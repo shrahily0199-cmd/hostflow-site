@@ -1,156 +1,822 @@
+<!--
+============================================================
+ HostFlow AI
+ Developed for: Abdullah Shrahily
+ © 2026 Abdullah Shrahily. All Rights Reserved.
+
+ This software is proprietary.
+ Unauthorized copying, resale, redistribution, or imitation
+ of the system structure, workflow, or interface is prohibited.
+============================================================
+-->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>HostFlow AI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostFlow AI</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #162033;
+      --muted: #667085;
+      --line: #e6ecf3;
+      --primary: #1f6feb;
+      --primary-soft: #eef4ff;
+      --primary-dark: #1558b8;
+      --success: #0f766e;
+      --success-soft: #ecfeff;
+      --danger: #dc2626;
+      --danger-soft: #fff1f2;
+      --dark: #0f172a;
+      --dark-soft: #1e293b;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
 
-<style>
-body {
-font-family: Arial;
-background:#0f172a;
-color:white;
-padding:20px;
-text-align:center;
-}
+    * { box-sizing: border-box; }
 
-.card {
-background:#1e293b;
-padding:20px;
-border-radius:15px;
-margin:15px auto;
-max-width:500px;
-}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-input, button {
-width:100%;
-padding:10px;
-margin:5px 0;
-border:none;
-border-radius:8px;
-}
+    a { color: inherit; }
 
-button {
-background:#38bdf8;
-cursor:pointer;
-}
+    .container {
+      width: min(1240px, calc(100% - 28px));
+      margin: 0 auto;
+    }
 
-a {color:#38bdf8;}
-</style>
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .topbar-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand { font-weight: 800; font-size: 1.1rem; }
+    .subbrand { font-size: 0.85rem; color: rgba(255,255,255,0.78); margin-top: 3px; }
+
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e293b 45%, #334155);
+      color: #fff;
+      padding: 30px 0 42px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 0 0 12px;
+      color: rgba(255,255,255,0.9);
+      max-width: 760px;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 22px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+      font-size: 0.96rem;
+    }
+
+    .hero-list li { display: flex; gap: 10px; align-items: center; }
+
+    main { padding: 24px 0 60px; }
+
+    .notice {
+      background: #fff8e6;
+      color: #7a5b00;
+      border: 1px solid #f4df9b;
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .section-title { margin: 0 0 12px; font-size: 1.18rem; font-weight: 800; }
+    .section-subtitle { margin: -4px 0 14px; color: var(--muted); font-size: 0.95rem; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .field label { font-size: 0.94rem; font-weight: 700; }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .field textarea { min-height: 110px; resize: vertical; }
+    .hint { color: var(--muted); font-size: 0.84rem; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 800;
+      font: inherit;
+      transition: 0.2s ease;
+      text-align: center;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-soft { background: var(--primary-soft); color: var(--primary-dark); border-color: #d8e6ff; }
+    .btn-success { background: var(--success-soft); color: var(--success); border-color: #d0f5f0; }
+    .btn-danger { background: var(--danger-soft); color: var(--danger); border-color: #ffd8df; }
+    .btn-dark { background: var(--dark); color: #fff; }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi {
+      background: #fafcff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .kpi .label { color: var(--muted); font-size: 0.88rem; margin-bottom: 6px; }
+    .kpi .value { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      min-width: 860px;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    th { background: #fafcff; font-weight: 800; white-space: nowrap; }
+    tr:last-child td { border-bottom: 0; }
+    .table-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .chip-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 0.92rem;
+    }
+
+    .info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .info-box { background: #fafcff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    .info-box strong { display: block; margin-bottom: 4px; }
+
+    .steps, .rules-list { margin: 0; padding-right: 18px; color: var(--muted); }
+    .steps li, .rules-list li { margin-bottom: 10px; }
+    .action-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+    .status-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1200;
+      background: #0f172a;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 14px;
+      box-shadow: 0 20px 40px rgba(15,23,42,0.25);
+      display: none;
+      max-width: 380px;
+    }
+
+    .status-box.show { display: block; }
+
+    .footer-note { text-align: center; color: var(--muted); margin-top: 20px; }
+
+    @media (max-width: 1100px) {
+      .hero-grid, .grid-2, .grid-3, .kpis, .info-grid, .action-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
+  <div id="app"></div>
+  <div class="status-box" id="statusBox"></div>
 
-<div id="app"></div>
+  <script>
+    const RIGHTS = "HostFlow AI © 2026 Abdullah Shrahily. All Rights Reserved.";
+    const STORAGE_KEY = 'hostflow_clean_v1';
 
-<script>
+    const DEFAULT_DATA = {
+      property: {
+        name: 'منشأة المستقبل',
+        type: 'شقق مفروشة',
+        phone: '966500000000',
+        frontDeskPhone: '966500000000',
+        emergencyPhone: '966500000000',
+        locationUrl: 'https://maps.google.com',
+        feedbackUrl: '',
+        heroTitle: 'كل ما يحتاجه الضيف خلال إقامته',
+        heroDesc: 'كل شيء في مكان واحد وبدون مكالمات متكررة.'
+      },
+      rules: [
+        'يمنع الإزعاج بعد الساعة 10 مساءً.',
+        'يمنع التدخين داخل الوحدة.',
+        'يرجى المحافظة على نظافة المكان.',
+        'الالتزام بوقت تسجيل الخروج.',
+        'في حال وجود أي مشكلة، يرجى استخدام زر طلب المساعدة.'
+      ],
+      instructions: [
+        'تأكد من رقم الوحدة قبل الدخول.',
+        'استخدم بيانات الدخول المرسلة لك من المنشأة.',
+        'تأكد من إغلاق الباب جيدًا عند الخروج.'
+      ],
+      services: [
+        { label: '🧹 طلب تنظيف', type: 'تنظيف' },
+        { label: '🛁 طلب مناشف', type: 'مناشف' },
+        { label: '❄️ مشكلة في التكييف', type: 'مشكلة في التكييف' },
+        { label: '🔧 طلب صيانة', type: 'صيانة' },
+        { label: '❓ طلب مساعدة', type: 'مساعدة' }
+      ],
+      units: [],
+      guests: []
+    };
 
-// قراءة الرابط
-let params = new URLSearchParams(location.search)
-let data = params.get("data")
+    let db = loadData();
 
-// ==================
-// 🎯 وضع الضيف
-// ==================
-if(data){
+    function loadData() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(DEFAULT_DATA);
+      try { return JSON.parse(raw); } catch { return structuredClone(DEFAULT_DATA); }
+    }
 
-let decoded = JSON.parse(atob(data))
+    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+    function q(id) { return document.getElementById(id); }
 
-// انتهاء الصلاحية
-let today = new Date().toISOString().split("T")[0]
+    function showStatus(msg) {
+      const box = q('statusBox');
+      box.textContent = msg;
+      box.classList.add('show');
+      clearTimeout(showStatus._t);
+      showStatus._t = setTimeout(() => box.classList.remove('show'), 2600);
+    }
 
-if(today > decoded.checkout){
+    function cleanPhone(phone) { return String(phone || '').replace(/[^\d]/g, ''); }
 
-document.body.innerHTML = "<h2>انتهت صلاحية الرابط</h2>"
+    function encodePayload(obj) {
+      const json = JSON.stringify(obj);
+      const utf8 = encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode('0x' + p1));
+      return btoa(utf8).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+    }
 
-}else{
+    function decodePayload(str) {
+      try {
+        let base64 = String(str || '').replace(/-/g, '+').replace(/_/g, '/');
+        while (base64.length % 4) base64 += '=';
+        const binary = atob(base64);
+        const json = decodeURIComponent(Array.from(binary).map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
+        return JSON.parse(json);
+      } catch (e) { return null; }
+    }
 
-document.getElementById("app").innerHTML = `
-<div class="card">
-<h2>أهلاً ${decoded.name} 👋</h2>
-<p>نتمنى لك إقامة مريحة ومميزة</p>
+    function todayText() { return new Date().toISOString().slice(0, 10); }
+    function isExpired(checkOutDate) { return checkOutDate && todayText() > checkOutDate; }
 
-<hr>
+    function guestUrl(payload) {
+      const base = window.location.origin + window.location.pathname;
+      return `${base}?data=${encodePayload(payload)}`;
+    }
 
-<p>📍 الوحدة: ${decoded.unit}</p>
-<p>📶 WiFi: ${decoded.wifi}</p>
-<p>🔐 Password: ${decoded.pass}</p>
+    function whatsappLink(phone, message) {
+      return `https://wa.me/${cleanPhone(phone)}?text=${encodeURIComponent(message)}`;
+    }
 
-<hr>
+    function fixedWelcomeMessage(guest, property, link) {
+      return `أهلًا ${guest.name}، نرحب بك في ${property.name} ونتمنى لك إقامة مريحة ومميزة.\nكل ما تحتاجه خلال إقامتك موجود في هذا الرابط:\n${link}`;
+    }
 
-<h3>📋 القوانين</h3>
-<p>• يمنع الإزعاج بعد 10 مساءً</p>
-<p>• يمنع التدخين داخل الوحدة</p>
-<p>• المحافظة على النظافة</p>
+    function serviceMessage(payload, serviceType) {
+      return `السلام عليكم، أنا ${payload.guest.name} من الوحدة ${payload.unit.name} في ${payload.property.name} وأحتاج ${serviceType}. شكرًا لكم.`;
+    }
 
-<hr>
+    function splitLines(text) {
+      return String(text || '').split('\n').map(x => x.trim()).filter(Boolean);
+    }
 
-<h3>🛎️ الطلبات</h3>
+    function parseDataFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('data');
+    }
 
-<button onclick="send('تنظيف')">🧹 تنظيف</button>
-<button onclick="send('مناشف')">🛁 مناشف</button>
-<button onclick="send('صيانة')">🔧 صيانة</button>
-<button onclick="send('مساعدة')">❓ مساعدة</button>
+    function render() {
+      const encoded = parseDataFromUrl();
+      if (encoded) {
+        const payload = decodePayload(encoded);
+        renderGuest(payload);
+      } else {
+        renderAdmin();
+      }
+    }
 
-</div>
-`
-}
+    function renderAdmin() {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      q('app').innerHTML = `
+        <div class="topbar">
+          <div class="container topbar-inner">
+            <div>
+              <div class="brand">HostFlow AI</div>
+              <div class="subbrand">لوحة المنشأة - إدارة الوحدات والمستأجرين</div>
+            </div>
+            <div class="top-actions">
+              <button class="pill" onclick="loadDemo()">تحميل مثال</button>
+              <button class="pill" onclick="exportData()">تصدير البيانات</button>
+            </div>
+          </div>
+        </div>
 
-function send(type){
-let msg = `السلام عليكم، أنا ${decoded.name} من الوحدة ${decoded.unit} وأحتاج ${type}`
-window.open(`https://wa.me/${decoded.phone}?text=`+encodeURIComponent(msg))
-}
+        <header class="hero">
+          <div class="container">
+            <div class="hero-grid">
+              <div>
+                <h1>إدارة احترافية للمنشأة</h1>
+                <p>لوحة واحدة لإدارة بيانات المنشأة، الوحدات، الواي فاي، والمستأجرين، مع رابط ضيف خاص ينتهي بعد تاريخ الخروج.</p>
+                <p>هذه الواجهة خاصة بالمنشأة فقط. المستأجر يرى صفحة خاصة به عبر الرابط.</p>
+              </div>
+              <div class="hero-card">
+                <ul class="hero-list">
+                  <li>🏨 بيانات منشأة قابلة للتغيير حسب العميل</li>
+                  <li>🚪 إدارة الوحدات والواي فاي</li>
+                  <li>👤 إنشاء رابط خاص لكل مستأجر</li>
+                  <li>💬 رسالة ترحيب واتساب ثابتة ومميزة</li>
+                  <li>⏳ انتهاء رابط الضيف بعد تاريخ الخروج</li>
+                  <li>🔒 ${RIGHTS}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
 
-}
+        <main>
+          <div class="container">
+            <div class="notice">الـ Admin يبقى شغال دائمًا للمنشأة. انتهاء الصلاحية يطبق فقط على رابط المستأجر.</div>
 
-// ==================
-// 🧠 وضع الإدارة
-// ==================
-else{
+            <section class="card">
+              <h2 class="section-title">ملخص سريع</h2>
+              <div class="kpis">
+                <div class="kpi"><div class="label">الوحدات</div><div class="value">${db.units.length}</div></div>
+                <div class="kpi"><div class="label">المستأجرون</div><div class="value">${db.guests.length}</div></div>
+                <div class="kpi"><div class="label">الخدمات الثابتة</div><div class="value">${db.services.length}</div></div>
+                <div class="kpi"><div class="label">الحالة</div><div class="value">جاهز</div></div>
+              </div>
+            </section>
 
-document.getElementById("app").innerHTML = `
-<div class="card">
-<h2>إضافة مستأجر</h2>
+            <div class="grid-2">
+              <section class="card">
+                <h2 class="section-title">بيانات المنشأة</h2>
+                <div class="field"><label>اسم المنشأة</label><input id="propertyName" value="${db.property.name}"></div>
+                <div class="field"><label>نوع المنشأة</label>
+                  <select id="propertyType">
+                    ${['شقق مفروشة','فندق','فيلا','استراحة','شاليه','منتجع'].map(t => `<option ${db.property.type === t ? 'selected' : ''}>${t}</option>`).join('')}
+                  </select>
+                </div>
+                <div class="field"><label>رقم واتساب المنشأة</label><input id="propertyPhone" value="${db.property.phone}"></div>
+                <div class="field"><label>رقم الاستقبال</label><input id="frontDeskPhone" value="${db.property.frontDeskPhone}"></div>
+                <div class="field"><label>رقم الطوارئ</label><input id="emergencyPhone" value="${db.property.emergencyPhone}"></div>
+                <div class="field"><label>رابط الموقع</label><input id="locationUrl" value="${db.property.locationUrl}"></div>
+                <div class="field"><label>رابط التقييم</label><input id="feedbackUrl" value="${db.property.feedbackUrl}"></div>
+                <button class="btn btn-dark" onclick="saveProperty()">حفظ بيانات المنشأة</button>
+              </section>
 
-<input id="name" placeholder="اسم العميل">
-<input id="phone" placeholder="رقم واتساب المنشأة">
-<input id="unit" placeholder="رقم الوحدة">
-<input id="wifi" placeholder="اسم الواي فاي">
-<input id="pass" placeholder="كلمة المرور">
-<input id="checkout" type="date">
+              <section class="card">
+                <h2 class="section-title">الرسائل والقوانين الثابتة</h2>
+                <div class="field"><label>القوانين الثابتة</label><textarea id="rulesInput">${db.rules.join('\n')}</textarea></div>
+                <div class="field"><label>تعليمات الدخول</label><textarea id="instructionsInput">${db.instructions.join('\n')}</textarea></div>
+                <div class="hint">رسالة الترحيب والطلبات ثابتة تلقائيًا، وتتغير فقط باسم العميل والمنشأة والرابط.</div>
+                <button class="btn btn-soft" onclick="saveFixedContent()">حفظ القوانين والتعليمات</button>
+              </section>
+            </div>
 
-<button onclick="generate()">إنشاء الرابط</button>
+            <section class="card">
+              <h2 class="section-title">إضافة وحدة</h2>
+              <div class="grid-3">
+                <div class="field"><label>رقم/اسم الوحدة</label><input id="unitName" placeholder="مثال: 101"></div>
+                <div class="field"><label>اسم شبكة الواي فاي</label><input id="unitWifi" placeholder="مثال: HotelWiFi-101"></div>
+                <div class="field"><label>كلمة المرور</label><input id="unitPass" placeholder="مثال: 12345678"></div>
+                <div class="field"><label>وقت الدخول</label><input id="unitCheckIn" placeholder="مثال: 3:00 مساءً"></div>
+                <div class="field"><label>وقت الخروج</label><input id="unitCheckOut" placeholder="مثال: 12:00 ظهرًا"></div>
+              </div>
+              <button class="btn btn-primary" onclick="addUnit()">حفظ الوحدة</button>
+            </section>
 
-<p id="link"></p>
-</div>
-`
-}
+            <section class="card">
+              <h2 class="section-title">الوحدات</h2>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>الوحدة</th><th>الواي فاي</th><th>الدخول / الخروج</th><th>الإجراءات</th></tr></thead>
+                  <tbody>${renderUnitsRows()}</tbody>
+                </table>
+              </div>
+            </section>
 
-function generate(){
+            <section class="card">
+              <h2 class="section-title">إضافة مستأجر</h2>
+              <div class="grid-3">
+                <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="اسم العميل"></div>
+                <div class="field"><label>رقم جوال العميل</label><input id="guestPhone" placeholder="9665XXXXXXXX"></div>
+                <div class="field"><label>الوحدة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${u.name}</option>`).join('')}</select></div>
+                <div class="field"><label>تاريخ الدخول</label><input id="guestCheckInDate" type="date"></div>
+                <div class="field"><label>تاريخ الخروج</label><input id="guestCheckOutDate" type="date"></div>
+              </div>
+              <button class="btn btn-primary" onclick="addGuest()">حفظ المستأجر وإنشاء رابطه</button>
+            </section>
 
-let data = {
-name: name.value,
-phone: phone.value,
-unit: unit.value,
-wifi: wifi.value,
-pass: pass.value,
-checkout: checkout.value
-}
+            <section class="card">
+              <h2 class="section-title">المستأجرون والروابط</h2>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>العميل</th><th>الوحدة</th><th>مدة الإقامة</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
+                  <tbody>${renderGuestsRows()}</tbody>
+                </table>
+              </div>
+            </section>
 
-let encoded = btoa(JSON.stringify(data))
+            <div class="footer-note">${RIGHTS}</div>
+          </div>
+        </main>
+      `;
+    }
 
-let url = location.origin + location.pathname + "?data=" + encoded
+    function renderUnitsRows() {
+      if (!db.units.length) return '<tr><td colspan="4">لا توجد وحدات حتى الآن</td></tr>';
+      return db.units.map((u, i) => `
+        <tr>
+          <td><strong>${u.name}</strong></td>
+          <td>${u.wifi}<br><span style="color:var(--muted)">${u.password}</span></td>
+          <td>${u.checkIn || '-'}<br><span style="color:var(--muted)">${u.checkOut || '-'}</span></td>
+          <td><button class="btn btn-danger" onclick="deleteUnit(${i})">حذف</button></td>
+        </tr>
+      `).join('');
+    }
 
-link.innerHTML = `
-<p>انسخ الرابط:</p>
-<a href="${url}" target="_blank">${url}</a>
-`
+    function renderGuestsRows() {
+      if (!db.guests.length) return '<tr><td colspan="5">لا يوجد مستأجرون حتى الآن</td></tr>';
+      return db.guests.map((g, i) => {
+        const unit = db.units[g.unitIndex];
+        const payload = buildGuestPayload(g, unit);
+        const link = guestUrl(payload);
+        return `
+          <tr>
+            <td><strong>${g.name}</strong><br><span style="color:var(--muted)">${g.phone}</span></td>
+            <td>${unit ? unit.name : '-'}</td>
+            <td>${g.checkInDate || '-'}<br><span style="color:var(--muted)">${g.checkOutDate || '-'}</span></td>
+            <td><a href="${link}" target="_blank">فتح الرابط</a></td>
+            <td>
+              <div class="table-actions">
+                <button class="btn btn-primary" onclick="copyGuestLink(${i})">نسخ الرابط</button>
+                <button class="btn btn-success" onclick="sendWelcome(${i})">ترحيب واتساب</button>
+                <button class="btn btn-danger" onclick="deleteGuest(${i})">حذف</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
 
-navigator.clipboard.writeText(url)
+    function saveProperty() {
+      db.property = {
+        name: q('propertyName').value.trim() || 'منشأة جديدة',
+        type: q('propertyType').value,
+        phone: q('propertyPhone').value.trim(),
+        frontDeskPhone: q('frontDeskPhone').value.trim(),
+        emergencyPhone: q('emergencyPhone').value.trim(),
+        locationUrl: q('locationUrl').value.trim(),
+        feedbackUrl: q('feedbackUrl').value.trim(),
+        heroTitle: DEFAULT_DATA.property.heroTitle,
+        heroDesc: DEFAULT_DATA.property.heroDesc
+      };
+      saveData();
+      showStatus('تم حفظ بيانات المنشأة');
+      renderAdmin();
+    }
 
-alert("تم إنشاء الرابط ونسخه 👍")
+    function saveFixedContent() {
+      db.rules = splitLines(q('rulesInput').value);
+      db.instructions = splitLines(q('instructionsInput').value);
+      if (!db.rules.length) db.rules = structuredClone(DEFAULT_DATA.rules);
+      if (!db.instructions.length) db.instructions = structuredClone(DEFAULT_DATA.instructions);
+      saveData();
+      showStatus('تم حفظ القوانين والتعليمات');
+      renderAdmin();
+    }
 
-}
-</script>
+    function addUnit() {
+      const name = q('unitName').value.trim();
+      const wifi = q('unitWifi').value.trim();
+      const password = q('unitPass').value.trim();
+      if (!name || !wifi || !password) return alert('أدخل رقم الوحدة والواي فاي وكلمة المرور');
+      db.units.push({
+        name,
+        wifi,
+        password,
+        checkIn: q('unitCheckIn').value.trim() || '3:00 مساءً',
+        checkOut: q('unitCheckOut').value.trim() || '12:00 ظهرًا'
+      });
+      saveData();
+      showStatus('تم حفظ الوحدة');
+      renderAdmin();
+    }
 
+    function deleteUnit(i) {
+      if (!confirm('حذف الوحدة؟')) return;
+      db.units.splice(i, 1);
+      db.guests = db.guests.filter(g => g.unitIndex !== i);
+      saveData();
+      renderAdmin();
+    }
+
+    function addGuest() {
+      if (!db.units.length) return alert('أضف وحدة أولًا');
+      const name = q('guestName').value.trim();
+      const phone = q('guestPhone').value.trim();
+      const unitIndex = Number(q('guestUnit').value);
+      const checkInDate = q('guestCheckInDate').value;
+      const checkOutDate = q('guestCheckOutDate').value;
+      if (!name || !phone || !checkOutDate) return alert('أدخل اسم العميل ورقمه وتاريخ الخروج');
+      db.guests.push({ name, phone, unitIndex, checkInDate, checkOutDate, createdAt: Date.now() });
+      saveData();
+      showStatus('تم حفظ المستأجر وإنشاء رابطه');
+      renderAdmin();
+    }
+
+    function deleteGuest(i) {
+      if (!confirm('حذف المستأجر؟')) return;
+      db.guests.splice(i, 1);
+      saveData();
+      renderAdmin();
+    }
+
+    function buildGuestPayload(guest, unit) {
+      return {
+        property: db.property,
+        guest,
+        unit,
+        rules: db.rules,
+        instructions: db.instructions,
+        services: db.services,
+        rights: RIGHTS
+      };
+    }
+
+    async function copyGuestLink(i) {
+      const guest = db.guests[i];
+      const unit = db.units[guest.unitIndex];
+      const link = guestUrl(buildGuestPayload(guest, unit));
+      try {
+        await navigator.clipboard.writeText(link);
+        showStatus('تم نسخ رابط الضيف');
+      } catch (e) {
+        prompt('انسخ الرابط:', link);
+      }
+    }
+
+    function sendWelcome(i) {
+      const guest = db.guests[i];
+      const unit = db.units[guest.unitIndex];
+      const link = guestUrl(buildGuestPayload(guest, unit));
+      const msg = fixedWelcomeMessage(guest, db.property, link);
+      window.open(whatsappLink(guest.phone, msg), '_blank');
+    }
+
+    function loadDemo() {
+      db = structuredClone(DEFAULT_DATA);
+      db.units = [
+        { name: '101', wifi: 'Future-101', password: '12345678', checkIn: '3:00 مساءً', checkOut: '12:00 ظهرًا' },
+        { name: '102', wifi: 'Future-102', password: '87654321', checkIn: '3:00 مساءً', checkOut: '12:00 ظهرًا' }
+      ];
+      saveData();
+      renderAdmin();
+      showStatus('تم تحميل المثال');
+    }
+
+    function exportData() {
+      const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'hostflow-data.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderGuest(payload) {
+      if (!payload || !payload.guest || !payload.unit || !payload.property) {
+        return renderGuestError('رابط غير صالح. يرجى التواصل مع المنشأة.');
+      }
+
+      if (isExpired(payload.guest.checkOutDate)) {
+        return renderGuestError('انتهت صلاحية هذا الرابط. يرجى التواصل مع المنشأة.');
+      }
+
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      q('app').innerHTML = `
+        <div class="topbar">
+          <div class="container topbar-inner">
+            <div>
+              <div class="brand">HostFlow AI</div>
+              <div class="subbrand">صفحة الضيف - ${payload.property.name}</div>
+            </div>
+          </div>
+        </div>
+
+        <header class="hero">
+          <div class="container">
+            <div class="hero-grid">
+              <div>
+                <h1>👋 أهلًا بك ${payload.guest.name}</h1>
+                <p>نسعد باستضافتك ونتمنى لك إقامة مريحة ومميزة.</p>
+                <div class="chip-row">
+                  <div class="chip">🏨 ${payload.property.name}</div>
+                  <div class="chip">🚪 الوحدة ${payload.unit.name}</div>
+                  <div class="chip">كل ما تحتاجه موجود هنا</div>
+                </div>
+              </div>
+              <div class="hero-card">
+                <ul class="hero-list">
+                  <li>📶 بيانات الواي فاي</li>
+                  <li>🔑 تعليمات الدخول</li>
+                  <li>🛎️ طلب الخدمات</li>
+                  <li>🚨 الطوارئ والتواصل</li>
+                  <li>⭐ التقييم</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main>
+          <div class="container">
+            <div class="grid-2">
+              <section class="card">
+                <h2 class="section-title">المعلومات الأساسية</h2>
+                <div class="info-grid">
+                  <div class="info-box"><strong>الوحدة</strong>${payload.unit.name}</div>
+                  <div class="info-box"><strong>اسم الشبكة</strong>${payload.unit.wifi}</div>
+                  <div class="info-box"><strong>كلمة المرور</strong>${payload.unit.password}</div>
+                  <div class="info-box"><strong>الخروج</strong>${payload.unit.checkOut}</div>
+                </div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+                  <a class="btn btn-primary" href="${payload.property.locationUrl || '#'}" target="_blank">📍 فتح الموقع</a>
+                  <a class="btn btn-soft" href="tel:${payload.property.frontDeskPhone || payload.property.phone}">☎️ الاستقبال</a>
+                </div>
+              </section>
+
+              <section class="card">
+                <h2 class="section-title">تعليمات الدخول</h2>
+                <ol class="steps">${payload.instructions.map(x => `<li>${x}</li>`).join('')}</ol>
+              </section>
+            </div>
+
+            <section class="card">
+              <h2 class="section-title">طلب خدمة</h2>
+              <div class="section-subtitle">اختر الخدمة المطلوبة وسيتم فتح رسالة واتساب جاهزة للمنشأة.</div>
+              <div class="action-grid">
+                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" href="${whatsappLink(payload.property.phone, serviceMessage(payload, s.type))}">${s.label}</a>`).join('')}
+              </div>
+            </section>
+
+            <div class="grid-2">
+              <section class="card">
+                <h2 class="section-title">القوانين</h2>
+                <ul class="rules-list">${payload.rules.map(x => `<li>${x}</li>`).join('')}</ul>
+              </section>
+
+              <section class="card">
+                <h2 class="section-title">الطوارئ والتقييم</h2>
+                <p class="section-subtitle">في الحالات الطارئة يرجى التواصل فورًا.</p>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                  <a class="btn btn-danger" href="tel:${payload.property.emergencyPhone || payload.property.phone}">🚨 اتصال طارئ</a>
+                  ${payload.property.feedbackUrl ? `<a class="btn btn-success" href="${payload.property.feedbackUrl}" target="_blank">⭐ قيّم تجربتك</a>` : ''}
+                </div>
+              </section>
+            </div>
+
+            <div class="footer-note">${RIGHTS}</div>
+          </div>
+        </main>
+      `;
+    }
+
+    function renderGuestError(message) {
+      q('app').innerHTML = `
+        <main>
+          <div class="container">
+            <section class="card" style="margin-top:70px;text-align:center;">
+              <h2>${message}</h2>
+              <p class="section-subtitle">HostFlow AI</p>
+            </section>
+          </div>
+        </main>
+      `;
+    }
+
+    // حماية خفيفة، ليست حماية قانونية كاملة.
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    render();
+  </script>
 </body>
 </html>
