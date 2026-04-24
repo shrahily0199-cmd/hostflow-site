@@ -1,8 +1,8 @@
 <!--
 ============================================================
  HostFlow AI
- Developed for: Abdurahman Shrahily
- © 2026 Abdulahman Shrahily. All Rights Reserved.
+ Developed for: Abdullah Shrahily
+ © 2026 Abdullah Shrahily. All Rights Reserved.
 
  This software is proprietary.
  Unauthorized copying, resale, redistribution, or imitation
@@ -324,11 +324,11 @@
         'تأكد من إغلاق الباب جيدًا عند الخروج.'
       ],
       services: [
-        { label: '🧹 طلب تنظيف', type: 'تنظيف' },
-        { label: '🛁 طلب مناشف', type: 'مناشف' },
-        { label: '❄️ مشكلة في التكييف', type: 'مشكلة في التكييف' },
-        { label: '🔧 طلب صيانة', type: 'صيانة' },
-        { label: '❓ طلب مساعدة', type: 'مساعدة' }
+        { label: '🧹 طلب تنظيف', type: 'تنظيف', enabled: true },
+        { label: '🛁 طلب مناشف', type: 'مناشف', enabled: true },
+        { label: '❄️ مشكلة في التكييف', type: 'مشكلة في التكييف', enabled: true },
+        { label: '🔧 طلب صيانة', type: 'صيانة', enabled: true },
+        { label: '❓ طلب مساعدة', type: 'مساعدة', enabled: true }
       ],
       units: [],
       guests: []
@@ -417,7 +417,18 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
     }
 
     function serviceMessage(payload, serviceType) {
-      return `السلام عليكم، أنا ${payload.guest.name} من الوحدة ${payload.unit.name} في ${payload.property.name} وأحتاج ${serviceType}. شكرًا لكم.`;
+      return `السلام عليكم،
+أنا ${payload.guest.name}
+الوحدة: ${payload.unit.name}
+المنشأة: ${payload.property.name}
+
+أرغب بطلب: ${serviceType}
+
+شكرًا لكم.`;
+    }
+
+    function serviceConfirmText(serviceType) {
+      return `تم تجهيز طلب ${serviceType} في رسالة واتساب جاهزة للمنشأة.`;
     }
 
     function splitLines(text) {
@@ -471,6 +482,7 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
                   <li>🚪 إدارة الوحدات والواي فاي</li>
                   <li>👤 إنشاء رابط خاص لكل مستأجر</li>
                   <li>💬 رسالة ترحيب واتساب ثابتة ومميزة</li>
+                  <li>🛎️ خدمات ضيف قابلة للتفعيل والتعطيل</li>
                   <li>⏳ انتهاء رابط الضيف بعد تاريخ الخروج</li>
                   <li>🔒 ${RIGHTS}</li>
                 </ul>
@@ -520,6 +532,22 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
             </div>
 
             <section class="card">
+              <h2 class="section-title">الخدمات التي تظهر للضيف</h2>
+              <div class="section-subtitle">هذه الأزرار تظهر في صفحة المستأجر. يمكنك تفعيل أو تعطيل أي خدمة حسب المنشأة.</div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>الخدمة</th><th>نوع الطلب</th><th>الحالة</th><th>الإجراءات</th></tr></thead>
+                  <tbody>${renderServicesRows()}</tbody>
+                </table>
+              </div>
+              <div class="grid-3" style="margin-top:16px;">
+                <div class="field"><label>اسم الزر</label><input id="serviceLabel" placeholder="مثال: 🧺 طلب غسيل"></div>
+                <div class="field"><label>نوع الطلب في الرسالة</label><input id="serviceType" placeholder="مثال: غسيل ملابس"></div>
+              </div>
+              <button class="btn btn-primary" onclick="addService()">إضافة خدمة</button>
+            </section>
+
+            <section class="card">
               <h2 class="section-title">إضافة وحدة</h2>
               <div class="grid-3">
                 <div class="field"><label>رقم/اسم الوحدة</label><input id="unitName" placeholder="مثال: 101"></div>
@@ -567,6 +595,51 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
           </div>
         </main>
       `;
+    }
+
+    function renderServicesRows() {
+      if (!db.services.length) return '<tr><td colspan="4">لا توجد خدمات حتى الآن</td></tr>';
+      return db.services.map((s, i) => `
+        <tr>
+          <td><strong>${s.label}</strong></td>
+          <td>${s.type}</td>
+          <td>${s.enabled === false ? 'معطلة' : 'مفعلة'}</td>
+          <td>
+            <div class="table-actions">
+              <button class="btn btn-soft" onclick="toggleService(${i})">${s.enabled === false ? 'تفعيل' : 'تعطيل'}</button>
+              <button class="btn btn-danger" onclick="deleteService(${i})">حذف</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function addService() {
+      const label = q('serviceLabel').value.trim();
+      const type = q('serviceType').value.trim();
+      if (!label || !type) return alert('أدخل اسم الزر ونوع الطلب');
+      db.services.push({ label, type, enabled: true });
+      addAudit('إضافة خدمة', { الخدمة: label, النوع: type });
+      saveData();
+      showStatus('تمت إضافة الخدمة');
+      renderAdmin();
+    }
+
+    function toggleService(i) {
+      if (!db.services[i]) return;
+      db.services[i].enabled = db.services[i].enabled === false ? true : false;
+      addAudit('تغيير حالة خدمة', { الخدمة: db.services[i].label, الحالة: db.services[i].enabled ? 'مفعلة' : 'معطلة' });
+      saveData();
+      renderAdmin();
+    }
+
+    function deleteService(i) {
+      if (!confirm('حذف هذه الخدمة؟')) return;
+      const removed = db.services[i];
+      db.services.splice(i, 1);
+      addAudit('حذف خدمة', { الخدمة: removed?.label || '-' });
+      saveData();
+      renderAdmin();
     }
 
     function renderUnitsRows() {
@@ -692,7 +765,7 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
         unit,
         rules: db.rules,
         instructions: db.instructions,
-        services: db.services,
+        services: db.services.filter(s => s.enabled !== false),
         rights: RIGHTS
       };
     }
@@ -813,7 +886,7 @@ ${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
               <h2 class="section-title">طلب خدمة</h2>
               <div class="section-subtitle">اختر الخدمة المطلوبة وسيتم فتح رسالة واتساب جاهزة للمنشأة.</div>
               <div class="action-grid">
-                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" href="${whatsappLink(payload.property.phone, serviceMessage(payload, s.type))}">${s.label}</a>`).join('')}
+                ${payload.services.map(s => `<a class="btn btn-soft" target="_blank" onclick="showStatus('${serviceConfirmText(s.type)}')" href="${whatsappLink(payload.property.phone, serviceMessage(payload, s.type))}">${s.label}</a>`).join('')}
               </div>
             </section>
 
