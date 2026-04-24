@@ -1,8 +1,8 @@
 <!--
 ============================================================
  HostFlow AI
- Developed for: Abdulrahman Shrahily
- © 2026 Abdulrahman Shrahily. All Rights Reserved.
+ Developed for: Abdurahman Shrahily
+ © 2026 Abdulahman Shrahily. All Rights Reserved.
 
  This software is proprietary.
  Unauthorized copying, resale, redistribution, or imitation
@@ -336,6 +336,35 @@
 
     let db = loadData();
 
+    function addAudit(action, details = {}) {
+      if (!Array.isArray(db.auditLog)) db.auditLog = [];
+      db.auditLog.unshift({
+        action,
+        details,
+        time: new Date().toLocaleString('ar-SA'),
+        timestamp: new Date().toISOString()
+      });
+      db.auditLog = db.auditLog.slice(0, 300);
+      saveData();
+    }
+
+    function showLegalLog() {
+      const logs = Array.isArray(db.auditLog) ? db.auditLog : [];
+      if (!logs.length) return alert('لا يوجد سجل حتى الآن.');
+      const text = logs.map((log, i) => {
+        const d = log.details || {};
+        return `${i + 1}) ${log.time}
+الإجراء: ${log.action}
+${Object.keys(d).map(k => `${k}: ${d[k]}`).join('
+')}`;
+      }).join('
+
+----------------------
+
+');
+      alert(text);
+    }
+
     function loadData() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return structuredClone(DEFAULT_DATA);
@@ -423,6 +452,7 @@
             <div class="top-actions">
               <button class="pill" onclick="loadDemo()">تحميل مثال</button>
               <button class="pill" onclick="exportData()">تصدير البيانات</button>
+              <button class="pill" onclick="showLegalLog()">السجل القانوني</button>
             </div>
           </div>
         </div>
@@ -588,6 +618,7 @@
         heroDesc: DEFAULT_DATA.property.heroDesc
       };
       saveData();
+      addAudit('حفظ بيانات المنشأة', { المنشأة: db.property.name, النوع: db.property.type });
       showStatus('تم حفظ بيانات المنشأة');
       renderAdmin();
     }
@@ -598,6 +629,7 @@
       if (!db.rules.length) db.rules = structuredClone(DEFAULT_DATA.rules);
       if (!db.instructions.length) db.instructions = structuredClone(DEFAULT_DATA.instructions);
       saveData();
+      addAudit('حفظ القوانين والتعليمات', { عدد_القوانين: db.rules.length, عدد_التعليمات: db.instructions.length });
       showStatus('تم حفظ القوانين والتعليمات');
       renderAdmin();
     }
@@ -615,6 +647,7 @@
         checkOut: q('unitCheckOut').value.trim() || '12:00 ظهرًا'
       });
       saveData();
+      addAudit('إضافة وحدة', { الوحدة: name, الواي_فاي: wifi });
       showStatus('تم حفظ الوحدة');
       renderAdmin();
     }
@@ -623,6 +656,7 @@
       if (!confirm('حذف الوحدة؟')) return;
       db.units.splice(i, 1);
       db.guests = db.guests.filter(g => g.unitIndex !== i);
+      addAudit('حذف وحدة', { رقم_الوحدة: i });
       saveData();
       renderAdmin();
     }
@@ -636,6 +670,7 @@
       const checkOutDate = q('guestCheckOutDate').value;
       if (!name || !phone || !checkOutDate) return alert('أدخل اسم العميل ورقمه وتاريخ الخروج');
       db.guests.push({ name, phone, unitIndex, checkInDate, checkOutDate, createdAt: Date.now() });
+      addAudit('إضافة مستأجر', { العميل: name, الجوال: phone, الوحدة: db.units[unitIndex]?.name || unitIndex, من: checkInDate || '-', إلى: checkOutDate });
       saveData();
       showStatus('تم حفظ المستأجر وإنشاء رابطه');
       renderAdmin();
@@ -643,7 +678,9 @@
 
     function deleteGuest(i) {
       if (!confirm('حذف المستأجر؟')) return;
+      const removedGuest = db.guests[i];
       db.guests.splice(i, 1);
+      addAudit('حذف مستأجر', { العميل: removedGuest?.name || '-', الجوال: removedGuest?.phone || '-' });
       saveData();
       renderAdmin();
     }
@@ -666,6 +703,7 @@
       const link = guestUrl(buildGuestPayload(guest, unit));
       try {
         await navigator.clipboard.writeText(link);
+        addAudit('نسخ رابط الضيف', { العميل: guest.name, الوحدة: unit?.name || '-' });
         showStatus('تم نسخ رابط الضيف');
       } catch (e) {
         prompt('انسخ الرابط:', link);
@@ -677,6 +715,7 @@
       const unit = db.units[guest.unitIndex];
       const link = guestUrl(buildGuestPayload(guest, unit));
       const msg = fixedWelcomeMessage(guest, db.property, link);
+      addAudit('إرسال رسالة ترحيب واتساب', { العميل: guest.name, الجوال: guest.phone });
       window.open(whatsappLink(guest.phone, msg), '_blank');
     }
 
