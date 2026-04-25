@@ -305,6 +305,7 @@
         checkInDate: g.checkInDate || "",
         checkOutDate: g.checkOutDate || "",
         id: g.id || ("guest-" + (g.createdAt || Date.now())),
+        unitSnapshot: g.unitSnapshot || null,
         createdAt: g.createdAt || Date.now()
       })) : [];
       merged.auditLog = Array.isArray(data.auditLog) ? data.auditLog : [];
@@ -395,6 +396,38 @@
       return String(text || "").split("\\n").map(x => x.trim()).filter(Boolean);
     }
 
+    function ruleSuggestions() {
+      return [
+        "يمنع الإزعاج بعد الساعة 10 مساءً.",
+        "يمنع التدخين داخل الشقة.",
+        "يرجى المحافظة على نظافة المكان.",
+        "يمنع إقامة الحفلات أو التجمعات بدون إذن.",
+        "الالتزام بوقت تسجيل الخروج.",
+        "أي تلف أو ضرر يتم إبلاغ الإدارة عنه فورًا."
+      ];
+    }
+
+    function instructionSuggestions() {
+      return [
+        "تأكد من رقم الشقة والدور قبل الدخول.",
+        "استخدم بيانات الدخول المرسلة لك من المنشأة.",
+        "تأكد من إغلاق الباب جيدًا عند الدخول والخروج.",
+        "احتفظ بمعلومات الواي فاي الموجودة في صفحة الضيف.",
+        "في حال وجود أي مشكلة، استخدم زر طلب المساعدة.",
+        "عند المغادرة، تأكد من عدم نسيان أي أغراض شخصية."
+      ];
+    }
+
+    function addSuggestionTo(textareaId, index, type) {
+      const items = type === "rule" ? ruleSuggestions() : instructionSuggestions();
+      const value = items[index];
+      const area = q(textareaId);
+      if (!area || !value) return;
+      const current = splitLines(area.value);
+      if (!current.includes(value)) current.push(value);
+      area.value = current.join("\\n");
+    }
+
     function parseDataFromUrl() {
       const params = new URLSearchParams(window.location.search);
       return params.get("data");
@@ -444,10 +477,7 @@
               <div class="subbrand">لوحة المنشأة - إدارة الوحدات والمستأجرين</div>
             </div>
             <div class="top-actions">
-              <button class="pill" onclick="loadDemo()">تحميل مثال</button>
-              <button class="pill" onclick="exportData()">نسخة احتياطية</button>
-              <button class="pill" onclick="showLegalLog()">سجل العمليات</button>
-              <button class="pill" onclick="printOperationsPdf()">تقرير PDF</button>
+              <button class="pill" onclick="printGuestsPdf()">تقرير PDF</button>
             </div>
           </div>
         </div>
@@ -507,9 +537,25 @@
               </section>
 
               <section class="card">
-                <h2 class="section-title">الرسائل والقوانين الثابتة</h2>
-                <div class="field"><label>القوانين الثابتة</label><textarea id="rulesInput">${esc(db.rules.join("\\n"))}</textarea></div>
-                <div class="field"><label>تعليمات الدخول</label><textarea id="instructionsInput">${esc(db.instructions.join("\\n"))}</textarea></div>
+                <h2 class="section-title">القوانين والتعليمات</h2>
+                <div class="section-subtitle">اختر من الاقتراحات الجاهزة أو اكتب ما يناسب منشأتك. كل سطر يظهر كبند مستقل للضيف.</div>
+
+                <div class="field">
+                  <label>اقتراحات القوانين الشائعة</label>
+                  <div class="table-actions">
+                    ${ruleSuggestions().map((x, i) => `<button class="btn btn-soft" type="button" onclick="addSuggestionTo('rulesInput', ${i}, 'rule')">${x}</button>`).join("")}
+                  </div>
+                </div>
+                <div class="field"><label>القوانين المعتمدة</label><textarea id="rulesInput">${esc(db.rules.join("\\n"))}</textarea></div>
+
+                <div class="field">
+                  <label>اقتراحات تعليمات الدخول</label>
+                  <div class="table-actions">
+                    ${instructionSuggestions().map((x, i) => `<button class="btn btn-soft" type="button" onclick="addSuggestionTo('instructionsInput', ${i}, 'instruction')">${x}</button>`).join("")}
+                  </div>
+                </div>
+                <div class="field"><label>تعليمات الدخول المعتمدة</label><textarea id="instructionsInput">${esc(db.instructions.join("\\n"))}</textarea></div>
+
                 <div class="hint">رسالة الترحيب والطلبات ثابتة تلقائيًا، وتتغير فقط باسم العميل والمنشأة والرابط.</div>
                 <button class="btn btn-soft" onclick="saveFixedContent()">حفظ القوانين والتعليمات</button>
               </section>
@@ -642,7 +688,7 @@
     function renderGuestsRows() {
       if (!db.guests.length) return '<tr><td colspan="5">لا يوجد مستأجرون حتى الآن</td></tr>';
       return db.guests.map((g, i) => {
-        const unit = db.units[g.unitIndex] || {};
+        const unit = g.unitSnapshot || db.units[g.unitIndex] || {};
         const payload = buildGuestPayload(g, unit);
         const link = guestUrl(payload);
         return `
@@ -720,7 +766,6 @@
       if (!confirm("حذف الشقة / الوحدة؟")) return;
       const removed = db.units[i];
       db.units.splice(i, 1);
-      db.guests = db.guests.filter(g => g.unitIndex !== i);
       addAudit("حذف شقة / وحدة", { الدور: removed?.floor || "-", الشقة: removed?.name || "-" });
       saveData();
       renderAdmin();
@@ -744,23 +789,34 @@
         return alert("اختر شقة صحيحة للمستأجر");
       }
 
+      const unitSnapshot = {
+        floor: db.units[unitIndex].floor || "-",
+        name: db.units[unitIndex].name || "-",
+        wifi: db.units[unitIndex].wifi || "-",
+        password: db.units[unitIndex].password || "-",
+        checkIn: db.units[unitIndex].checkIn || "3:00 مساءً",
+        checkOut: db.units[unitIndex].checkOut || "12:00 ظهرًا"
+      };
+
       const guest = {
         id: "guest-" + Date.now(),
         name,
         phone,
         unitIndex,
+        unitSnapshot,
         checkInDate,
         checkOutDate,
         createdAt: Date.now()
       };
 
       db.guests.push(guest);
+      saveData();
 
       addAudit("إضافة مستأجر", {
         العميل: name,
         الجوال: phone,
-        الدور: db.units[unitIndex]?.floor || "-",
-        الشقة: db.units[unitIndex]?.name || "-",
+        الدور: unitSnapshot.floor,
+        الشقة: unitSnapshot.name,
         من: checkInDate || "-",
         إلى: checkOutDate
       });
@@ -770,8 +826,8 @@
       renderAdmin();
 
       setTimeout(() => {
-        const sectionTitles = Array.from(document.querySelectorAll(".section-title"));
-        const target = sectionTitles.find(x => x.textContent.includes("المستأجرون"));
+        const titles = Array.from(document.querySelectorAll(".section-title"));
+        const target = titles.find(x => x.textContent.includes("المستأجرون"));
         if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
     }
@@ -828,6 +884,75 @@
     }
 
     
+    
+    function printGuestsPdf() {
+      const rows = (Array.isArray(db.guests) ? db.guests : []).map((g, i) => {
+        const unit = g.unitSnapshot || db.units[g.unitIndex] || {};
+        return `<tr>
+          <td>${i + 1}</td>
+          <td>${esc(g.name || "-")}</td>
+          <td>${esc(g.phone || "-")}</td>
+          <td>${esc(unit.floor || "-")}</td>
+          <td>${esc(unit.name || "-")}</td>
+          <td>${esc(g.checkInDate || "-")}</td>
+          <td>${esc(g.checkOutDate || "-")}</td>
+          <td>${esc(new Date(g.createdAt || Date.now()).toLocaleString("ar-SA"))}</td>
+        </tr>`;
+      }).join("");
+
+      const win = window.open("", "_blank");
+      win.document.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="UTF-8">
+          <title>تقرير المستأجرين - HostFlow AI</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 28px; color: #162033; }
+            h1 { margin-bottom: 6px; }
+            .meta { color: #667085; margin-bottom: 24px; line-height: 1.8; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid #d9e2ec; padding: 10px; text-align: right; vertical-align: top; }
+            th { background: #f4f7fb; }
+            .footer { margin-top: 24px; color: #667085; font-size: 12px; }
+            .brand { border-bottom: 3px solid #0f172a; padding-bottom: 12px; margin-bottom: 20px; }
+            @media print { button { display: none; } }
+          </style>
+        </head>
+        <body>
+          <button onclick="window.print()">طباعة / حفظ PDF</button>
+          <div class="brand">
+            <h1>تقرير المستأجرين</h1>
+            <div class="meta">
+              المنشأة: ${esc(db.property.name)}<br>
+              نوع المنشأة: ${esc(db.property.type)}<br>
+              تاريخ التقرير: ${new Date().toLocaleString("ar-SA")}<br>
+              ${RIGHTS}
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>اسم المستأجر</th>
+                <th>الجوال</th>
+                <th>الدور</th>
+                <th>الشقة</th>
+                <th>تاريخ الدخول</th>
+                <th>تاريخ الخروج</th>
+                <th>وقت التسجيل</th>
+              </tr>
+            </thead>
+            <tbody>${rows || `<tr><td colspan="8">لا يوجد مستأجرون حتى الآن</td></tr>`}</tbody>
+          </table>
+          <div class="footer">${RIGHTS}</div>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
+
     function printOperationsPdf() {
       const logs = Array.isArray(db.auditLog) ? db.auditLog : [];
       const rows = logs.map((log, i) => {
