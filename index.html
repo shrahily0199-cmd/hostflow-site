@@ -716,11 +716,17 @@
     }
 
     function renderGuestsRows() {
-      if (!db.guests.length) return '<tr><td colspan="5">لا يوجد مستأجرون حتى الآن</td></tr>';
-      return db.guests.map((g, i) => {
-        const unit = g.unitSnapshot || db.units[g.unitIndex] || {};
+      const guests = getSavedGuests();
+    
+      if (!guests.length) {
+        return '<tr><td colspan="5">لا يوجد مستأجرون حتى الآن</td></tr>';
+      }
+    
+      return guests.map((g, i) => {
+        const unit = g.unitSnapshot || {};
         const payload = buildGuestPayload(g, unit);
         const link = guestUrl(payload);
+    
         return `
           <tr>
             <td><strong>${esc(g.name)}</strong><br><span style="color:var(--muted)">${esc(g.phone)}</span></td>
@@ -871,12 +877,22 @@
 
     function deleteGuest(i) {
       if (!confirm("حذف المستأجر؟")) return;
-     const removedGuest = db.guests[i];
-    db.guests.splice(i, 1);
-    removeGuestRecord(removedGuest?.id);
-    addAudit("حذف مستأجر", { العميل: removedGuest?.name || "-", الجوال: removedGuest?.phone || "-" });
-    saveData();
-    renderAdmin();
+    
+      const guests = getSavedGuests();
+      const removedGuest = guests[i];
+    
+      guests.splice(i, 1);
+      saveSavedGuests(guests);
+    
+      db.guests = guests;
+      saveData();
+    
+      addAudit("حذف مستأجر", {
+        العميل: removedGuest?.name || "-",
+        الجوال: removedGuest?.phone || "-"
+      });
+    
+      renderAdmin();
     }
 
     function buildGuestPayload(guest, unit) {
@@ -899,28 +915,28 @@
       };
     }
 
-    async function copyGuestLink(i) {
-      const guest = db.guests[i];
-      const unit = db.units[guest.unitIndex] || {};
+    function copyGuestLink(i) {
+      const guests = getSavedGuests();
+      const guest = guests[i];
+      const unit = guest.unitSnapshot || {};
       const link = guestUrl(buildGuestPayload(guest, unit));
-      try {
-        await navigator.clipboard.writeText(link);
-        addAudit("نسخ رابط الضيف", { العميل: guest.name, الشقة: unit?.name || "-" });
-        showStatus("تم نسخ رابط الضيف");
-      } catch (e) {
+    
+      navigator.clipboard.writeText(link);
+      showStatus("تم نسخ رابط الضيف");
+    }
         prompt("انسخ الرابط:", link);
       }
     }
 
     function sendWelcome(i) {
-      const guest = db.guests[i];
-      const unit = db.units[guest.unitIndex] || {};
+      const guests = getSavedGuests();
+      const guest = guests[i];
+      const unit = guest.unitSnapshot || {};
       const link = guestUrl(buildGuestPayload(guest, unit));
       const msg = fixedWelcomeMessage(guest, db.property, link);
-      addAudit("إرسال رسالة ترحيب واتساب", { العميل: guest.name, الجوال: guest.phone });
+    
       window.open(whatsappLink(guest.phone, msg), "_blank");
     }
-
     
     
     function printGuestsPdf() {
