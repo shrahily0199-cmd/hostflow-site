@@ -603,7 +603,7 @@
             <section class="card">
               <h2 class="section-title">إضافة مستأجر</h2>
               <div class="grid-3">
-                <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="مثال: عبدالرحمن شراحيلي" list="guestNameSuggestions"></div>
+                <div class="field"><label>اسم العميل</label><input id="guestName" placeholder="مثال: احمد محمد" list="guestNameSuggestions"></div>
                 <div class="field"><label>رقم جوال العميل</label><input id="guestPhone" placeholder="مثال: 9665XXXXXXXX"></div>
                 <div class="field"><label>الدور / رقم الشقة</label><select id="guestUnit">${db.units.map((u, i) => `<option value="${i}">${esc(u.floor)} - شقة ${esc(u.name)}</option>`).join("")}</select></div>
                 <div class="field"><label>تاريخ الدخول</label><input id="guestCheckInDate" type="date"></div>
@@ -617,7 +617,7 @@
               <div class="table-wrap">
                 <table>
                   <thead><tr><th>العميل</th><th>الدور / الشقة</th><th>مدة الإقامة</th><th>الرابط / QR</th><th>الإجراءات</th></tr></thead>
-                  <tbody>${renderGuestsRows()}</tbody>
+                  <tbody id="guestsTableBody">${renderGuestsRows()}</tbody>
                 </table>
               </div>
             </section>
@@ -712,7 +712,11 @@
         `;
       }).join("");
     }
-
+    function refreshGuestsTable() {
+      const body = q("guestsTableBody");
+      if (!body) return;
+      body.innerHTML = renderGuestsRows();
+    }
     function saveProperty() {
       db.property = {
         name: q("propertyName").value.trim() || "منشأة جديدة",
@@ -823,7 +827,8 @@
 
       saveData();
       showStatus("تم حفظ المستأجر وظهر في جدول المستأجرين");
-      renderAdmin();
+    renderAdmin();
+    setTimeout(refreshGuestsTable, 50);
 
       setTimeout(() => {
         const titles = Array.from(document.querySelectorAll(".section-title"));
