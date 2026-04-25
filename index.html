@@ -227,6 +227,35 @@
   <script>
     const RIGHTS = "HostFlow AI © 2026 Abdulrahman Shrahily. All Rights Reserved.";
     const STORAGE_KEY = "hostflow_clean_v5";
+       const GUESTS_KEY = "hostflow_saved_guests_v1";
+    
+    function getSavedGuests() {
+      try {
+        return JSON.parse(localStorage.getItem(GUESTS_KEY) || "[]");
+      } catch {
+        return [];
+      }
+    }
+    
+    function saveSavedGuests(guests) {
+      localStorage.setItem(GUESTS_KEY, JSON.stringify(guests));
+    }
+    
+    function saveGuestRecord(guest) {
+      const guests = getSavedGuests();
+      guests.push(guest);
+      saveSavedGuests(guests);
+    }
+    
+    function removeGuestRecord(id) {
+      const guests = getSavedGuests().filter(g => g.id !== id);
+      saveSavedGuests(guests);
+    }
+    
+    function syncGuests() {
+      const saved = getSavedGuests();
+      if (saved.length) db.guests = saved;
+    }
 
     function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
 
@@ -266,7 +295,8 @@
       auditLog: []
     };
 
-    let db = loadData();
+   let db = loadData();
+    syncGuests();
 
     function loadData() {
       try {
@@ -814,7 +844,9 @@
       };
 
       db.guests.push(guest);
-      saveData();
+    saveGuestRecord(guest);
+    syncGuests();
+    saveData();
 
       addAudit("إضافة مستأجر", {
         العميل: name,
@@ -839,11 +871,12 @@
 
     function deleteGuest(i) {
       if (!confirm("حذف المستأجر؟")) return;
-      const removedGuest = db.guests[i];
-      db.guests.splice(i, 1);
-      addAudit("حذف مستأجر", { العميل: removedGuest?.name || "-", الجوال: removedGuest?.phone || "-" });
-      saveData();
-      renderAdmin();
+     const removedGuest = db.guests[i];
+    db.guests.splice(i, 1);
+    removeGuestRecord(removedGuest?.id);
+    addAudit("حذف مستأجر", { العميل: removedGuest?.name || "-", الجوال: removedGuest?.phone || "-" });
+    saveData();
+    renderAdmin();
     }
 
     function buildGuestPayload(guest, unit) {
